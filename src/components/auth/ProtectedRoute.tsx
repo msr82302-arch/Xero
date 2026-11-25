@@ -18,6 +18,7 @@ import {ForgotPasswordModal} from '@/src/components/auth/ForgotPasswordModal';
 import {StaffReactivatePanel} from '@/src/components/auth/StaffReactivatePanel';
 import {StaffRegistrationPanel} from '@/src/components/auth/StaffRegistrationPanel';
 import {useAuth} from '@/src/context/AuthContext';
+import {extractApiError} from '@/src/lib/api';
 import type {UserRole} from '@/src/types/xbms';
 
 type StaffAuthViewMode = 'login' | 'register' | 'reactivate';
@@ -34,10 +35,12 @@ export function ProtectedRoute({requiredRole, children}: ProtectedRouteProps) {
     backendOffline,
     setupRequired,
     staffSetupRequired,
+    localResetAllowed,
     login,
     setupAdmin,
     loginStaff,
     setupStaff,
+    resetPortalCredentials,
     logout,
   } = useAuth();
 
@@ -56,6 +59,8 @@ export function ProtectedRoute({requiredRole, children}: ProtectedRouteProps) {
   const [submitting, setSubmitting] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
   const [forgotOpen, setForgotOpen] = useState(false);
+  const [confirmPortalReset, setConfirmPortalReset] = useState(false);
+  const [resettingPortal, setResettingPortal] = useState(false);
   const [staffViewMode, setStaffViewMode] = useState<StaffAuthViewMode>('login');
   const [staffBanner, setStaffBanner] = useState<{
     type: 'provisioned' | 'pending';
@@ -71,6 +76,7 @@ export function ProtectedRoute({requiredRole, children}: ProtectedRouteProps) {
     setPasscode('');
     setConfirmPasscode('');
     setShowPasscode(false);
+    setConfirmPortalReset(false);
     setStaffViewMode('login');
     setStaffBanner(null);
   }, [isStaffPortal]);
@@ -114,16 +120,32 @@ export function ProtectedRoute({requiredRole, children}: ProtectedRouteProps) {
         setPasscode('');
         setConfirmPasscode('');
       } catch (err) {
-        if (axios.isAxiosError(err)) {
-          setErrorMsg(
-            (err.response?.data as {error?: string} | undefined)?.error ||
-              'Authentication failed. Verify your credentials.',
-          );
-        } else {
-          setErrorMsg('Unexpected error while authenticating.');
-        }
+        setErrorMsg(
+          extractApiError(
+            err,
+            axios.isAxiosError(err)
+              ? 'Authentication failed. Verify your credentials.'
+              : 'Unexpected error while authenticating.',
+          ),
+        );
       } finally {
         setSubmitting(false);
+      }
+    };
+
+    const handleResetPortalCredentials = async () => {
+      setErrorMsg('');
+      setResettingPortal(true);
+      try {
+        const msg = await resetPortalCredentials();
+        setPasscode('');
+        setConfirmPasscode('');
+        setConfirmPortalReset(false);
+        setStaffBanner({type: 'provisioned', message: msg});
+      } catch (err) {
+        setErrorMsg(extractApiError(err, 'Unable to reset portal credentials.'));
+      } finally {
+        setResettingPortal(false);
       }
     };
 
@@ -401,6 +423,50 @@ export function ProtectedRoute({requiredRole, children}: ProtectedRouteProps) {
                   </div>
                 )}
               </>
+            )}
+
+            {localResetAllowed && !activeSetupRequired && (
+              <div className="mt-4 pt-3.5 border-t border-slate-200/80">
+                {!confirmPortalReset ? (
+                  <div className="flex items-center justify-between gap-2 text-[11px]">
+                    <span className="text-[#475569]">Localhost Credential Recovery</span>
+                    <button
+                      type="button"
+                      onClick={() => setConfirmPortalReset(true)}
+                      className="inline-flex items-center gap-1 font-semibold text-[#0066FF] hover:underline cursor-pointer"
+                    >
+                      <RefreshCw className="w-3 h-3" />
+                      <span>Reset Portal Credentials</span>
+                    </button>
+                  </div>
+                ) : (
+                  <div className="rounded-xl border border-amber-300 bg-amber-50/90 p-3 text-xs text-amber-900 space-y-2">
+                    <p className="font-medium leading-relaxed">
+                      Clear saved local Admin &amp; Staff credentials in{' '}
+                      <span className="font-mono font-semibold">./data/auth-store.json</span> and
+                      re-open First-Run Setup?
+                    </p>
+                    <div className="flex items-center justify-end gap-2">
+                      <button
+                        type="button"
+                        onClick={() => setConfirmPortalReset(false)}
+                        disabled={resettingPortal}
+                        className="rounded-lg border border-slate-300 bg-white px-2.5 py-1 text-[11px] font-semibold text-[#334155] hover:bg-slate-50 cursor-pointer"
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => void handleResetPortalCredentials()}
+                        disabled={resettingPortal}
+                        className="rounded-lg bg-amber-600 px-3 py-1 text-[11px] font-semibold text-white hover:bg-amber-700 disabled:opacity-60 cursor-pointer"
+                      >
+                        {resettingPortal ? 'Resetting...' : 'Confirm Reset'}
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
             )}
 
             <div className="mt-5 pt-4 border-t border-slate-200 flex items-center justify-between text-[11px]">

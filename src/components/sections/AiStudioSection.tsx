@@ -195,6 +195,7 @@ export function AiStudioSection() {
     try {
       const res = await fetch('/api/gemini/image', {
         method: 'POST',
+        credentials: 'include',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
           prompt: imagePrompt.trim(),
@@ -255,6 +256,7 @@ export function AiStudioSection() {
     try {
       const res = await fetch('/api/gemini/video', {
         method: 'POST',
+        credentials: 'include',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
           prompt: videoPrompt.trim(),
@@ -306,6 +308,7 @@ export function AiStudioSection() {
     try {
       const res = await fetch('/api/gemini/chat', {
         method: 'POST',
+        credentials: 'include',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
           model: chatModel,

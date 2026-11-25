@@ -12,6 +12,7 @@ interface AuthContextValue {
   loading: boolean;
   setupRequired: boolean;
   staffSetupRequired: boolean;
+  localResetAllowed: boolean;
   backendOffline: boolean;
   login: (email: string, passcode: string) => Promise<void>;
   setupAdmin: (email: string, name: string, passcode: string) => Promise<void>;
@@ -19,6 +20,7 @@ interface AuthContextValue {
   setupStaff: (email: string, name: string, passcode: string) => Promise<void>;
   signin: (email: string, passcode: string) => Promise<AuthUser>;
   applyPasswordRotation: (token: string, updatedUser: AuthUser) => void;
+  resetPortalCredentials: (overridePin?: string) => Promise<string>;
   logout: () => Promise<void>;
   refreshStatus: () => Promise<void>;
 }
@@ -30,6 +32,7 @@ export function AuthProvider({children}: {children: ReactNode}) {
   const [loading, setLoading] = useState(true);
   const [setupRequired, setSetupRequired] = useState(false);
   const [staffSetupRequired, setStaffSetupRequired] = useState(false);
+  const [localResetAllowed, setLocalResetAllowed] = useState(false);
   const [backendOffline, setBackendOffline] = useState(false);
 
   const refreshStatus = useCallback(async () => {
@@ -39,6 +42,7 @@ export function AuthProvider({children}: {children: ReactNode}) {
       const {data} = await apiClient.get<{
         setupRequired?: boolean;
         staffSetupRequired?: boolean;
+        localResetAllowed?: boolean;
       }>('/auth/status/');
       if (
         typeof data?.setupRequired !== 'boolean' ||
@@ -49,6 +53,15 @@ export function AuthProvider({children}: {children: ReactNode}) {
         setBackendOffline(false);
         setSetupRequired(data.setupRequired);
         setStaffSetupRequired(data.staffSetupRequired);
+        setLocalResetAllowed(Boolean(data.localResetAllowed));
+        try {
+          const meRes = await apiClient.get<{user?: AuthUser}>('/auth/me/');
+          if (meRes.data?.user) {
+            setUser(meRes.data.user);
+          }
+        } catch {
+          // No active session cookie yet
+        }
       }
     } catch {
       setBackendOffline(true);
@@ -136,8 +149,24 @@ export function AuthProvider({children}: {children: ReactNode}) {
     setUser(updatedUser);
   }, []);
 
+  const resetPortalCredentials = useCallback(async (overridePin?: string): Promise<string> => {
+    await ensureCsrfToken();
+    const {data} = await apiClient.post<{
+      ok: boolean;
+      setupRequired: boolean;
+      staffSetupRequired: boolean;
+      message: string;
+    }>('/auth/reset-portal/', overridePin ? {overridePin} : {});
+    setAuthToken(null);
+    setUser(null);
+    setSetupRequired(data.setupRequired);
+    setStaffSetupRequired(data.staffSetupRequired);
+    return data.message;
+  }, []);
+
   const logout = useCallback(async () => {
     try {
+      await ensureCsrfToken();
       await apiClient.post('/auth/logout/');
     } catch {
       // Ignore network errors during logout cleanup
@@ -148,6 +177,7 @@ export function AuthProvider({children}: {children: ReactNode}) {
         const {data} = await apiClient.get<{
           setupRequired?: boolean;
           staffSetupRequired?: boolean;
+          localResetAllowed?: boolean;
         }>('/auth/status/');
         if (
           typeof data?.setupRequired === 'boolean' &&
@@ -156,6 +186,7 @@ export function AuthProvider({children}: {children: ReactNode}) {
           setBackendOffline(false);
           setSetupRequired(data.setupRequired);
           setStaffSetupRequired(data.staffSetupRequired);
+          setLocalResetAllowed(Boolean(data.localResetAllowed));
         }
       } catch {
         // Keep current status
@@ -170,6 +201,7 @@ export function AuthProvider({children}: {children: ReactNode}) {
         loading,
         setupRequired,
         staffSetupRequired,
+        localResetAllowed,
         backendOffline,
         login,
         setupAdmin,
@@ -177,6 +209,7 @@ export function AuthProvider({children}: {children: ReactNode}) {
         setupStaff,
         signin,
         applyPasswordRotation,
+        resetPortalCredentials,
         logout,
         refreshStatus,
       }}

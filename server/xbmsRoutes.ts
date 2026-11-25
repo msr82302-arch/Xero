@@ -37,17 +37,79 @@ function parseCookieValue(cookieHeader: string | undefined, key: string): string
   return undefined;
 }
 
+function isHttpsRequest(req: Request): boolean {
+  const forwardedProto = String(req.headers['x-forwarded-proto'] || '')
+    .split(',')[0]
+    .trim()
+    .toLowerCase();
+  return Boolean(req.secure || forwardedProto === 'https');
+}
+
+function isLocalLoopbackRequest(req: Request): boolean {
+  const forwardedHost = req.headers['x-forwarded-host'];
+  if (forwardedHost) {
+    const firstHost = String(forwardedHost).split(',')[0].trim().toLowerCase();
+    if (!firstHost.startsWith('localhost') && !firstHost.startsWith('127.0.0.1')) {
+      return false;
+    }
+  }
+  const host = String(req.headers.host || '').toLowerCase();
+  const isLocalHost =
+    host.startsWith('localhost') ||
+    host.startsWith('127.0.0.1') ||
+    host.startsWith('[::1]');
+  const ip = String(req.ip || req.socket.remoteAddress || '');
+  const isLoopbackIp =
+    ip === '127.0.0.1' ||
+    ip === '::1' ||
+    ip === '::ffff:127.0.0.1' ||
+    ip === '';
+  return isLocalHost && isLoopbackIp;
+}
+
+function appendSetCookie(res: Response, cookieValue: string): void {
+  const existing = res.getHeader('Set-Cookie');
+  if (!existing) {
+    res.setHeader('Set-Cookie', cookieValue);
+  } else if (Array.isArray(existing)) {
+    res.setHeader('Set-Cookie', [...existing, cookieValue]);
+  } else {
+    res.setHeader('Set-Cookie', [String(existing), cookieValue]);
+  }
+}
+
+function setSessionCookie(req: Request, res: Response, token: string): void {
+  const isHttps = isHttpsRequest(req);
+  const flags = isHttps
+    ? `xbms_session=${encodeURIComponent(token)}; HttpOnly; Path=/; Max-Age=28800; SameSite=None; Secure; Partitioned`
+    : `xbms_session=${encodeURIComponent(token)}; HttpOnly; Path=/; Max-Age=28800; SameSite=Lax`;
+  appendSetCookie(res, flags);
+}
+
+function clearSessionCookie(req: Request, res: Response): void {
+  const isHttps = isHttpsRequest(req);
+  const flags = isHttps
+    ? `xbms_session=; HttpOnly; Path=/; Max-Age=0; SameSite=None; Secure; Partitioned`
+    : `xbms_session=; HttpOnly; Path=/; Max-Age=0; SameSite=Lax`;
+  appendSetCookie(res, flags);
+}
+
 function extractBearerToken(req: Request): string | undefined {
   const authHeader = req.headers.authorization;
-  if (!authHeader || !authHeader.startsWith('Bearer ')) return undefined;
-  return authHeader.slice(7).trim();
+  if (authHeader && authHeader.startsWith('Bearer ')) {
+    const bearer = authHeader.slice(7).trim();
+    if (bearer) return bearer;
+  }
+  return parseCookieValue(req.headers.cookie, 'xbms_session');
 }
 
 function requireCsrf(req: Request, res: Response, next: NextFunction): void {
   const headerToken = req.headers['x-csrftoken'] as string | undefined;
   const cookieToken = parseCookieValue(req.headers.cookie, 'csrftoken');
   if (!xbmsStore.verifyCsrfToken(headerToken, cookieToken)) {
-    res.status(403).json({error: 'Invalid or missing CSRF verification token.'});
+    res.status(403).json({
+      error: 'Invalid or missing CSRF verification token. Reload the page or ensure cookies are enabled.',
+    });
     return;
   }
   next();
@@ -59,33 +121,45 @@ interface AuthenticatedRequest extends Request {
 
 function requireAdministrator(req: AuthenticatedRequest, res: Response, next: NextFunction): void {
   const token = extractBearerToken(req);
-  const user = xbmsStore.verifySession(token);
-  if (!user) {
-    res.status(401).json({error: 'Executive authentication required.'});
+  const sessionCheck = xbmsStore.verifySessionDetailed(token);
+  if (!sessionCheck.ok) {
+    const message =
+      sessionCheck.reason === 'MISSING'
+        ? 'Session cookie missing or authorization header absent. Please sign in.'
+        : sessionCheck.reason === 'EXPIRED'
+          ? 'Session expired. Please sign in again.'
+          : 'Executive authentication required. Please sign in again.';
+    res.status(401).json({error: message});
     return;
   }
-  if (user.role !== 'ADMINISTRATOR') {
+  if (sessionCheck.user.role !== 'ADMINISTRATOR') {
     res.status(403).json({
       error: 'HTTP 403 Forbidden: ADMINISTRATOR privileges are strictly required for this endpoint.',
     });
     return;
   }
-  req.authUser = user;
+  req.authUser = sessionCheck.user;
   next();
 }
 
 function requireOperational(req: AuthenticatedRequest, res: Response, next: NextFunction): void {
   const token = extractBearerToken(req);
-  const user = xbmsStore.verifySession(token);
-  if (!user) {
-    res.status(401).json({error: 'Operational terminal authentication required.'});
+  const sessionCheck = xbmsStore.verifySessionDetailed(token);
+  if (!sessionCheck.ok) {
+    const message =
+      sessionCheck.reason === 'MISSING'
+        ? 'Session cookie missing or authorization header absent. Please sign in.'
+        : sessionCheck.reason === 'EXPIRED'
+          ? 'Session expired. Please sign in again.'
+          : 'Operational terminal authentication required. Please sign in again.';
+    res.status(401).json({error: message});
     return;
   }
-  if (user.role !== 'ADMINISTRATOR' && user.role !== 'STAFF') {
+  if (sessionCheck.user.role !== 'ADMINISTRATOR' && sessionCheck.user.role !== 'STAFF') {
     res.status(403).json({error: 'HTTP 403 Forbidden: Operational staff or admin role required.'});
     return;
   }
-  req.authUser = user;
+  req.authUser = sessionCheck.user;
   next();
 }
 
@@ -135,24 +209,22 @@ export function createXbmsRouter() {
   // CSRF Token Bootstrap
   router.get('/csrf/', (req: Request, res: Response) => {
     const token = xbmsStore.issueCsrfToken();
-    const isHttps =
-      req.secure ||
-      req.headers['x-forwarded-proto'] === 'https' ||
-      process.env.NODE_ENV === 'production';
+    const isHttps = isHttpsRequest(req);
 
     const cookieFlags = isHttps
-      ? `csrftoken=${encodeURIComponent(token)}; Path=/; SameSite=None; Secure`
+      ? `csrftoken=${encodeURIComponent(token)}; Path=/; SameSite=None; Secure; Partitioned`
       : `csrftoken=${encodeURIComponent(token)}; Path=/; SameSite=Lax`;
 
-    res.setHeader('Set-Cookie', cookieFlags);
+    appendSetCookie(res, cookieFlags);
     res.json({csrfToken: token});
   });
 
   // Auth Status & Session (Two Roles: ADMINISTRATOR & STAFF)
-  router.get('/auth/status/', (_req: Request, res: Response) => {
+  router.get('/auth/status/', (req: Request, res: Response) => {
     res.json({
       setupRequired: xbmsStore.isSetupRequired(),
       staffSetupRequired: xbmsStore.isStaffSetupRequired(),
+      localResetAllowed: isLocalLoopbackRequest(req),
     });
   });
 
@@ -169,6 +241,7 @@ export function createXbmsRouter() {
       }
       const cleanName = typeof name === 'string' && name.trim() ? name.trim() : 'Principal Administrator';
       const result = xbmsStore.setupInitialAdmin({email, name: cleanName, passcode});
+      setSessionCookie(req, res, result.token);
       res.status(201).json(result);
     } catch (err) {
       res.status(409).json({
@@ -190,6 +263,7 @@ export function createXbmsRouter() {
       }
       const cleanName = typeof name === 'string' && name.trim() ? name.trim() : 'Senior Billing Officer';
       const result = xbmsStore.setupInitialStaff({email, name: cleanName, passcode});
+      setSessionCookie(req, res, result.token);
       res.status(201).json(result);
     } catch (err) {
       res.status(409).json({
@@ -200,7 +274,9 @@ export function createXbmsRouter() {
 
   router.post('/auth/login/', requireCsrf, (req: Request, res: Response) => {
     if (xbmsStore.isSetupRequired()) {
-      res.status(409).json({error: 'First-run administrator setup is required before signing in.'});
+      res.status(409).json({
+        error: 'Account not initialized yet. Complete first-run Administrator setup before signing in.',
+      });
       return;
     }
     const {email, passcode} = req.body ?? {};
@@ -210,21 +286,40 @@ export function createXbmsRouter() {
     }
     const result = xbmsStore.authenticateUser(email, passcode, 'ADMINISTRATOR');
     if (!result.ok) {
+      if (result.reason === 'NOT_INITIALIZED') {
+        res.status(409).json({error: 'Administrator account not initialized yet.'});
+        return;
+      }
       if (result.reason === 'LOCKED') {
         res.status(403).json({
           error: 'This administrator account has been locked. Contact another Principal Administrator.',
         });
         return;
       }
-      res.status(401).json({error: 'Invalid administrator email or passcode.'});
+      if (result.reason === 'WRONG_ROLE') {
+        res.status(403).json({
+          error: 'This email belongs to a Staff Terminal account. Sign in via /terminal instead.',
+        });
+        return;
+      }
+      if (result.reason === 'USER_NOT_FOUND') {
+        res.status(401).json({
+          error: 'Administrator account not found for that email. Check the address or reset local portal credentials.',
+        });
+        return;
+      }
+      res.status(401).json({error: 'Invalid password for administrator account.'});
       return;
     }
+    setSessionCookie(req, res, result.token);
     res.json({token: result.token, user: result.user});
   });
 
   router.post('/auth/staff/login/', requireCsrf, (req: Request, res: Response) => {
     if (xbmsStore.isStaffSetupRequired()) {
-      res.status(409).json({error: 'First-run staff terminal setup is required before signing in.'});
+      res.status(409).json({
+        error: 'Account not initialized yet. Complete first-run Staff Terminal setup before signing in.',
+      });
       return;
     }
     const {email, passcode} = req.body ?? {};
@@ -234,15 +329,32 @@ export function createXbmsRouter() {
     }
     const result = xbmsStore.authenticateUser(email, passcode, 'STAFF');
     if (!result.ok) {
+      if (result.reason === 'NOT_INITIALIZED') {
+        res.status(409).json({error: 'Staff Terminal account not initialized yet.'});
+        return;
+      }
       if (result.reason === 'LOCKED') {
         res.status(403).json({
           error: 'This staff account is currently locked. Use Re-activate / Reset Staff Account with an Admin Override PIN.',
         });
         return;
       }
-      res.status(401).json({error: 'Invalid staff operator email/ID or passcode.'});
+      if (result.reason === 'WRONG_ROLE') {
+        res.status(403).json({
+          error: 'This email belongs to an Administrator account. Sign in via /admin/dashboard instead.',
+        });
+        return;
+      }
+      if (result.reason === 'USER_NOT_FOUND') {
+        res.status(401).json({
+          error: 'Staff operator account not found for that email or Staff ID. Register or reset local portal credentials.',
+        });
+        return;
+      }
+      res.status(401).json({error: 'Invalid password for staff operator account.'});
       return;
     }
+    setSessionCookie(req, res, result.token);
     res.json({token: result.token, user: result.user});
   });
 
@@ -411,15 +523,28 @@ export function createXbmsRouter() {
     }
     const result = xbmsStore.authenticateUser(email, passcode);
     if (!result.ok) {
+      if (result.reason === 'NOT_INITIALIZED') {
+        res.status(409).json({
+          error: 'Account not initialized yet. Complete first-run setup for Admin or Staff first.',
+        });
+        return;
+      }
       if (result.reason === 'LOCKED') {
         res.status(403).json({
           error: 'This XBMS account is currently locked by an administrator.',
         });
         return;
       }
-      res.status(401).json({error: 'Invalid corporate email or password.'});
+      if (result.reason === 'USER_NOT_FOUND') {
+        res.status(401).json({
+          error: 'No XBMS account found for that email address.',
+        });
+        return;
+      }
+      res.status(401).json({error: 'Invalid password for this XBMS account.'});
       return;
     }
+    setSessionCookie(req, res, result.token);
     res.json({token: result.token, user: result.user});
   });
 
@@ -555,6 +680,7 @@ export function createXbmsRouter() {
           currentToken: extractBearerToken(req),
           signOutOtherSessions: Boolean(sign_out_other_sessions),
         });
+        setSessionCookie(req, res, result.token);
         res.json({
           ok: true,
           token: result.token,
@@ -590,7 +716,48 @@ export function createXbmsRouter() {
 
   router.post('/auth/logout/', requireCsrf, (req: Request, res: Response) => {
     xbmsStore.logoutSession(extractBearerToken(req));
+    clearSessionCookie(req, res);
     res.json({ok: true});
+  });
+
+  // Portal Credential Recovery / Reset (Local loopback dev OR authenticated Admin OR Override PIN)
+  router.post('/auth/reset-portal/', requireCsrf, (req: Request, res: Response) => {
+    const isLocal = isLocalLoopbackRequest(req);
+    const activeToken = extractBearerToken(req);
+    const session = xbmsStore.verifySessionDetailed(activeToken);
+    const isAuthenticatedAdmin = session.ok && session.user.role === 'ADMINISTRATOR';
+
+    const overridePin =
+      typeof req.body?.overridePin === 'string' ? req.body.overridePin.trim() : '';
+    const envOverride =
+      process.env.ADMIN_OVERRIDE_PIN?.trim() || process.env.ADMIN_PASSCODE?.trim() || '';
+    const hasEnvOverride =
+      Boolean(envOverride) && Boolean(overridePin) && overridePin === envOverride;
+
+    if (!isLocal && !isAuthenticatedAdmin && !hasEnvOverride) {
+      res.status(403).json({
+        error:
+          'Portal credential reset requires localhost access, an active Administrator session, or a valid server Override PIN.',
+      });
+      return;
+    }
+
+    const actorNote = isLocal
+      ? 'local VS Code / localhost recovery'
+      : isAuthenticatedAdmin
+        ? `admin ${session.user.email}`
+        : 'server override PIN';
+
+    const status = xbmsStore.resetPortalCredentials(actorNote);
+    clearSessionCookie(req, res);
+    res.json({
+      ok: true,
+      ...status,
+      message:
+        status.setupRequired || status.staffSetupRequired
+          ? 'Local portal credentials cleared. Complete first-run setup below to set new Admin and Staff passwords.'
+          : 'Portal credentials were re-seeded from your .env ADMIN_PASSCODE / STAFF_PASSCODE settings.',
+    });
   });
 
   // Public Lead Intake (EstimatorModal -> Admin Quotations Pipeline)

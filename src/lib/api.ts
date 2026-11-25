@@ -18,6 +18,23 @@ export function setUnauthorizedHandler(handler: (() => void) | null): void {
   unauthorizedHandler = handler;
 }
 
+export function extractApiError(err: unknown, fallback: string): string {
+  if (axios.isAxiosError(err)) {
+    const data = err.response?.data as {error?: string} | string | undefined;
+    if (data && typeof data === 'object' && typeof data.error === 'string' && data.error.trim()) {
+      return data.error;
+    }
+    const status = err.response?.status;
+    if (!err.response || status === 502 || status === 503 || status === 504) {
+      return 'Cannot reach the Express API server on port 3000. Run "npm run dev" in VS Code and open http://localhost:3000.';
+    }
+    if (typeof data === 'string' && data.trim().startsWith('<')) {
+      return 'API endpoint returned HTML instead of JSON. Ensure the Express backend server is running via "npm run dev".';
+    }
+  }
+  return fallback;
+}
+
 function readCookie(name: string): string | null {
   if (typeof document === 'undefined') return null;
   const escaped = name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');

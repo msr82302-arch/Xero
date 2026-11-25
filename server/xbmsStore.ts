@@ -169,11 +169,20 @@ class XbmsStore {
     },
   ];
   private sessions = new Map<string, SessionEntry>();
-  private csrfSecret = crypto.randomBytes(32).toString('hex');
+  private csrfSecret =
+    process.env.SESSION_SECRET?.trim() ||
+    process.env.HMAC_SECRET?.trim() ||
+    crypto.randomBytes(32).toString('hex');
+  private sessionSecret =
+    process.env.SESSION_SECRET?.trim() ||
+    process.env.HMAC_SECRET?.trim() ||
+    crypto.randomBytes(32).toString('hex');
   private seededEnvDigests: {admin?: string; staff?: string} = {};
   private disableEnvSeed: {admin?: boolean; staff?: boolean} = {};
   private readonly storeDir = path.resolve(process.cwd(), '.xbms-data');
   private readonly storeFile = path.resolve(process.cwd(), '.xbms-data', 'xbms-store.json');
+  private readonly authDir = path.resolve(process.cwd(), 'data');
+  private readonly authFile = path.resolve(process.cwd(), 'data', 'auth-store.json');
 
   private settings: CompanySettings = {
     companyName: 'XeroTech Technologies',
@@ -425,106 +434,222 @@ class XbmsStore {
 
   private hydrateFromDisk(): void {
     try {
-      if (!fs.existsSync(this.storeFile)) {
-        return;
-      }
-      const raw = fs.readFileSync(this.storeFile, 'utf8');
-      if (!raw.trim()) return;
-      const parsed = JSON.parse(raw) as {
-        csrfSecret?: string;
-        seededEnvDigests?: {admin?: string; staff?: string};
-        disableEnvSeed?: {admin?: boolean; staff?: boolean};
-        users?: StoredUser[];
-        passwordResetOtps?: Array<[string, PasswordResetOtpEntry]>;
-        staffAuthorizationTokens?: Array<[string, StaffAuthorizationTokenEntry]>;
-        pendingStaffRequests?: Array<[string, StoredPendingStaffRequest]>;
-        registeredClients?: ClientDirectoryEntry[];
-        sessions?: Array<[string, SessionEntry]>;
-        settings?: CompanySettings;
-        receipts?: ReceiptRecord[];
-        quotations?: QuotationRecord[];
-        auditLogs?: AuditLogEntry[];
-      };
+      if (fs.existsSync(this.storeFile)) {
+        const raw = fs.readFileSync(this.storeFile, 'utf8');
+        if (raw.trim()) {
+          const parsed = JSON.parse(raw) as {
+            csrfSecret?: string;
+            sessionSecret?: string;
+            seededEnvDigests?: {admin?: string; staff?: string};
+            disableEnvSeed?: {admin?: boolean; staff?: boolean};
+            users?: StoredUser[];
+            passwordResetOtps?: Array<[string, PasswordResetOtpEntry]>;
+            staffAuthorizationTokens?: Array<[string, StaffAuthorizationTokenEntry]>;
+            pendingStaffRequests?: Array<[string, StoredPendingStaffRequest]>;
+            registeredClients?: ClientDirectoryEntry[];
+            sessions?: Array<[string, SessionEntry]>;
+            settings?: CompanySettings;
+            receipts?: ReceiptRecord[];
+            quotations?: QuotationRecord[];
+            auditLogs?: AuditLogEntry[];
+          };
 
-      if (typeof parsed.csrfSecret === 'string' && parsed.csrfSecret.length >= 32) {
-        this.csrfSecret = parsed.csrfSecret;
-      }
-      if (parsed.seededEnvDigests && typeof parsed.seededEnvDigests === 'object') {
-        this.seededEnvDigests = parsed.seededEnvDigests;
-      }
-      if (parsed.disableEnvSeed && typeof parsed.disableEnvSeed === 'object') {
-        this.disableEnvSeed = parsed.disableEnvSeed;
-      }
-      if (Array.isArray(parsed.users)) {
-        this.usersById.clear();
-        for (const u of parsed.users) {
-          if (u && typeof u.id === 'string' && typeof u.email === 'string') {
-            this.usersById.set(u.id, u);
+          if (typeof parsed.csrfSecret === 'string' && parsed.csrfSecret.length >= 32) {
+            this.csrfSecret = parsed.csrfSecret;
+          }
+          if (typeof parsed.sessionSecret === 'string' && parsed.sessionSecret.length >= 32) {
+            this.sessionSecret = parsed.sessionSecret;
+          }
+          if (parsed.seededEnvDigests && typeof parsed.seededEnvDigests === 'object') {
+            this.seededEnvDigests = parsed.seededEnvDigests;
+          }
+          if (parsed.disableEnvSeed && typeof parsed.disableEnvSeed === 'object') {
+            this.disableEnvSeed = parsed.disableEnvSeed;
+          }
+          if (Array.isArray(parsed.users)) {
+            this.usersById.clear();
+            for (const u of parsed.users) {
+              if (u && typeof u.id === 'string' && typeof u.email === 'string') {
+                this.usersById.set(u.id, u);
+              }
+            }
+          }
+          const now = Date.now();
+          if (Array.isArray(parsed.passwordResetOtps)) {
+            this.passwordResetOtps.clear();
+            for (const [k, v] of parsed.passwordResetOtps) {
+              if (v && v.expiresAt > now) {
+                this.passwordResetOtps.set(k, v);
+              }
+            }
+          }
+          if (Array.isArray(parsed.staffAuthorizationTokens)) {
+            this.staffAuthorizationTokens.clear();
+            for (const [k, v] of parsed.staffAuthorizationTokens) {
+              if (v && v.expiresAt > now) {
+                this.staffAuthorizationTokens.set(k, v);
+              }
+            }
+          }
+          if (Array.isArray(parsed.pendingStaffRequests)) {
+            this.pendingStaffRequests.clear();
+            for (const [k, v] of parsed.pendingStaffRequests) {
+              if (v && typeof v.id === 'string') {
+                this.pendingStaffRequests.set(k, v);
+              }
+            }
+          }
+          if (Array.isArray(parsed.registeredClients)) {
+            this.registeredClients = parsed.registeredClients;
+          }
+          if (Array.isArray(parsed.sessions)) {
+            this.sessions.clear();
+            for (const [k, v] of parsed.sessions) {
+              if (v && v.expiresAt > now) {
+                this.sessions.set(k, v);
+              }
+            }
+          }
+          if (parsed.settings && typeof parsed.settings === 'object') {
+            this.settings = {...this.settings, ...parsed.settings};
+          }
+          if (Array.isArray(parsed.receipts)) {
+            this.receipts = parsed.receipts;
+          }
+          if (Array.isArray(parsed.quotations)) {
+            this.quotations = parsed.quotations;
+          }
+          if (Array.isArray(parsed.auditLogs)) {
+            this.auditLogs = parsed.auditLogs;
           }
         }
       }
-      const now = Date.now();
-      if (Array.isArray(parsed.passwordResetOtps)) {
-        this.passwordResetOtps.clear();
-        for (const [k, v] of parsed.passwordResetOtps) {
-          if (v && v.expiresAt > now) {
-            this.passwordResetOtps.set(k, v);
+
+      if (fs.existsSync(this.authFile)) {
+        const authRaw = fs.readFileSync(this.authFile, 'utf8');
+        if (authRaw.trim()) {
+          const authParsed = JSON.parse(authRaw) as {
+            csrfSecret?: string;
+            sessionSecret?: string;
+            seededEnvDigests?: {admin?: string; staff?: string};
+            disableEnvSeed?: {admin?: boolean; staff?: boolean};
+            users?: StoredUser[];
+            passwordResetOtps?: Array<[string, PasswordResetOtpEntry]>;
+            staffAuthorizationTokens?: Array<[string, StaffAuthorizationTokenEntry]>;
+            pendingStaffRequests?: Array<[string, StoredPendingStaffRequest]>;
+            sessions?: Array<[string, SessionEntry]>;
+          };
+
+          if (typeof authParsed.csrfSecret === 'string' && authParsed.csrfSecret.length >= 32) {
+            this.csrfSecret = authParsed.csrfSecret;
+          }
+          if (typeof authParsed.sessionSecret === 'string' && authParsed.sessionSecret.length >= 32) {
+            this.sessionSecret = authParsed.sessionSecret;
+          }
+          if (authParsed.seededEnvDigests && typeof authParsed.seededEnvDigests === 'object') {
+            this.seededEnvDigests = authParsed.seededEnvDigests;
+          }
+          if (authParsed.disableEnvSeed && typeof authParsed.disableEnvSeed === 'object') {
+            this.disableEnvSeed = authParsed.disableEnvSeed;
+          }
+          if (Array.isArray(authParsed.users)) {
+            this.usersById.clear();
+            for (const u of authParsed.users) {
+              if (u && typeof u.id === 'string' && typeof u.email === 'string') {
+                this.usersById.set(u.id, u);
+              }
+            }
+          }
+          const now = Date.now();
+          if (Array.isArray(authParsed.passwordResetOtps)) {
+            this.passwordResetOtps.clear();
+            for (const [k, v] of authParsed.passwordResetOtps) {
+              if (v && v.expiresAt > now) {
+                this.passwordResetOtps.set(k, v);
+              }
+            }
+          }
+          if (Array.isArray(authParsed.staffAuthorizationTokens)) {
+            this.staffAuthorizationTokens.clear();
+            for (const [k, v] of authParsed.staffAuthorizationTokens) {
+              if (v && v.expiresAt > now) {
+                this.staffAuthorizationTokens.set(k, v);
+              }
+            }
+          }
+          if (Array.isArray(authParsed.pendingStaffRequests)) {
+            this.pendingStaffRequests.clear();
+            for (const [k, v] of authParsed.pendingStaffRequests) {
+              if (v && typeof v.id === 'string') {
+                this.pendingStaffRequests.set(k, v);
+              }
+            }
+          }
+          if (Array.isArray(authParsed.sessions)) {
+            this.sessions.clear();
+            for (const [k, v] of authParsed.sessions) {
+              if (v && v.expiresAt > now) {
+                this.sessions.set(k, v);
+              }
+            }
           }
         }
+      } else {
+        this.persistAuthStore();
       }
-      if (Array.isArray(parsed.staffAuthorizationTokens)) {
-        this.staffAuthorizationTokens.clear();
-        for (const [k, v] of parsed.staffAuthorizationTokens) {
-          if (v && v.expiresAt > now) {
-            this.staffAuthorizationTokens.set(k, v);
-          }
-        }
-      }
-      if (Array.isArray(parsed.pendingStaffRequests)) {
-        this.pendingStaffRequests.clear();
-        for (const [k, v] of parsed.pendingStaffRequests) {
-          if (v && typeof v.id === 'string') {
-            this.pendingStaffRequests.set(k, v);
-          }
-        }
-      }
-      if (Array.isArray(parsed.registeredClients)) {
-        this.registeredClients = parsed.registeredClients;
-      }
-      if (Array.isArray(parsed.sessions)) {
-        this.sessions.clear();
-        for (const [k, v] of parsed.sessions) {
-          if (v && v.expiresAt > now) {
-            this.sessions.set(k, v);
-          }
-        }
-      }
-      if (parsed.settings && typeof parsed.settings === 'object') {
-        this.settings = {...this.settings, ...parsed.settings};
-      }
-      if (Array.isArray(parsed.receipts)) {
-        this.receipts = parsed.receipts;
-      }
-      if (Array.isArray(parsed.quotations)) {
-        this.quotations = parsed.quotations;
-      }
-      if (Array.isArray(parsed.auditLogs)) {
-        this.auditLogs = parsed.auditLogs;
+
+      const envSecret = process.env.SESSION_SECRET?.trim() || process.env.HMAC_SECRET?.trim();
+      if (envSecret && envSecret.length >= 16) {
+        this.sessionSecret = envSecret;
+        this.csrfSecret = envSecret;
       }
     } catch (err) {
       console.error('[XBMS Store] Failed to hydrate persisted state:', err);
     }
   }
 
+  private persistAuthStore(): void {
+    try {
+      if (!fs.existsSync(this.authDir)) {
+        fs.mkdirSync(this.authDir, {recursive: true});
+      }
+      const now = Date.now();
+      const authPayload = {
+        version: 1,
+        updatedAt: new Date().toISOString(),
+        csrfSecret: this.csrfSecret,
+        sessionSecret: this.sessionSecret,
+        seededEnvDigests: this.seededEnvDigests,
+        disableEnvSeed: this.disableEnvSeed,
+        users: Array.from(this.usersById.values()),
+        passwordResetOtps: Array.from(this.passwordResetOtps.entries()).filter(
+          ([, v]) => v.expiresAt > now,
+        ),
+        staffAuthorizationTokens: Array.from(this.staffAuthorizationTokens.entries()).filter(
+          ([, v]) => v.expiresAt > now,
+        ),
+        pendingStaffRequests: Array.from(this.pendingStaffRequests.entries()),
+        sessions: Array.from(this.sessions.entries()).filter(([, v]) => v.expiresAt > now),
+      };
+      const tmpAuthFile = `${this.authFile}.${process.pid}.tmp`;
+      fs.writeFileSync(tmpAuthFile, JSON.stringify(authPayload, null, 2), {encoding: 'utf8'});
+      fs.renameSync(tmpAuthFile, this.authFile);
+    } catch (err) {
+      console.error('[XBMS Auth Store] Failed to persist ./data/auth-store.json:', err);
+    }
+  }
+
   private persist(): void {
+    this.persistAuthStore();
     try {
       if (!fs.existsSync(this.storeDir)) {
-        fs.mkdirSync(this.storeDir, {recursive: true, mode: 0o700});
+        fs.mkdirSync(this.storeDir, {recursive: true});
       }
       const now = Date.now();
       const payload = {
         version: 1,
         csrfSecret: this.csrfSecret,
+        sessionSecret: this.sessionSecret,
         seededEnvDigests: this.seededEnvDigests,
         disableEnvSeed: this.disableEnvSeed,
         users: Array.from(this.usersById.values()),
@@ -543,7 +668,7 @@ class XbmsStore {
         auditLogs: this.auditLogs,
       };
       const tmpFile = `${this.storeFile}.${process.pid}.tmp`;
-      fs.writeFileSync(tmpFile, JSON.stringify(payload, null, 2), {encoding: 'utf8', mode: 0o600});
+      fs.writeFileSync(tmpFile, JSON.stringify(payload, null, 2), {encoding: 'utf8'});
       fs.renameSync(tmpFile, this.storeFile);
     } catch (err) {
       console.error('[XBMS Store] Failed to persist state:', err);
@@ -552,10 +677,10 @@ class XbmsStore {
 
   private reconcileEnvSeeds(): void {
     const nowIso = new Date().toISOString();
-    let changed = !fs.existsSync(this.storeFile);
+    let changed = !fs.existsSync(this.authFile) || !fs.existsSync(this.storeFile);
 
     const envPasscode = process.env.ADMIN_PASSCODE?.trim();
-    if (!this.disableEnvSeed.admin && envPasscode && envPasscode.length >= 6) {
+    if (envPasscode && envPasscode.length >= 6) {
       const envDigest = digestEnvSecret(envPasscode);
       const existingAdmin = this.usersById.get('admin-principal');
       if (!this.hasUserWithRole('ADMINISTRATOR')) {
@@ -575,23 +700,23 @@ class XbmsStore {
           userManagedPassword: false,
         });
         this.seededEnvDigests.admin = envDigest;
+        this.disableEnvSeed.admin = false;
         changed = true;
-      } else if (
-        existingAdmin &&
-        !existingAdmin.userManagedPassword &&
-        this.seededEnvDigests.admin !== envDigest
-      ) {
+      } else if (existingAdmin && this.seededEnvDigests.admin !== envDigest) {
         const {salt, hash} = hashPassword(envPasscode);
         existingAdmin.salt = salt;
         existingAdmin.passwordHash = hash;
+        existingAdmin.status = 'ACTIVE';
         existingAdmin.lastPasswordChangeAt = nowIso;
+        existingAdmin.userManagedPassword = false;
         this.seededEnvDigests.admin = envDigest;
+        this.disableEnvSeed.admin = false;
         changed = true;
       }
     }
 
     const envStaffPasscode = process.env.STAFF_PASSCODE?.trim();
-    if (!this.disableEnvSeed.staff && envStaffPasscode && envStaffPasscode.length >= 6) {
+    if (envStaffPasscode && envStaffPasscode.length >= 6) {
       const envDigest = digestEnvSecret(envStaffPasscode);
       const existingStaff = this.usersById.get('staff-counter-01');
       if (!this.hasUserWithRole('STAFF')) {
@@ -613,17 +738,17 @@ class XbmsStore {
           userManagedPassword: false,
         });
         this.seededEnvDigests.staff = envDigest;
+        this.disableEnvSeed.staff = false;
         changed = true;
-      } else if (
-        existingStaff &&
-        !existingStaff.userManagedPassword &&
-        this.seededEnvDigests.staff !== envDigest
-      ) {
+      } else if (existingStaff && this.seededEnvDigests.staff !== envDigest) {
         const {salt, hash} = hashPassword(envStaffPasscode);
         existingStaff.salt = salt;
         existingStaff.passwordHash = hash;
+        existingStaff.status = 'ACTIVE';
         existingStaff.lastPasswordChangeAt = nowIso;
+        existingStaff.userManagedPassword = false;
         this.seededEnvDigests.staff = envDigest;
+        this.disableEnvSeed.staff = false;
         changed = true;
       }
     }
@@ -910,21 +1035,43 @@ class XbmsStore {
     emailOrStaffId: string,
     passcode: string,
     requiredRole?: 'ADMINISTRATOR' | 'STAFF',
-  ): {ok: true; token: string; user: AuthUser} | {ok: false; reason: 'LOCKED' | 'INVALID'} {
+  ):
+    | {ok: true; token: string; user: AuthUser}
+    | {
+        ok: false;
+        reason: 'NOT_INITIALIZED' | 'USER_NOT_FOUND' | 'WRONG_ROLE' | 'LOCKED' | 'INVALID_PASSWORD';
+      } {
+    if (requiredRole && !this.hasUserWithRole(requiredRole)) {
+      return {ok: false, reason: 'NOT_INITIALIZED'};
+    }
+    if (!requiredRole && this.usersById.size === 0) {
+      return {ok: false, reason: 'NOT_INITIALIZED'};
+    }
+
     const cleanIdentifier = emailOrStaffId.trim().toLowerCase();
     const account =
       requiredRole === 'STAFF'
         ? this.findUserByEmailOrStaffId(emailOrStaffId)
         : this.findUserByEmail(cleanIdentifier);
 
-    if (!account || (requiredRole && account.role !== requiredRole)) {
+    if (!account) {
       this.pushAudit(
         'LOGIN_FAILED',
         cleanIdentifier || 'unknown@anonymous',
-        `Rejected ${requiredRole ? requiredRole.toLowerCase() : 'XBMS'} authentication attempt for ${cleanIdentifier || 'empty identifier'}.`,
+        `Rejected ${requiredRole ? requiredRole.toLowerCase() : 'XBMS'} authentication attempt: no account found for ${cleanIdentifier || 'empty identifier'}.`,
       );
       this.persist();
-      return {ok: false, reason: 'INVALID'};
+      return {ok: false, reason: 'USER_NOT_FOUND'};
+    }
+
+    if (requiredRole && account.role !== requiredRole) {
+      this.pushAudit(
+        'LOGIN_FAILED',
+        account.email,
+        `Rejected ${requiredRole.toLowerCase()} portal sign-in for ${account.email} (${account.role} account).`,
+      );
+      this.persist();
+      return {ok: false, reason: 'WRONG_ROLE'};
     }
 
     if (account.status === 'LOCKED') {
@@ -941,10 +1088,10 @@ class XbmsStore {
       this.pushAudit(
         'LOGIN_FAILED',
         account.email,
-        `Rejected invalid passcode attempt for ${account.email} (${account.role}).`,
+        `Rejected invalid password attempt for ${account.email} (${account.role}).`,
       );
       this.persist();
-      return {ok: false, reason: 'INVALID'};
+      return {ok: false, reason: 'INVALID_PASSWORD'};
     }
 
     account.lastActiveAt = new Date().toISOString();
@@ -1634,30 +1781,73 @@ class XbmsStore {
     return this.toSystemUserRecord(account);
   }
 
-  verifySession(token: string | undefined): AuthUser | null {
-    if (!token) return null;
-    const tokenKey = hashSessionToken(token);
+  verifySessionDetailed(token: string | undefined):
+    | {ok: true; user: AuthUser}
+    | {ok: false; reason: 'MISSING' | 'EXPIRED' | 'LOCKED' | 'INVALID'} {
+    if (!token || !token.trim()) {
+      return {ok: false, reason: 'MISSING'};
+    }
+    const tokenKey = hashSessionToken(token.trim());
     const entry = this.sessions.get(tokenKey);
-    if (!entry) return null;
+    if (!entry) {
+      return {ok: false, reason: 'INVALID'};
+    }
     if (Date.now() > entry.expiresAt) {
       this.sessions.delete(tokenKey);
       this.persist();
-      return null;
+      return {ok: false, reason: 'EXPIRED'};
     }
     const account = this.usersById.get(entry.user.id);
-    if (!account || account.status === 'LOCKED') {
+    if (!account) {
       this.sessions.delete(tokenKey);
       this.persist();
-      return null;
+      return {ok: false, reason: 'INVALID'};
     }
-    return this.toAuthUser(account);
+    if (account.status === 'LOCKED') {
+      this.sessions.delete(tokenKey);
+      this.persist();
+      return {ok: false, reason: 'LOCKED'};
+    }
+    return {ok: true, user: this.toAuthUser(account)};
+  }
+
+  verifySession(token: string | undefined): AuthUser | null {
+    const res = this.verifySessionDetailed(token);
+    return res.ok ? res.user : null;
   }
 
   logoutSession(token: string | undefined): void {
     if (token) {
-      this.sessions.delete(hashSessionToken(token));
+      this.sessions.delete(hashSessionToken(token.trim()));
       this.persist();
     }
+  }
+
+  resetPortalCredentials(actorNote: string): {
+    setupRequired: boolean;
+    staffSetupRequired: boolean;
+  } {
+    this.usersById.clear();
+    this.sessions.clear();
+    this.passwordResetOtps.clear();
+    this.staffAuthorizationTokens.clear();
+    this.pendingStaffRequests.clear();
+    this.seededEnvDigests = {};
+    this.disableEnvSeed = {};
+
+    this.reconcileEnvSeeds();
+
+    this.pushAudit(
+      'ADMIN_FORCE_PASSWORD_RESET',
+      'system@xerotechtechnologies.com',
+      `Portal credentials store (./data/auth-store.json) reset cleanly (${actorNote}).`,
+    );
+    this.persist();
+
+    return {
+      setupRequired: this.isSetupRequired(),
+      staffSetupRequired: this.isStaffSetupRequired(),
+    };
   }
 
   getDashboardSummary(): DashboardSummary {

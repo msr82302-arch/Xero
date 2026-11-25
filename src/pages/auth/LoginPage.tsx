@@ -1,24 +1,35 @@
-import axios from 'axios';
-import {ArrowLeft, KeyRound, Lock, ShieldCheck, Terminal} from 'lucide-react';
+import {ArrowLeft, KeyRound, Lock, RefreshCw, ShieldCheck, Terminal} from 'lucide-react';
 import {useState, type FormEvent} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import {ForgotPasswordModal} from '@/src/components/auth/ForgotPasswordModal';
 import {useAuth} from '@/src/context/AuthContext';
 import {COMPANY_INFO} from '@/src/data/services';
+import {extractApiError} from '@/src/lib/api';
 
 export function LoginPage() {
-  const {signin, backendOffline, setupRequired, staffSetupRequired} = useAuth();
+  const {
+    signin,
+    backendOffline,
+    setupRequired,
+    staffSetupRequired,
+    localResetAllowed,
+    resetPortalCredentials,
+  } = useAuth();
   const navigate = useNavigate();
 
   const [email, setEmail] = useState('admin@xerotechtechnologies.com');
   const [passcode, setPasscode] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
+  const [infoMsg, setInfoMsg] = useState('');
+  const [confirmReset, setConfirmReset] = useState(false);
+  const [resetting, setResetting] = useState(false);
   const [forgotOpen, setForgotOpen] = useState(false);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setErrorMsg('');
+    setInfoMsg('');
     setSubmitting(true);
     try {
       const signedInUser = await signin(email, passcode);
@@ -28,16 +39,27 @@ export function LoginPage() {
         navigate('/terminal');
       }
     } catch (err) {
-      if (axios.isAxiosError(err)) {
-        setErrorMsg(
-          (err.response?.data as {error?: string} | undefined)?.error ||
-            'Invalid credentials. Please verify your email and password.',
-        );
-      } else {
-        setErrorMsg('Unexpected error while signing in.');
-      }
+      setErrorMsg(
+        extractApiError(err, 'Invalid credentials. Please verify your email and password.'),
+      );
     } finally {
       setSubmitting(false);
+    }
+  };
+
+  const handleResetPortal = async () => {
+    setErrorMsg('');
+    setInfoMsg('');
+    setResetting(true);
+    try {
+      const msg = await resetPortalCredentials();
+      setPasscode('');
+      setConfirmReset(false);
+      setInfoMsg(msg);
+    } catch (err) {
+      setErrorMsg(extractApiError(err, 'Unable to reset portal credentials.'));
+    } finally {
+      setResetting(false);
     }
   };
 
@@ -102,6 +124,12 @@ export function LoginPage() {
                   Initialize Staff Counter
                 </Link>
               )}
+            </div>
+          )}
+
+          {infoMsg && (
+            <div className="mt-4 rounded-xl border border-emerald-200 bg-emerald-50/90 px-3.5 py-2.5 text-xs font-medium text-emerald-700">
+              {infoMsg}
             </div>
           )}
 
@@ -170,6 +198,50 @@ export function LoginPage() {
               <span>{submitting ? 'Authenticating...' : 'Sign In to XBMS'}</span>
             </button>
           </form>
+
+          {localResetAllowed && (
+            <div className="mt-4 pt-3.5 border-t border-slate-200/80">
+              {!confirmReset ? (
+                <div className="flex items-center justify-between gap-2 text-[11px]">
+                  <span className="text-[#475569]">Localhost Credential Recovery</span>
+                  <button
+                    type="button"
+                    onClick={() => setConfirmReset(true)}
+                    className="inline-flex items-center gap-1 font-semibold text-[#0066FF] hover:underline cursor-pointer"
+                  >
+                    <RefreshCw className="w-3 h-3" />
+                    <span>Reset Portal Credentials</span>
+                  </button>
+                </div>
+              ) : (
+                <div className="rounded-xl border border-amber-300 bg-amber-50/90 p-3 text-xs text-amber-900 space-y-2">
+                  <p className="font-medium leading-relaxed">
+                    Clear saved local Admin &amp; Staff credentials in{' '}
+                    <span className="font-mono font-semibold">./data/auth-store.json</span> and
+                    re-open First-Run Setup?
+                  </p>
+                  <div className="flex items-center justify-end gap-2">
+                    <button
+                      type="button"
+                      onClick={() => setConfirmReset(false)}
+                      disabled={resetting}
+                      className="rounded-lg border border-slate-300 bg-white px-2.5 py-1 text-[11px] font-semibold text-[#334155] hover:bg-slate-50 cursor-pointer"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => void handleResetPortal()}
+                      disabled={resetting}
+                      className="rounded-lg bg-amber-600 px-3 py-1 text-[11px] font-semibold text-white hover:bg-amber-700 disabled:opacity-60 cursor-pointer"
+                    >
+                      {resetting ? 'Resetting...' : 'Confirm Reset'}
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
 
           <div className="mt-5 pt-4 border-t border-slate-200 grid grid-cols-2 gap-2 text-[11px]">
             <Link
