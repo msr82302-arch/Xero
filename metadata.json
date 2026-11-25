@@ -1,0 +1,6 @@
+{
+  "name": "XeroTech Technologies",
+  "description": "Enterprise software engineering, AI automation, mobile ecosystems, and digital infrastructure in the Kingdom of Bahrain (CR 201130-1).",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

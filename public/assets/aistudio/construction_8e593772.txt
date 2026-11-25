@@ -1,0 +1,72 @@
+================================================================================
+REPLIT PROMPT: PHASE 1 — XEROTECH PUBLIC AGENCY PORTFOLIO & LEAD ENGINE
+TECH STACK: React 19 + Vite + TypeScript + Tailwind CSS + Lucide Icons + Three.js
+UI DESIGN: Glassmorphism 2.0 (Clean/Borderless, White & Deep Navy, Devsinc/Xeven Style)
+DATA SOURCE: Standalone Embedded Catalog from `src/data/servicesCatalog.ts`
+================================================================================
+
+### 1. MISSION & SCOPE
+Build the Phase 1 Public Corporate Agency Portfolio for XeroTech Technologies (زيروتك للتكنولوجيا).
+This is an elite technological showcase modeled after Devsinc (devsinc.com) and Xeven Solutions (xevensolutions.com).
+All services and case studies must load directly from `src/data/servicesCatalog.ts` with zero external backend dependencies or 401 token requirements.
+
+### 2. CORPORATE GROUND-TRUTH & HEADER / FOOTER SPECS
+- Company Name: XeroTech Technologies (زيروتك للتكنولوجيا)
+- Commercial Registration (CR): 201130-1
+- Corporate Address: Near IMC Hospital, Lulu Road, Riffa, Kingdom of Bahrain
+- Phone / WhatsApp: +973 3357 8768 | +973 3694 7843
+- Official Emails: info@xerotechtechnologies.com | xerotech.techno@gmail.com
+- Currency: Bahraini Dinar (BHD — 3-decimal formatting, e.g., 250.000 BHD)
+
+Header Navigation:
+- Brand Logo / Name: "XeroTech" with electric blue accent dot.
+- Links: Services, Case Studies, Pricing, About.
+- Actions: WhatsApp Button (+97333578768) + "XBMS Portal" link.
+
+Footer:
+- Full legal disclosure (CR 201130-1, Riffa Bahrain address, dual emails).
+- Interactive quick-links and regional bilingual badge ("مملكة البحرين • Kingdom of Bahrain").
+
+### 3. HERO SECTION WITH 3D SPATIAL CANVAS
+- Background: Pure White / Light Canvas (#F8FAFC) with a delicate isometric grid.
+- Interactive 3D Canvas (Three.js / Canvas):
+  - A subtle, high-performance rotating geometric node-mesh or technological crystal sphere that smoothly reacts to cursor coordinates.
+  - Must run at a smooth 60 FPS and gracefully degrade to a clean luminous CSS gradient on small mobile viewports.
+- Hero Typography:
+  - Top Pill: "Enterprise Digital Engineering • Bahrain CR 201130-1"
+  - Main Heading: "Engineering High-Performance Software, AI & Digital Ecosystems"
+  - Subheading: "Bahrain's premier software engineering studio delivering custom enterprise platforms, mobile applications, AI automation, and regional financial technology."
+  - Action CTAs:
+    1. Primary: "Estimate Your Project" (opens the Lead Ingestion Modal).
+    2. Secondary: "Explore 12 Core Services" (smooth-scrolls to the services section).
+
+### 4. 12 SERVICES CATALOG GRID (GLASSMORPHISM 2.0)
+- Read all 12 items directly from `XEROTECH_SERVICES` in `src/data/servicesCatalog.ts`.
+- Filter Tabs: "All", "Development", "Intelligence", "Infrastructure", "Solutions", "Creative".
+- Card UI:
+  - Clean white glass panel (`background: rgba(255,255,255,0.85); backdrop-filter: blur(16px); border: 1px solid rgba(226,232,240,0.8)`).
+  - Floating Lucide icon inside an electric blue container.
+  - Service title in Deep Navy (`#0A192F`) + Arabic sub-title.
+  - Starting Rate Badge: "Starting at [benchmarkPriceBHD] BHD" (e.g., 250.000 BHD).
+  - Deliverable tags & tech stack pills.
+  - "Select for Scope" action button that sends the service straight into the Estimator Modal.
+
+### 5. VERIFIED CASE STUDIES SECTION
+- Read from `XEROTECH_CASE_STUDIES` in `src/data/servicesCatalog.ts`.
+- Display high-impact cards for:
+  1. Easy Travels SPC — Online Visa Portal (220.000 BHD contract).
+  2. Al-Khair Restaurant — Digital eMenu Platform & SMM Retainer (80.000 BD contract).
+- Include badges for verified deliverables and regional Bahrain deployment.
+
+### 6. INTERACTIVE LEAD INGESTION ESTIMATOR MODAL
+A multi-step commercial proposal calculator:
+- Step 1: Checkbox selection of any of the 12 services (live sum of estimated BHD total in 3 decimals).
+- Step 2: Client Details form:
+  - Company / Commercial Name (e.g., "Easy Travels SPC")
+  - Contact Person & Bahrain Phone (+973...)
+  - Project Scope / Brief textarea.
+- Step 3: Instant Calculation Summary & Submission:
+  - Displays prospective Reference ID: `XT-LEAD-2026-###`
+  - Generates a pre-filled direct WhatsApp link to `+97333578768` with the client's chosen services and calculated total, allowing immediate client hand-off!
+
+Ensure the styling is clean, modern, high-contrast, and strictly responsive across mobile, tablet, and desktop screens.

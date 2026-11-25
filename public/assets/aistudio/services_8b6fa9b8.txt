@@ -1,0 +1,208 @@
+export interface ServiceOffering {
+  id: string;
+  code: string;
+  name: string;
+  nameAr: string;
+  category: 'DEVELOPMENT' | 'INTELLIGENCE' | 'INFRASTRUCTURE' | 'CREATIVE' | 'SOLUTIONS';
+  benchmarkPriceBHD: string; // 3-decimal Bahraini Dinar standard
+  timeline: string;
+  description: string;
+  deliverables: string[];
+  techStack: string[];
+  iconName: string;
+  featured: boolean;
+}
+
+export const XEROTECH_SERVICES: ServiceOffering[] = [
+  {
+    id: "srv-01",
+    code: "DEV-WEB",
+    name: "Software & Web Development",
+    nameAr: "تطوير البرمجيات والمواقع",
+    category: "DEVELOPMENT",
+    benchmarkPriceBHD: "250.000",
+    timeline: "3–6 Weeks",
+    description: "Enterprise web platforms, bespoke client portals, and secure cloud applications built for regional compliance and high concurrency.",
+    deliverables: ["Full-Stack Web Application", "REST/GraphQL API", "Role-Based Access Control", "Payment Gateway Integration"],
+    techStack: ["React 19", "Django REST", "PostgreSQL", "Tailwind CSS"],
+    iconName: "Code2",
+    featured: true
+  },
+  {
+    id: "srv-02",
+    code: "DEV-MOB",
+    name: "Mobile App Development",
+    nameAr: "تطوير تطبيقات الجوال",
+    category: "DEVELOPMENT",
+    benchmarkPriceBHD: "350.000",
+    timeline: "4–8 Weeks",
+    description: "Cross-platform iOS and Android applications with native performance, biometric authentication, and offline-first data sync.",
+    deliverables: ["iOS App Store & Google Play Builds", "Offline SQLite Cache", "Push Notification Gateway", "BenefitPay Integration"],
+    techStack: ["React Native", "Flutter", "Fastlane", "Node.js"],
+    iconName: "Smartphone",
+    featured: true
+  },
+  {
+    id: "srv-03",
+    code: "AI-AUTO",
+    name: "AI & Automation",
+    nameAr: "الذكاء الاصطناعي والأتمتة",
+    category: "INTELLIGENCE",
+    benchmarkPriceBHD: "200.000",
+    timeline: "2–4 Weeks",
+    description: "Custom operational LLM pipelines, autonomous WhatsApp business agents, and invoice/receipt document parsing systems.",
+    deliverables: ["Custom AI Agent / Pipeline", "Document OCR & Extraction", "WhatsApp Cloud API Integration", "Audit & Analytics Dashboard"],
+    techStack: ["Python", "LangChain", "OpenAI / Claude API", "Redis"],
+    iconName: "Sparkles",
+    featured: true
+  },
+  {
+    id: "srv-04",
+    code: "BIZ-POS",
+    name: "POS & Business Applications",
+    nameAr: "نقاط البيع والتطبيقات التجارية",
+    category: "SOLUTIONS",
+    benchmarkPriceBHD: "300.000",
+    timeline: "3–5 Weeks",
+    description: "Cloud-synchronized retail and restaurant POS systems with real-time inventory tracking, thermal printing, and fiscal reports.",
+    deliverables: ["Point of Sale Interface", "Barcode & Thermal Print Module", "Multi-Branch Inventory", "VAT & Tax Ledger"],
+    techStack: ["Electron", "React", "PostgreSQL", "ESC/POS"],
+    iconName: "Store",
+    featured: false
+  },
+  {
+    id: "srv-05",
+    code: "INF-SUP",
+    name: "IT Support & Computer Repair",
+    nameAr: "الدعم الفني وصيانة الحواسيب",
+    category: "INFRASTRUCTURE",
+    benchmarkPriceBHD: "40.000",
+    timeline: "On-Demand / 24h",
+    description: "Workstation hardware maintenance, diagnostic servicing, operating system security remediation, and enterprise SLA contracts.",
+    deliverables: ["Hardware Diagnosis & Component Repair", "OS Hardening & Clean Installation", "Data Recovery & Backup", "SLA Incident Response"],
+    techStack: ["Windows Server", "macOS", "Linux", "Hardware Testing"],
+    iconName: "Wrench",
+    featured: false
+  },
+  {
+    id: "srv-06",
+    code: "INF-NET",
+    name: "Networking Solutions",
+    nameAr: "حلول الشبكات والاتصالات",
+    category: "INFRASTRUCTURE",
+    benchmarkPriceBHD: "150.000",
+    timeline: "1–2 Weeks",
+    description: "Corporate structured Cat6/Fibre cabling, enterprise Wi-Fi mesh routing, VLAN segmentation, and site-to-site VPN tunnels.",
+    deliverables: ["Network Topology Map", "Managed Switch & Router Config", "VLAN & Guest Isolation", "Site-to-Site WireGuard VPN"],
+    techStack: ["Ubiquiti UniFi", "MikroTik", "Cisco", "WireGuard"],
+    iconName: "Network",
+    featured: false
+  },
+  {
+    id: "srv-07",
+    code: "INF-SEC",
+    name: "Cloud & Cybersecurity",
+    nameAr: "الحوسبة السحابية والأمن السيبراني",
+    category: "INFRASTRUCTURE",
+    benchmarkPriceBHD: "200.000",
+    timeline: "2–4 Weeks",
+    description: "Cloud architecture hardening, zero-trust infrastructure, Web Application Firewalls (WAF), and automated off-site backups.",
+    deliverables: ["Penetration Test & Audit Report", "Cloud Migration Plan", "Automated Daily Encrypted Backups", "WAF & DDoS Mitigation"],
+    techStack: ["AWS", "DigitalOcean", "Docker", "Cloudflare"],
+    iconName: "ShieldCheck",
+    featured: false
+  },
+  {
+    id: "srv-08",
+    code: "DSG-GRP",
+    name: "Graphic Design",
+    nameAr: "التصميم الجرافيكي والهوية",
+    category: "CREATIVE",
+    benchmarkPriceBHD: "80.000",
+    timeline: "1–2 Weeks",
+    description: "Executive visual branding, vector corporate stamps, identity manuals, high-end presentation slide decks, and commercial collateral.",
+    deliverables: ["Vector Logo & Stamp Kit (SVG/PNG)", "Typography & Color Brand Guide", "Social Media Templates", "Print Stationery Kit"],
+    techStack: ["Figma", "Adobe Illustrator", "Vector Graphics"],
+    iconName: "Palette",
+    featured: false
+  },
+  {
+    id: "srv-09",
+    code: "MKT-MET",
+    name: "Digital Marketing & Meta Ads",
+    nameAr: "التسويق الرقمي وإعلانات ميتا",
+    category: "CREATIVE",
+    benchmarkPriceBHD: "120.000",
+    timeline: "Monthly Retainer",
+    description: "Targeted regional acquisition campaigns across Instagram, Facebook, and TikTok targeting high-intent consumers in Bahrain and GCC.",
+    deliverables: ["Ad Creatives & Copywriting (AR/EN)", "Conversion Tracking & Pixel Setup", "ROAS & Performance Dashboard", "Weekly Ad Optimisation"],
+    techStack: ["Meta Business Suite", "TikTok Ads", "Google Analytics 4"],
+    iconName: "TrendingUp",
+    featured: false
+  },
+  {
+    id: "srv-10",
+    code: "SOL-NFC",
+    name: "NFC Digital Cards & Menu Solutions",
+    nameAr: "بطاقات NFC وقوائم الطعام الرقمية",
+    category: "SOLUTIONS",
+    benchmarkPriceBHD: "50.000",
+    timeline: "3–5 Days",
+    description: "Contactless NFC executive business cards and interactive QR digital restaurant menus with instant ordering and zero app downloads.",
+    deliverables: ["Custom Branded Physical NFC Cards", "Cloud Dynamic Profile / Menu Page", "QR Table Standee Graphics", "Live Ordering Link"],
+    techStack: ["NFC NTAG216", "QR Dynamic Routing", "Tailwind CSS"],
+    iconName: "CreditCard",
+    featured: true
+  },
+  {
+    id: "srv-11",
+    code: "DEV-MNT",
+    name: "Website Maintenance",
+    nameAr: "صيانة وإدارة المواقع",
+    category: "DEVELOPMENT",
+    benchmarkPriceBHD: "45.000",
+    timeline: "Monthly Retainer",
+    description: "Continuous core updates, 99.9% uptime monitoring, SSL certificate renewals, security patching, and content revision retainers.",
+    deliverables: ["24/7 Server Health Monitoring", "Monthly Security & Dependency Updates", "Weekly Database Snapshots", "Dedicated Developer Hours"],
+    techStack: ["Uptime Kuma", "GitHub Actions", "SSL/TLS", "PostgreSQL"],
+    iconName: "LifeBuoy",
+    featured: false
+  },
+  {
+    id: "srv-12",
+    code: "DEV-APP",
+    name: "Custom Web Applications",
+    nameAr: "تطبيقات الويب المخصصة",
+    category: "DEVELOPMENT",
+    benchmarkPriceBHD: "400.000",
+    timeline: "6–12 Weeks",
+    description: "Full-scale customized business management engines, multi-tenant SaaS architectures, ERP modules, and financial billing systems.",
+    deliverables: ["Full Architecture Blueprints", "Complete Source Code Ownership", "3-Decimal Financial Ledger Module", "Production Server Deployment"],
+    techStack: ["React 19", "TypeScript", "Django 5.2", "Docker"],
+    iconName: "Layers",
+    featured: true
+  }
+];
+
+export const XEROTECH_CASE_STUDIES = [
+  {
+    client: "Easy Travels SPC",
+    clientAr: "شركة إيزي ترافلز ذ.م.م",
+    projectRef: "TTS-PRJ-2026-ET01",
+    service: "Software & Web Development",
+    valueBHD: "220.000 BHD",
+    scope: "Online Visa Application Portal with passport scanning, AFS payment gateway integration, and multi-tier administrative approval dashboard.",
+    status: "Delivered & Verified",
+    metrics: ["50% Advance Gate Cleared", "30-Day Turnaround", "Direct BenefitPay / AFS API"]
+  },
+  {
+    client: "Al-Khair Restaurant",
+    clientAr: "مطعم الخير",
+    projectRef: "XT-2026-1184",
+    service: "NFC eMenu & SMM Retainer",
+    valueBHD: "80.000 BD",
+    scope: "Digital eMenu platform deployment with interactive QR table standees combined with a 3-month multi-channel social media execution plan.",
+    status: "Active Retainer",
+    metrics: ["Zero-Latency Menu Ordering", "30 Posts/Week Content Engine", "East Riffa Regional Reach"]
+  }
+];
