@@ -127,15 +127,15 @@ export function ReceiptsLedgerPage() {
     >
       <div className="space-y-6">
         {/* Header Card */}
-        <div className="rounded-2xl border border-slate-200 bg-white px-6 py-5 flex flex-wrap items-center justify-between gap-4">
+        <div className="rounded-2xl glass-surface px-6 py-5 flex flex-wrap items-center justify-between gap-4">
           <div>
             <div className="font-mono text-[11px] font-bold uppercase tracking-wider text-[#0066FF]">
               Ledger Management
             </div>
-            <h1 className="mt-1 text-xl sm:text-2xl font-extrabold text-[#0A192F]">
+            <h1 className="mt-1 text-xl sm:text-2xl font-extrabold text-[#0f172a]">
               All Issued Payment Receipts ({receipts.length})
             </h1>
-            <p className="mt-0.5 text-xs text-slate-500">
+            <p className="mt-0.5 text-xs text-[#334155]">
               Permanent transactional sequence records for XeroTech Technologies. Voiding a receipt
               reverses client CRM rollups and stamps PDF exports as CANCELLED.
             </p>
@@ -145,15 +145,15 @@ export function ReceiptsLedgerPage() {
             <button
               type="button"
               onClick={handleExportCsv}
-              className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2 text-xs font-semibold text-[#0A192F] hover:bg-slate-50 cursor-pointer whitespace-nowrap shrink-0"
+              className="inline-flex items-center gap-2 rounded-xl border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-[#334155] hover:bg-slate-50 cursor-pointer whitespace-nowrap shrink-0"
             >
-              <Download className="w-4 h-4 text-slate-500" />
+              <Download className="w-4 h-4 text-[#0066FF]" />
               <span>Export CSV</span>
             </button>
             <button
               type="button"
               onClick={() => setCreateOpen(true)}
-              className="inline-flex items-center gap-1.5 rounded-xl bg-[#0A192F] px-4 py-2 text-xs font-bold text-white hover:bg-[#13294B] cursor-pointer whitespace-nowrap shrink-0"
+              className="inline-flex items-center gap-1.5 rounded-xl bg-[#0066FF] px-4 py-2 text-xs font-bold text-white hover:bg-[#0052CC] shadow-lg shadow-blue-600/20 cursor-pointer whitespace-nowrap shrink-0"
             >
               <Plus className="w-4 h-4" />
               <span>New Receipt</span>
@@ -162,7 +162,7 @@ export function ReceiptsLedgerPage() {
         </div>
 
         {/* Filter Bar */}
-        <div className="rounded-2xl border border-slate-200 bg-white p-4 flex flex-wrap items-center justify-between gap-3">
+        <div className="rounded-2xl glass-surface p-4 flex flex-wrap items-center justify-between gap-3">
           <div className="relative flex-1 min-w-[220px] max-w-md">
             <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
             <input
@@ -170,17 +170,17 @@ export function ReceiptsLedgerPage() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search receipt #, client, phone, service..."
-              className="w-full rounded-xl border border-slate-200 bg-slate-50/70 pl-10 pr-3.5 py-2 text-xs text-[#0A192F] focus:border-[#0066FF] focus:bg-white focus:outline-none"
+              className="w-full rounded-xl border pl-10 pr-3.5 py-2 text-xs glass-input focus:outline-none"
             />
           </div>
 
           <div className="flex flex-wrap items-center gap-2.5 text-xs">
             <div className="flex items-center gap-1.5">
-              <span className="text-slate-500 font-medium">Status:</span>
+              <span className="text-[#475569] font-medium">Status:</span>
               <select
                 value={statusFilter}
                 onChange={(e) => setStatusFilter(e.target.value as StatusFilter)}
-                className="rounded-xl border border-slate-200 bg-white px-3 py-1.5 font-semibold text-[#0A192F] focus:border-[#0066FF] focus:outline-none"
+                className="rounded-xl border px-3 py-1.5 font-semibold glass-input focus:outline-none"
               >
                 <option value="ALL">All Statuses</option>
                 <option value="PAID">PAID</option>
@@ -191,11 +191,11 @@ export function ReceiptsLedgerPage() {
             </div>
 
             <div className="flex items-center gap-1.5">
-              <span className="text-slate-500 font-medium">Method:</span>
+              <span className="text-[#475569] font-medium">Method:</span>
               <select
                 value={methodFilter}
                 onChange={(e) => setMethodFilter(e.target.value as MethodFilter)}
-                className="rounded-xl border border-slate-200 bg-white px-3 py-1.5 font-semibold text-[#0A192F] focus:border-[#0066FF] focus:outline-none"
+                className="rounded-xl border px-3 py-1.5 font-semibold glass-input focus:outline-none"
               >
                 <option value="ALL">All Methods</option>
                 <option value="BenefitPay">BenefitPay</option>
@@ -206,11 +206,11 @@ export function ReceiptsLedgerPage() {
             </div>
 
             <div className="flex items-center gap-1.5">
-              <span className="text-slate-500 font-medium">Sort:</span>
+              <span className="text-[#475569] font-medium">Sort:</span>
               <select
                 value={sortOrder}
                 onChange={(e) => setSortOrder(e.target.value as SortOrder)}
-                className="rounded-xl border border-slate-200 bg-white px-3 py-1.5 font-semibold text-[#0A192F] focus:border-[#0066FF] focus:outline-none"
+                className="rounded-xl border px-3 py-1.5 font-semibold glass-input focus:outline-none"
               >
                 <option value="newest">Newest First</option>
                 <option value="oldest">Oldest First</option>
@@ -221,24 +221,24 @@ export function ReceiptsLedgerPage() {
         </div>
 
         {errorMsg && (
-          <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-xs font-medium text-red-700">
+          <div className="rounded-xl border border-red-200 bg-red-50/90 px-4 py-3 text-xs font-medium text-red-700">
             {errorMsg}
           </div>
         )}
 
         {/* Ledger Table */}
-        <div className="rounded-2xl border border-slate-200 bg-white overflow-hidden">
+        <div className="rounded-2xl glass-surface overflow-hidden">
           {loading ? (
             <div className="p-6 space-y-3">
               {Array.from({length: 4}).map((_, idx) => (
-                <div key={idx} className="h-12 rounded-xl bg-slate-100 animate-pulse" />
+                <div key={idx} className="h-12 rounded-xl bg-slate-200/70 animate-pulse" />
               ))}
             </div>
           ) : filteredReceipts.length === 0 ? (
             <div className="p-10 text-center space-y-2">
-              <FileText className="w-8 h-8 text-slate-300 mx-auto" />
-              <div className="text-sm font-bold text-[#0A192F]">No receipts match current filters</div>
-              <p className="text-xs text-slate-500">
+              <FileText className="w-8 h-8 text-slate-400 mx-auto" />
+              <div className="text-sm font-bold text-[#0f172a]">No receipts match current filters</div>
+              <p className="text-xs text-[#64748b]">
                 Adjust status/method filters or issue a new official payment receipt.
               </p>
             </div>
@@ -246,7 +246,7 @@ export function ReceiptsLedgerPage() {
             <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse text-xs">
                 <thead>
-                  <tr className="border-b border-slate-200 bg-slate-50/70 text-slate-500 font-semibold">
+                  <tr className="border-b border-slate-200 bg-slate-50/80 text-[#475569] font-semibold">
                     <th className="py-3.5 px-4">Receipt No.</th>
                     <th className="py-3.5 px-4">Date</th>
                     <th className="py-3.5 px-4">Client Name</th>
@@ -259,7 +259,7 @@ export function ReceiptsLedgerPage() {
                     <th className="py-3.5 px-4 text-right">Actions</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-100">
+                <tbody className="divide-y divide-slate-200">
                   {filteredReceipts.map((rec) => {
                     const isCancelled = rec.status === 'CANCELLED';
                     return (
@@ -267,46 +267,46 @@ export function ReceiptsLedgerPage() {
                         key={rec.id}
                         className={`transition-colors ${
                           isCancelled
-                            ? 'bg-red-50/35 hover:bg-red-50/50 text-slate-500'
+                            ? 'bg-red-50/75 hover:bg-red-50/95 text-slate-500'
                             : 'hover:bg-slate-50/80'
                         }`}
                       >
                         <td
                           className={`py-3.5 px-4 font-mono font-bold whitespace-nowrap ${
-                            isCancelled ? 'line-through text-red-600' : 'text-[#0066FF]'
+                            isCancelled ? 'line-through text-red-700' : 'text-[#0066FF]'
                           }`}
                         >
                           {rec.receiptNo}
                         </td>
-                        <td className="py-3.5 px-4 text-slate-600 whitespace-nowrap">
+                        <td className="py-3.5 px-4 text-[#475569] whitespace-nowrap">
                           {rec.dateDisplay}
                         </td>
                         <td className="py-3.5 px-4">
                           <div
-                            className={`font-bold text-[#0A192F] ${
-                              isCancelled ? 'line-through text-slate-500' : ''
+                            className={`font-bold ${
+                              isCancelled ? 'line-through text-slate-500' : 'text-[#0f172a]'
                             }`}
                           >
                             {rec.clientName}
                           </div>
-                          <div className="font-mono text-[10px] text-slate-400">
+                          <div className="font-mono text-[10px] text-[#64748b]">
                             {rec.clientPhone}
                           </div>
                           {isCancelled && rec.cancelledBy && (
-                            <div className="mt-1 font-mono text-[10px] text-red-600">
+                            <div className="mt-1 font-mono text-[10px] text-red-700">
                               Voided by {rec.cancelledBy} · {rec.cancelledAt?.slice(0, 10)}
                             </div>
                           )}
                         </td>
-                        <td className="py-3.5 px-4 text-slate-600 max-w-[190px] truncate">
+                        <td className="py-3.5 px-4 text-[#334155] max-w-[190px] truncate">
                           {rec.serviceName}
                         </td>
-                        <td className="py-3.5 px-4 text-slate-600 whitespace-nowrap">
+                        <td className="py-3.5 px-4 text-[#334155] whitespace-nowrap">
                           {rec.paymentMethod}
                         </td>
                         <td
                           className={`py-3.5 px-4 text-right font-mono font-bold tabular-nums ${
-                            isCancelled ? 'line-through text-slate-400' : 'text-[#0A192F]'
+                            isCancelled ? 'line-through text-slate-400' : 'text-[#0f172a]'
                           }`}
                         >
                           {formatBHDNumber(rec.totalBHD)}
@@ -329,12 +329,12 @@ export function ReceiptsLedgerPage() {
                           <span
                             className={`inline-block rounded-md px-2 py-0.5 font-mono text-[10px] font-bold ${
                               rec.status === 'PAID'
-                                ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
+                                ? 'bg-emerald-50/90 text-emerald-700 border border-emerald-200'
                                 : rec.status === 'PARTIAL'
-                                  ? 'bg-amber-50 text-amber-700 border border-amber-200'
+                                  ? 'bg-amber-50/90 text-amber-800 border border-amber-300'
                                   : rec.status === 'CANCELLED'
-                                    ? 'bg-red-100 text-red-700 border border-red-200'
-                                    : 'bg-slate-100 text-slate-700 border border-slate-200'
+                                    ? 'bg-red-50/90 text-red-700 border border-red-200'
+                                    : 'bg-slate-100 text-[#334155] border border-slate-200'
                             }`}
                           >
                             {rec.status}
@@ -357,7 +357,7 @@ export function ReceiptsLedgerPage() {
                               rel="noopener noreferrer"
                               title="WhatsApp Dispatch"
                               aria-label={`Share ${rec.receiptNo} on WhatsApp`}
-                              className="rounded-lg p-1.5 text-slate-500 hover:bg-blue-50 hover:text-[#0066FF]"
+                              className="rounded-lg p-1.5 text-slate-500 hover:bg-sky-50 hover:text-[#0066FF]"
                             >
                               <MessageSquare className="w-4 h-4" />
                             </a>
@@ -366,7 +366,7 @@ export function ReceiptsLedgerPage() {
                               onClick={() => void downloadReceiptPdf(rec)}
                               title="Download Official PDF"
                               aria-label={`Download PDF ${rec.receiptNo}`}
-                              className="rounded-lg p-1.5 text-slate-500 hover:bg-slate-100 hover:text-[#0A192F] cursor-pointer"
+                              className="rounded-lg p-1.5 text-slate-500 hover:bg-slate-100 hover:text-[#0f172a] cursor-pointer"
                             >
                               <Download className="w-4 h-4" />
                             </button>
@@ -376,7 +376,7 @@ export function ReceiptsLedgerPage() {
                                 onClick={() => setVoidTarget(rec)}
                                 title="Cancel / Void Receipt"
                                 aria-label={`Cancel or void ${rec.receiptNo}`}
-                                className="rounded-lg p-1.5 text-slate-400 hover:bg-red-50 hover:text-red-600 cursor-pointer"
+                                className="rounded-lg p-1.5 text-slate-500 hover:bg-red-50 hover:text-red-700 cursor-pointer"
                               >
                                 <Ban className="w-4 h-4" />
                               </button>

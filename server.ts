@@ -3,10 +3,17 @@ import express, {type NextFunction, type Request, type Response} from 'express';
 import fs from 'fs';
 import path from 'path';
 import {GoogleGenAI, ThinkingLevel} from '@google/genai';
-import {createXbmsRouter} from './server/xbmsRoutes';
+import {createXbmsRouter} from './server/xbmsRoutes.ts';
 
 const PORT = Number(process.env.PORT) || 3000;
-const IS_PROD = process.env.NODE_ENV === 'production';
+const DIST_DIR = path.resolve(process.cwd(), 'dist');
+const HAS_DIST_BUILD = fs.existsSync(path.join(DIST_DIR, 'index.html'));
+const IS_DEV_RUNNER =
+  process.env.npm_lifecycle_event === 'dev' ||
+  process.execArgv.some((arg) => arg.includes('tsx'));
+const IS_PROD =
+  process.env.NODE_ENV === 'production' ||
+  (HAS_DIST_BUILD && !IS_DEV_RUNNER && process.env.NODE_ENV !== 'development');
 
 const ALLOWED_IMAGE_MIME = new Set(['image/png', 'image/jpeg', 'image/webp']);
 const ALLOWED_IMAGE_RATIOS = new Set(['16:9', '1:1', '9:16', '4:3', '3:4']);
@@ -335,14 +342,13 @@ async function startServer() {
     });
     app.use(vite.middlewares);
   } else {
-    const distDir = path.resolve(process.cwd(), 'dist');
-    app.use(express.static(distDir));
+    app.use(express.static(DIST_DIR));
     app.use((req: Request, res: Response, next: NextFunction) => {
       if (req.path.startsWith('/api')) {
         next();
         return;
       }
-      const indexHtml = path.join(distDir, 'index.html');
+      const indexHtml = path.join(DIST_DIR, 'index.html');
       if (fs.existsSync(indexHtml)) {
         res.sendFile(indexHtml);
       } else {

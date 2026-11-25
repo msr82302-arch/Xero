@@ -60,12 +60,12 @@ export function PasswordStrengthMeter({password}: PasswordStrengthMeterProps) {
 
   const labelColor =
     password.length === 0
-      ? 'text-slate-400'
+      ? 'text-[#64748b]'
       : res.tone === 'green'
         ? 'text-emerald-700'
         : res.tone === 'amber'
           ? 'text-amber-700'
-          : 'text-red-600';
+          : 'text-red-700';
 
   const rules = [
     {ok: res.hasMinLength, text: '8+ characters'},
@@ -97,13 +97,13 @@ export function PasswordStrengthMeter({password}: PasswordStrengthMeterProps) {
           <div
             key={rule.text}
             className={`inline-flex items-center gap-1 text-[10px] font-medium ${
-              rule.ok ? 'text-emerald-700' : 'text-slate-500'
+              rule.ok ? 'text-emerald-700' : 'text-[#64748b]'
             }`}
           >
             {rule.ok ? (
-              <Check className="w-3 h-3 text-emerald-600 shrink-0" />
+              <Check className="w-3 h-3 text-emerald-700 shrink-0" />
             ) : (
-              <Circle className="w-2.5 h-2.5 text-slate-300 shrink-0" />
+              <Circle className="w-2.5 h-2.5 text-slate-400 shrink-0" />
             )}
             <span>{rule.text}</span>
           </div>

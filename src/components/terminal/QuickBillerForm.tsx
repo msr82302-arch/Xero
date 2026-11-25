@@ -362,20 +362,20 @@ export function QuickBillerForm({
   };
 
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white p-5 space-y-5">
+    <div className="rounded-2xl glass-surface p-5 space-y-5">
       {formError && (
-        <div className="rounded-xl border border-red-200 bg-red-50 px-3.5 py-2.5 text-xs font-medium text-red-700">
+        <div className="rounded-xl border border-red-200 bg-red-50/90 px-3.5 py-2.5 text-xs font-medium text-red-700">
           {formError}
         </div>
       )}
 
       {quoteNotice && (
-        <div className="rounded-xl border border-blue-200 bg-blue-50 px-4 py-3 text-xs text-[#0A192F] space-y-1">
+        <div className="rounded-xl border border-sky-200 bg-sky-50/90 px-4 py-3 text-xs text-[#0f172a] space-y-1">
           <div className="flex items-center justify-between gap-2 font-bold text-[#0066FF]">
             <span>Draft Quotation Submitted for Admin Approval</span>
             <span className="font-mono">{quoteNotice.referenceCode}</span>
           </div>
-          <p className="text-slate-600">
+          <p className="text-[#334155]">
             Queued for {quoteNotice.clientName} ({formatBHD(quoteNotice.estimatedTotalBHD)}). Track
             approval status in Draft Quotations.
           </p>
@@ -383,7 +383,7 @@ export function QuickBillerForm({
       )}
 
       {finalizedReceipt && (
-        <div className="rounded-2xl border border-emerald-200 bg-emerald-50/70 p-4 space-y-3">
+        <div className="rounded-2xl border border-emerald-200 bg-emerald-50/90 p-4 space-y-3">
           <div className="flex items-start justify-between gap-3">
             <div className="flex items-center gap-2">
               <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0" />
@@ -402,7 +402,7 @@ export function QuickBillerForm({
                 setFinalizedReceipt(null);
                 onResetForm();
               }}
-              className="inline-flex items-center gap-1 rounded-lg border border-emerald-300 bg-white px-2.5 py-1 text-[11px] font-semibold text-emerald-800 hover:bg-emerald-50 cursor-pointer"
+              className="inline-flex items-center gap-1 rounded-lg border border-emerald-300 bg-white px-2.5 py-1 text-[11px] font-semibold text-emerald-800 hover:bg-emerald-100 cursor-pointer"
             >
               <RotateCcw className="w-3 h-3" />
               <span>Next Client</span>
@@ -413,9 +413,9 @@ export function QuickBillerForm({
             <button
               type="button"
               onClick={() => void downloadReceiptPdf(finalizedReceipt)}
-              className="inline-flex items-center gap-1.5 rounded-xl bg-[#0A192F] px-3.5 py-2 text-xs font-semibold text-white hover:bg-[#13294B] cursor-pointer"
+              className="inline-flex items-center gap-1.5 rounded-xl border border-slate-300 bg-white px-3.5 py-2 text-xs font-semibold text-[#0f172a] hover:bg-slate-50 cursor-pointer"
             >
-              <Download className="w-3.5 h-3.5" />
+              <Download className="w-3.5 h-3.5 text-[#0066FF]" />
               <span>Download A4 PDF</span>
             </button>
             <a
@@ -435,7 +435,7 @@ export function QuickBillerForm({
         {/* 1. CLIENT SELECTION */}
         <div className="space-y-3">
           <div className="flex items-center justify-between">
-            <span className="font-mono text-[11px] font-bold uppercase tracking-wider text-slate-500">
+            <span className="font-mono text-[11px] font-bold uppercase tracking-wider text-[#0066FF]">
               1. Client Information
             </span>
             <button
@@ -444,7 +444,7 @@ export function QuickBillerForm({
                 setNewCliError('');
                 setNewClientModalOpen(true);
               }}
-              className="inline-flex items-center gap-1 rounded-lg border border-blue-200 bg-blue-50 px-2.5 py-1 text-[11px] font-bold text-[#0066FF] hover:bg-blue-100 transition-colors cursor-pointer"
+              className="inline-flex items-center gap-1 rounded-lg border border-sky-200 bg-sky-50 px-2.5 py-1 text-[11px] font-bold text-[#0066FF] hover:bg-[#0066FF] hover:text-white transition-colors cursor-pointer"
             >
               <UserPlus className="w-3.5 h-3.5" />
               <span>+ New Client</span>
@@ -463,14 +463,14 @@ export function QuickBillerForm({
                 setSearchOpen(true);
               }}
               placeholder="Search saved commercial clients by name or +973..."
-              className="w-full rounded-xl border border-slate-200 bg-slate-50/70 pl-9 pr-3 py-2 text-xs text-[#0A192F] focus:border-[#0066FF] focus:bg-white focus:outline-none"
+              className="w-full rounded-xl border pl-9 pr-3 py-2 text-xs glass-input focus:outline-none"
             />
             {searchOpen && (
-              <div className="absolute left-0 right-0 top-full mt-1.5 z-20 max-h-52 overflow-y-auto rounded-xl border border-slate-200 bg-white shadow-xl divide-y divide-slate-100">
+              <div className="absolute left-0 right-0 top-full mt-1.5 z-20 max-h-52 overflow-y-auto rounded-xl glass-modal divide-y divide-slate-200">
                 {searchingClients ? (
-                  <div className="px-3.5 py-2.5 text-xs text-slate-500">Searching clients...</div>
+                  <div className="px-3.5 py-2.5 text-xs text-[#64748b]">Searching clients...</div>
                 ) : clientResults.length === 0 ? (
-                  <div className="px-3.5 py-2.5 text-xs text-slate-500 flex items-center justify-between">
+                  <div className="px-3.5 py-2.5 text-xs text-[#334155] flex items-center justify-between">
                     <span>No matching clients found.</span>
                     <button
                       type="button"
@@ -490,11 +490,11 @@ export function QuickBillerForm({
                       key={cli.id}
                       type="button"
                       onClick={() => handleSelectClient(cli)}
-                      className="w-full px-3.5 py-2 text-left hover:bg-blue-50/60 flex items-center justify-between gap-2 cursor-pointer"
+                      className="w-full px-3.5 py-2 text-left hover:bg-slate-50 flex items-center justify-between gap-2 cursor-pointer"
                     >
                       <div className="min-w-0">
-                        <div className="text-xs font-bold text-[#0A192F] truncate">{cli.name}</div>
-                        <div className="font-mono text-[10px] text-slate-500">
+                        <div className="text-xs font-bold text-[#0f172a] truncate">{cli.name}</div>
+                        <div className="font-mono text-[10px] text-[#64748b]">
                           {cli.phone} {cli.email ? `· ${cli.email}` : ''}
                         </div>
                       </div>
@@ -509,7 +509,7 @@ export function QuickBillerForm({
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-[#0A192F] mb-1">
+            <label className="block text-xs font-semibold text-[#0f172a] mb-1">
               Client Name / Organization *
             </label>
             <input
@@ -518,13 +518,13 @@ export function QuickBillerForm({
               value={clientName}
               onChange={(e) => setClientName(e.target.value)}
               placeholder="e.g. Easy Travels SPC"
-              className="w-full rounded-xl border border-slate-200 px-3 py-2 text-xs sm:text-sm text-[#0A192F] focus:border-[#0066FF] focus:outline-none"
+              className="w-full rounded-xl border px-3 py-2 text-xs sm:text-sm glass-input focus:outline-none"
             />
           </div>
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-xs font-semibold text-[#0A192F] mb-1">
+              <label className="block text-xs font-semibold text-[#0f172a] mb-1">
                 Phone (+973) *
               </label>
               <input
@@ -533,11 +533,11 @@ export function QuickBillerForm({
                 value={clientPhone}
                 onChange={(e) => setClientPhone(e.target.value)}
                 placeholder="+973 3XXXXXXX"
-                className="w-full rounded-xl border border-slate-200 px-3 py-2 font-mono text-xs sm:text-sm text-[#0A192F] focus:border-[#0066FF] focus:outline-none"
+                className="w-full rounded-xl border px-3 py-2 font-mono text-xs sm:text-sm glass-input focus:outline-none"
               />
             </div>
             <div>
-              <label className="block text-xs font-semibold text-[#0A192F] mb-1">
+              <label className="block text-xs font-semibold text-[#0f172a] mb-1">
                 Email (Optional)
               </label>
               <input
@@ -545,25 +545,25 @@ export function QuickBillerForm({
                 value={clientEmail}
                 onChange={(e) => setClientEmail(e.target.value)}
                 placeholder="accounts@company.bh"
-                className="w-full rounded-xl border border-slate-200 px-3 py-2 text-xs sm:text-sm text-[#0A192F] focus:border-[#0066FF] focus:outline-none"
+                className="w-full rounded-xl border px-3 py-2 text-xs sm:text-sm glass-input focus:outline-none"
               />
             </div>
           </div>
         </div>
 
         {/* 2. SERVICE SELECTION */}
-        <div className="space-y-3 border-t border-slate-100 pt-4">
-          <div className="font-mono text-[11px] font-bold uppercase tracking-wider text-slate-500">
+        <div className="space-y-3 border-t border-slate-200 pt-4">
+          <div className="font-mono text-[11px] font-bold uppercase tracking-wider text-[#0066FF]">
             2. Service &amp; Scope Selection
           </div>
           <div>
-            <label className="block text-xs font-semibold text-[#0A192F] mb-1">
+            <label className="block text-xs font-semibold text-[#0f172a] mb-1">
               Official Service Category (12 Offerings) *
             </label>
             <select
               value={serviceName}
               onChange={(e) => handleServiceSelect(e.target.value)}
-              className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs sm:text-sm text-[#0A192F] focus:border-[#0066FF] focus:outline-none"
+              className="w-full rounded-xl border px-3 py-2 text-xs sm:text-sm glass-input focus:outline-none"
             >
               {services.map((s) => (
                 <option key={s.id} value={s.name}>
@@ -573,7 +573,7 @@ export function QuickBillerForm({
             </select>
           </div>
           <div>
-            <label className="block text-xs font-semibold text-[#0A192F] mb-1">
+            <label className="block text-xs font-semibold text-[#0f172a] mb-1">
               Project Title / Deliverables
             </label>
             <input
@@ -581,21 +581,21 @@ export function QuickBillerForm({
               value={projectTitle}
               onChange={(e) => setProjectTitle(e.target.value)}
               placeholder="e.g. Corporate Visa Portal & BenefitPay Setup"
-              className="w-full rounded-xl border border-slate-200 px-3 py-2 text-xs sm:text-sm text-[#0A192F] focus:border-[#0066FF] focus:outline-none"
+              className="w-full rounded-xl border px-3 py-2 text-xs sm:text-sm glass-input focus:outline-none"
             />
           </div>
         </div>
 
         {/* 3. ITEMIZED BILL OF QUANTITIES (BoQ) */}
-        <div className="space-y-3 border-t border-slate-100 pt-4">
+        <div className="space-y-3 border-t border-slate-200 pt-4">
           <div className="flex items-center justify-between">
-            <span className="font-mono text-[11px] font-bold uppercase tracking-wider text-slate-500">
+            <span className="font-mono text-[11px] font-bold uppercase tracking-wider text-[#0066FF]">
               3. Itemized Bill of Quantities (BoQ)
             </span>
             <button
               type="button"
               onClick={handleAddBoqRow}
-              className="inline-flex items-center gap-1 rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-1 text-[11px] font-bold text-[#0A192F] hover:border-[#0066FF] hover:text-[#0066FF] cursor-pointer"
+              className="inline-flex items-center gap-1 rounded-lg border border-slate-300 bg-white px-2.5 py-1 text-[11px] font-bold text-[#334155] hover:border-[#0066FF]/40 hover:text-[#0066FF] cursor-pointer"
             >
               <Plus className="w-3.5 h-3.5" />
               <span>Add BoQ Item</span>
@@ -606,10 +606,10 @@ export function QuickBillerForm({
             {items.map((row, idx) => (
               <div
                 key={row.id}
-                className="rounded-xl border border-slate-200 bg-slate-50/50 p-3 space-y-2"
+                className="rounded-xl glass-panel-subtle p-3 space-y-2"
               >
                 <div className="flex items-center justify-between gap-2">
-                  <span className="font-mono text-[10px] font-bold text-slate-500">
+                  <span className="font-mono text-[10px] font-bold text-[#64748b]">
                     LINE #{idx + 1}
                   </span>
                   {items.length > 1 && (
@@ -617,7 +617,7 @@ export function QuickBillerForm({
                       type="button"
                       onClick={() => handleRemoveBoqRow(row.id)}
                       aria-label={`Remove line ${idx + 1}`}
-                      className="rounded p-1 text-slate-400 hover:bg-red-50 hover:text-red-600 cursor-pointer"
+                      className="rounded p-1 text-slate-500 hover:bg-red-50 hover:text-red-700 cursor-pointer"
                     >
                       <Trash2 className="w-3.5 h-3.5" />
                     </button>
@@ -630,12 +630,12 @@ export function QuickBillerForm({
                   value={row.description}
                   onChange={(e) => handleUpdateBoqRow(row.id, {description: e.target.value})}
                   placeholder="Line item description"
-                  className="w-full rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs text-[#0A192F] focus:border-[#0066FF] focus:outline-none"
+                  className="w-full rounded-lg border px-2.5 py-1.5 text-xs glass-input focus:outline-none"
                 />
 
                 <div className="grid grid-cols-3 gap-2">
                   <div>
-                    <label className="block text-[10px] font-semibold text-slate-500 mb-0.5">
+                    <label className="block text-[10px] font-semibold text-[#64748b] mb-0.5">
                       Qty
                     </label>
                     <input
@@ -648,11 +648,11 @@ export function QuickBillerForm({
                           qty: Number.parseInt(e.target.value, 10) || 1,
                         })
                       }
-                      className="w-full rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 font-mono text-xs text-[#0A192F] tabular-nums focus:border-[#0066FF] focus:outline-none"
+                      className="w-full rounded-lg border px-2.5 py-1.5 font-mono text-xs tabular-nums glass-input focus:outline-none"
                     />
                   </div>
                   <div>
-                    <label className="block text-[10px] font-semibold text-slate-500 mb-0.5">
+                    <label className="block text-[10px] font-semibold text-[#64748b] mb-0.5">
                       Unit Price (BHD)
                     </label>
                     <input
@@ -665,14 +665,14 @@ export function QuickBillerForm({
                           unitPriceBHD: Number.parseFloat(e.target.value) || 0,
                         })
                       }
-                      className="w-full rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 font-mono text-xs text-[#0A192F] tabular-nums focus:border-[#0066FF] focus:outline-none"
+                      className="w-full rounded-lg border px-2.5 py-1.5 font-mono text-xs tabular-nums glass-input focus:outline-none"
                     />
                   </div>
                   <div>
-                    <label className="block text-[10px] font-semibold text-slate-500 mb-0.5">
+                    <label className="block text-[10px] font-semibold text-[#64748b] mb-0.5">
                       Amount (BHD)
                     </label>
-                    <div className="rounded-lg border border-slate-200 bg-slate-100 px-2.5 py-1.5 font-mono text-xs font-bold text-[#0A192F] text-right tabular-nums">
+                    <div className="rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-1.5 font-mono text-xs font-bold text-[#0f172a] text-right tabular-nums">
                       {formatBHDNumber(row.amountBHD)}
                     </div>
                   </div>
@@ -683,20 +683,20 @@ export function QuickBillerForm({
         </div>
 
         {/* 4. PAYMENT DETAILS & LIVE BHD CALCULATION */}
-        <div className="space-y-3 border-t border-slate-100 pt-4">
-          <div className="font-mono text-[11px] font-bold uppercase tracking-wider text-slate-500">
+        <div className="space-y-3 border-t border-slate-200 pt-4">
+          <div className="font-mono text-[11px] font-bold uppercase tracking-wider text-[#0066FF]">
             4. Payment Details &amp; Live BHD Ledger
           </div>
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-xs font-semibold text-[#0A192F] mb-1">
+              <label className="block text-xs font-semibold text-[#0f172a] mb-1">
                 Payment Channel
               </label>
               <select
                 value={paymentMethod}
                 onChange={(e) => setPaymentMethod(e.target.value as PaymentChannel)}
-                className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs text-[#0A192F] focus:border-[#0066FF] focus:outline-none"
+                className="w-full rounded-xl border px-3 py-2 text-xs glass-input focus:outline-none"
               >
                 <option value="BenefitPay">BenefitPay</option>
                 <option value="Bank Transfer">Bank Transfer</option>
@@ -705,13 +705,13 @@ export function QuickBillerForm({
               </select>
             </div>
             <div>
-              <label className="block text-xs font-semibold text-[#0A192F] mb-1">
+              <label className="block text-xs font-semibold text-[#0f172a] mb-1">
                 Payment Terms
               </label>
               <select
                 value={paymentTerms}
                 onChange={(e) => handleTermsChange(e.target.value as PaymentTerms)}
-                className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs text-[#0A192F] focus:border-[#0066FF] focus:outline-none"
+                className="w-full rounded-xl border px-3 py-2 text-xs glass-input focus:outline-none"
               >
                 <option value="Partial Payment (50%)">Advance / Partial (50%)</option>
                 <option value="Full Payment">Full Payment</option>
@@ -723,31 +723,31 @@ export function QuickBillerForm({
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-xs font-semibold text-[#0A192F] mb-1">
+              <label className="block text-xs font-semibold text-[#0f172a] mb-1">
                 Total Project Cost (Sum BoQ)
               </label>
-              <div className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 font-mono text-sm font-extrabold text-[#0A192F] tabular-nums">
+              <div className="rounded-xl glass-panel-subtle px-3 py-2 font-mono text-sm font-extrabold text-[#0f172a] tabular-nums">
                 {formatBHD(totalBHD)}
               </div>
             </div>
 
             <div>
               <div className="flex items-center justify-between mb-1">
-                <label className="text-xs font-semibold text-[#0A192F]">
+                <label className="text-xs font-semibold text-[#0f172a]">
                   Advance Received (BHD) *
                 </label>
                 <div className="flex items-center gap-1 text-[10px] font-mono">
                   <button
                     type="button"
                     onClick={() => setAdvanceStr(roundBHD(totalBHD * 0.5).toFixed(3))}
-                    className="rounded bg-slate-100 px-1.5 py-0.5 text-slate-600 hover:text-[#0066FF] cursor-pointer"
+                    className="rounded bg-slate-100 border border-slate-200 px-1.5 py-0.5 text-[#334155] hover:text-[#0066FF] cursor-pointer"
                   >
                     50%
                   </button>
                   <button
                     type="button"
                     onClick={() => setAdvanceStr(totalBHD.toFixed(3))}
-                    className="rounded bg-slate-100 px-1.5 py-0.5 text-slate-600 hover:text-[#0066FF] cursor-pointer"
+                    className="rounded bg-slate-100 border border-slate-200 px-1.5 py-0.5 text-[#334155] hover:text-[#0066FF] cursor-pointer"
                   >
                     100%
                   </button>
@@ -762,27 +762,27 @@ export function QuickBillerForm({
                 value={advanceStr}
                 onChange={(e) => setAdvanceStr(e.target.value)}
                 onBlur={() => setAdvanceStr(advancePaidBHD.toFixed(3))}
-                className="w-full rounded-xl border border-slate-200 px-3 py-2 font-mono text-sm font-bold text-[#0A192F] tabular-nums focus:border-[#0066FF] focus:outline-none"
+                className="w-full rounded-xl border px-3 py-2 font-mono text-sm font-bold tabular-nums glass-input focus:outline-none"
               />
             </div>
           </div>
 
-          <div className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 space-y-1.5 text-xs">
+          <div className="rounded-xl glass-panel-subtle px-4 py-3 space-y-1.5 text-xs">
             <div className="flex items-center justify-between">
-              <span className="text-slate-600">Remaining Balance (Total − Advance):</span>
-              <span className="font-mono font-extrabold text-[#0A192F] tabular-nums">
+              <span className="text-[#475569]">Remaining Balance (Total − Advance):</span>
+              <span className="font-mono font-extrabold text-[#0f172a] tabular-nums">
                 {formatBHD(balanceBHD)}
               </span>
             </div>
             <div className="flex items-center justify-between">
-              <span className="text-slate-600">Calculated Payment Status:</span>
+              <span className="text-[#475569]">Calculated Payment Status:</span>
               <span
                 className={`rounded-md border px-2 py-0.5 font-mono text-[10px] font-extrabold ${
                   derivedStatus === 'PAID'
-                    ? 'border-emerald-200 bg-emerald-100 text-emerald-700'
+                    ? 'border-emerald-200 bg-emerald-50 text-emerald-700'
                     : derivedStatus === 'PARTIALLY_PAID'
-                      ? 'border-amber-200 bg-amber-100 text-amber-700'
-                      : 'border-red-200 bg-red-100 text-red-700'
+                      ? 'border-amber-300 bg-amber-50 text-amber-800'
+                      : 'border-red-200 bg-red-50 text-red-700'
                 }`}
               >
                 {derivedStatus.replace('_', ' ')}
@@ -791,7 +791,7 @@ export function QuickBillerForm({
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-[#0A192F] mb-1">
+            <label className="block text-xs font-semibold text-[#0f172a] mb-1">
               Internal Transaction Notes (Optional)
             </label>
             <textarea
@@ -799,7 +799,7 @@ export function QuickBillerForm({
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
               placeholder="e.g. BenefitPay ref #89214 or branch handover instructions"
-              className="w-full rounded-xl border border-slate-200 px-3 py-2 text-xs text-[#0A192F] focus:border-[#0066FF] focus:outline-none"
+              className="w-full rounded-xl border px-3 py-2 text-xs glass-input focus:outline-none"
             />
           </div>
         </div>
@@ -810,7 +810,7 @@ export function QuickBillerForm({
             type="button"
             disabled={submittingAction !== null}
             onClick={() => void handleSubmitQuote()}
-            className="w-full inline-flex items-center justify-center gap-2 rounded-xl border border-[#0066FF] bg-blue-50/70 px-4 py-2.5 text-xs font-bold text-[#0066FF] hover:bg-blue-100/70 disabled:opacity-50 transition-colors cursor-pointer"
+            className="w-full inline-flex items-center justify-center gap-2 rounded-xl border border-sky-200 bg-sky-50 px-4 py-2.5 text-xs font-bold text-[#0066FF] hover:bg-sky-100 disabled:opacity-50 transition-colors cursor-pointer"
           >
             <Send className="w-3.5 h-3.5" />
             <span>
@@ -823,9 +823,9 @@ export function QuickBillerForm({
           <button
             type="submit"
             disabled={submittingAction !== null}
-            className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-[#0A192F] px-4 py-3 text-xs sm:text-sm font-bold text-white hover:bg-[#13294B] disabled:opacity-50 transition-colors cursor-pointer"
+            className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-[#0066FF] px-4 py-3 text-xs sm:text-sm font-bold text-white hover:bg-[#0052CC] shadow-lg shadow-blue-600/20 disabled:opacity-50 transition-colors cursor-pointer"
           >
-            <Sparkles className="w-4 h-4 text-[#00C2FF]" />
+            <Sparkles className="w-4 h-4 text-white" />
             <span>
               {submittingAction === 'receipt'
                 ? 'Finalizing Official Receipt...'
@@ -838,23 +838,23 @@ export function QuickBillerForm({
       {/* Inline + New Client Modal */}
       {newClientModalOpen && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/60 backdrop-blur-sm p-4"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/45 backdrop-blur-sm p-4"
           role="dialog"
           aria-modal="true"
           aria-labelledby="new-client-modal-title"
         >
-          <div className="w-full max-w-md rounded-2xl border border-slate-200 bg-white shadow-2xl overflow-hidden">
-            <div className="flex items-center justify-between border-b border-slate-100 bg-slate-50 px-5 py-3.5">
+          <div className="w-full max-w-md rounded-2xl glass-modal overflow-hidden">
+            <div className="flex items-center justify-between border-b border-slate-200 bg-white/95 px-5 py-3.5">
               <div className="flex items-center gap-2">
                 <FilePlus2 className="w-4 h-4 text-[#0066FF]" />
-                <h3 id="new-client-modal-title" className="text-sm font-extrabold text-[#0A192F]">
+                <h3 id="new-client-modal-title" className="text-sm font-extrabold text-[#0f172a]">
                   Register New Bahrain Client
                 </h3>
               </div>
               <button
                 type="button"
                 onClick={() => setNewClientModalOpen(false)}
-                className="rounded-lg p-1 text-slate-400 hover:text-[#0A192F] cursor-pointer"
+                className="rounded-lg p-1 text-slate-500 hover:bg-slate-100 hover:text-[#0f172a] cursor-pointer"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -862,13 +862,13 @@ export function QuickBillerForm({
 
             <form onSubmit={handleCreateNewClient} className="p-5 space-y-4 text-xs">
               {newCliError && (
-                <div className="rounded-xl border border-red-200 bg-red-50 px-3 py-2 text-red-700 font-medium">
+                <div className="rounded-xl border border-red-200 bg-red-50/90 px-3 py-2 text-red-700 font-medium">
                   {newCliError}
                 </div>
               )}
 
               <div>
-                <label className="block font-semibold text-[#0A192F] mb-1">
+                <label className="block font-semibold text-[#0f172a] mb-1">
                   Client / Company Name *
                 </label>
                 <input
@@ -877,12 +877,12 @@ export function QuickBillerForm({
                   value={newCliName}
                   onChange={(e) => setNewCliName(e.target.value)}
                   placeholder="e.g. Manama Medical Center W.L.L."
-                  className="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm text-[#0A192F] focus:border-[#0066FF] focus:outline-none"
+                  className="w-full rounded-xl border px-3 py-2 text-sm glass-input focus:outline-none"
                 />
               </div>
 
               <div>
-                <label className="block font-semibold text-[#0A192F] mb-1">
+                <label className="block font-semibold text-[#0f172a] mb-1">
                   Bahrain Phone / WhatsApp (+973) *
                 </label>
                 <input
@@ -891,12 +891,12 @@ export function QuickBillerForm({
                   value={newCliPhone}
                   onChange={(e) => setNewCliPhone(e.target.value)}
                   placeholder="+973 3311 2244"
-                  className="w-full rounded-xl border border-slate-200 px-3 py-2 font-mono text-sm text-[#0A192F] focus:border-[#0066FF] focus:outline-none"
+                  className="w-full rounded-xl border px-3 py-2 font-mono text-sm glass-input focus:outline-none"
                 />
               </div>
 
               <div>
-                <label className="block font-semibold text-[#0A192F] mb-1">
+                <label className="block font-semibold text-[#0f172a] mb-1">
                   Email Address (Optional)
                 </label>
                 <input
@@ -904,7 +904,7 @@ export function QuickBillerForm({
                   value={newCliEmail}
                   onChange={(e) => setNewCliEmail(e.target.value)}
                   placeholder="finance@company.bh"
-                  className="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm text-[#0A192F] focus:border-[#0066FF] focus:outline-none"
+                  className="w-full rounded-xl border px-3 py-2 text-sm glass-input focus:outline-none"
                 />
               </div>
 
@@ -912,7 +912,7 @@ export function QuickBillerForm({
                 <button
                   type="button"
                   onClick={() => setNewClientModalOpen(false)}
-                  className="rounded-xl border border-slate-200 px-4 py-2 font-semibold text-slate-600 hover:bg-slate-50 cursor-pointer"
+                  className="rounded-xl border border-slate-300 bg-white px-4 py-2 font-semibold text-[#334155] hover:bg-slate-50 cursor-pointer"
                 >
                   Cancel
                 </button>

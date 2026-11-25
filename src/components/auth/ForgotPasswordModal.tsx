@@ -163,23 +163,23 @@ export function ForgotPasswordModal({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/65 backdrop-blur-sm p-4"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/45 backdrop-blur-md p-4"
       role="dialog"
       aria-modal="true"
       aria-labelledby="forgot-password-title"
     >
-      <div className="w-full max-w-md overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-2xl">
+      <div className="w-full max-w-md overflow-hidden rounded-3xl glass-modal">
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-slate-200 bg-[#0A192F] px-6 py-4 text-white">
+        <div className="flex items-center justify-between border-b border-slate-200 bg-white/85 px-6 py-4 text-[#0f172a]">
           <div className="flex items-center gap-2.5">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#0066FF]/20 text-[#00C2FF]">
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-sky-50 border border-sky-200 text-[#0066FF]">
               <KeyRound className="w-4 h-4" />
             </div>
             <div>
-              <div className="font-mono text-[10px] uppercase tracking-wider text-[#00C2FF]">
+              <div className="font-mono text-[10px] uppercase tracking-wider text-[#0066FF]">
                 XBMS Identity Recovery · Step {Math.min(step, 3)} of 3
               </div>
-              <h2 id="forgot-password-title" className="text-sm font-extrabold">
+              <h2 id="forgot-password-title" className="text-sm font-extrabold text-[#0f172a]">
                 Reset Account Password
               </h2>
             </div>
@@ -189,7 +189,7 @@ export function ForgotPasswordModal({
             type="button"
             onClick={onClose}
             aria-label="Close password recovery modal"
-            className="rounded-lg p-1.5 text-slate-300 hover:bg-white/10 hover:text-white cursor-pointer"
+            className="rounded-lg p-1.5 text-[#64748b] hover:bg-slate-100 hover:text-[#0f172a] cursor-pointer"
           >
             <X className="w-4 h-4" />
           </button>
@@ -197,7 +197,7 @@ export function ForgotPasswordModal({
 
         {/* Step Indicator */}
         {step < 4 && (
-          <div className="grid grid-cols-3 gap-1 bg-slate-50 px-6 py-2.5 border-b border-slate-100">
+          <div className="grid grid-cols-3 gap-1 bg-slate-50/90 px-6 py-2.5 border-b border-slate-200">
             {[
               {n: 1, label: 'Verify Email'},
               {n: 2, label: '6-Digit OTP'},
@@ -210,14 +210,14 @@ export function ForgotPasswordModal({
                       ? 'bg-[#0066FF] text-white'
                       : step > item.n
                         ? 'bg-emerald-600 text-white'
-                        : 'bg-slate-200 text-slate-600'
+                        : 'bg-slate-200 text-[#64748b]'
                   }`}
                 >
                   {item.n}
                 </span>
                 <span
                   className={`font-semibold truncate ${
-                    step >= item.n ? 'text-[#0A192F]' : 'text-slate-400'
+                    step >= item.n ? 'text-[#0f172a]' : 'text-[#64748b]'
                   }`}
                 >
                   {item.label}
@@ -229,20 +229,20 @@ export function ForgotPasswordModal({
 
         <div className="p-6 space-y-4">
           {errorMsg && (
-            <div className="rounded-xl border border-red-200 bg-red-50 px-3.5 py-2.5 text-xs font-medium text-red-700">
+            <div className="rounded-xl border border-red-200 bg-red-50/90 px-3.5 py-2.5 text-xs font-medium text-red-700">
               {errorMsg}
             </div>
           )}
 
           {infoMsg && step === 2 && (
-            <div className="rounded-xl border border-blue-200 bg-blue-50 px-3.5 py-2.5 text-xs font-medium text-[#0A192F]">
+            <div className="rounded-xl border border-sky-200 bg-sky-50/90 px-3.5 py-2.5 text-xs font-medium text-[#0f172a]">
               {infoMsg}
             </div>
           )}
 
           {step === 1 && (
             <form onSubmit={handleRequestOtp} className="space-y-4">
-              <p className="text-xs text-slate-600 leading-relaxed">
+              <p className="text-xs text-[#334155] leading-relaxed">
                 Enter your registered XeroTech corporate email (STAFF or ADMINISTRATOR). A
                 cryptographic 6-digit OTP valid for 15 minutes will be generated.
               </p>
@@ -250,12 +250,12 @@ export function ForgotPasswordModal({
               <div>
                 <label
                   htmlFor="forgot-email"
-                  className="block text-xs font-semibold text-[#0A192F] mb-1.5"
+                  className="block text-xs font-semibold text-[#0f172a] mb-1.5"
                 >
                   Corporate Email Address
                 </label>
                 <div className="relative">
-                  <Mail className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                  <Mail className="w-4 h-4 text-[#64748b] absolute left-3.5 top-1/2 -translate-y-1/2" />
                   <input
                     id="forgot-email"
                     type="email"
@@ -263,7 +263,7 @@ export function ForgotPasswordModal({
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="user@xerotechtechnologies.com"
-                    className="w-full rounded-xl border border-slate-200 pl-10 pr-3.5 py-2.5 text-sm text-[#0A192F] focus:border-[#0066FF] focus:outline-none"
+                    className="w-full rounded-xl border glass-input pl-10 pr-3.5 py-2.5 text-sm focus:outline-none"
                   />
                 </div>
               </div>
@@ -272,7 +272,7 @@ export function ForgotPasswordModal({
                 <button
                   type="button"
                   onClick={onClose}
-                  className="rounded-xl border border-slate-200 px-4 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-50 cursor-pointer"
+                  className="rounded-xl border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-[#334155] hover:bg-slate-50 cursor-pointer"
                 >
                   Cancel
                 </button>
@@ -289,16 +289,16 @@ export function ForgotPasswordModal({
 
           {step === 2 && (
             <form onSubmit={handleVerifyOtp} className="space-y-4">
-              <p className="text-xs text-slate-600 leading-relaxed">
+              <p className="text-xs text-[#334155] leading-relaxed">
                 Enter the 6-digit recovery code issued for{' '}
-                <span className="font-mono font-semibold text-[#0A192F]">{email}</span>. Local
+                <span className="font-mono font-semibold text-[#0066FF]">{email}</span>. Local
                 environments output the OTP to the Express server console.
               </p>
 
               <div>
                 <label
                   htmlFor="forgot-otp"
-                  className="block text-xs font-semibold text-[#0A192F] mb-1.5"
+                  className="block text-xs font-semibold text-[#0f172a] mb-1.5"
                 >
                   6-Digit Verification OTP
                 </label>
@@ -311,7 +311,7 @@ export function ForgotPasswordModal({
                   value={otp}
                   onChange={(e) => setOtp(e.target.value.replace(/\D/g, '').slice(0, 6))}
                   placeholder="000000"
-                  className="w-full rounded-xl border border-slate-200 px-4 py-3 text-center font-mono text-xl font-extrabold tracking-[0.4em] text-[#0A192F] focus:border-[#0066FF] focus:outline-none"
+                  className="w-full rounded-xl border glass-input px-4 py-3 text-center font-mono text-xl font-extrabold tracking-[0.4em] focus:outline-none"
                 />
               </div>
 
@@ -322,7 +322,7 @@ export function ForgotPasswordModal({
                     setErrorMsg('');
                     setStep(1);
                   }}
-                  className="inline-flex items-center gap-1 rounded-xl border border-slate-200 px-3.5 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-50 cursor-pointer"
+                  className="inline-flex items-center gap-1 rounded-xl border border-slate-300 bg-white px-3.5 py-2 text-xs font-semibold text-[#334155] hover:bg-slate-50 cursor-pointer"
                 >
                   <ArrowLeft className="w-3.5 h-3.5" />
                   <span>Change Email</span>
@@ -340,15 +340,15 @@ export function ForgotPasswordModal({
 
           {step === 3 && (
             <form onSubmit={handleConfirmReset} className="space-y-4">
-              <p className="text-xs text-slate-600 leading-relaxed">
+              <p className="text-xs text-[#334155] leading-relaxed">
                 Define a new strong password. Completing this reset immediately revokes all active
-                sessions for <span className="font-mono font-semibold">{email}</span>.
+                sessions for <span className="font-mono font-semibold text-[#0f172a]">{email}</span>.
               </p>
 
               <div>
                 <label
                   htmlFor="forgot-new-pw"
-                  className="block text-xs font-semibold text-[#0A192F] mb-1.5"
+                  className="block text-xs font-semibold text-[#0f172a] mb-1.5"
                 >
                   New Password
                 </label>
@@ -361,13 +361,13 @@ export function ForgotPasswordModal({
                     value={newPassword}
                     onChange={(e) => setNewPassword(e.target.value)}
                     placeholder="Minimum 8 chars (A-Z, 0-9, symbol)"
-                    className="w-full rounded-xl border border-slate-200 pl-3.5 pr-10 py-2.5 text-sm text-[#0A192F] focus:border-[#0066FF] focus:outline-none"
+                    className="w-full rounded-xl border glass-input pl-3.5 pr-10 py-2.5 text-sm focus:outline-none"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword((prev) => !prev)}
                     aria-label={showPassword ? 'Hide password' : 'Show password'}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 cursor-pointer"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-[#64748b] hover:text-[#0f172a] cursor-pointer"
                   >
                     {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                   </button>
@@ -378,7 +378,7 @@ export function ForgotPasswordModal({
               <div>
                 <label
                   htmlFor="forgot-confirm-pw"
-                  className="block text-xs font-semibold text-[#0A192F] mb-1.5"
+                  className="block text-xs font-semibold text-[#0f172a] mb-1.5"
                 >
                   Confirm New Password
                 </label>
@@ -390,7 +390,7 @@ export function ForgotPasswordModal({
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   placeholder="Re-enter new password"
-                  className="w-full rounded-xl border border-slate-200 px-3.5 py-2.5 text-sm text-[#0A192F] focus:border-[#0066FF] focus:outline-none"
+                  className="w-full rounded-xl border glass-input px-3.5 py-2.5 text-sm focus:outline-none"
                 />
               </div>
 
@@ -398,7 +398,7 @@ export function ForgotPasswordModal({
                 <button
                   type="button"
                   onClick={() => setStep(2)}
-                  className="rounded-xl border border-slate-200 px-3.5 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-50 cursor-pointer"
+                  className="rounded-xl border border-slate-300 bg-white px-3.5 py-2 text-xs font-semibold text-[#334155] hover:bg-slate-50 cursor-pointer"
                 >
                   Back
                 </button>
@@ -415,24 +415,24 @@ export function ForgotPasswordModal({
 
           {step === 4 && (
             <div className="py-3 text-center space-y-4">
-              <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-600">
+              <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl border border-emerald-200 bg-emerald-50 text-emerald-700">
                 <CheckCircle2 className="w-7 h-7" />
               </div>
               <div>
-                <h3 className="text-base font-extrabold text-[#0A192F]">
+                <h3 className="text-base font-extrabold text-[#0f172a]">
                   Password Updated &amp; Sessions Revoked
                 </h3>
-                <p className="mt-1 text-xs text-slate-600 leading-relaxed">
-                  Your password for <span className="font-mono font-semibold">{email}</span> has
+                <p className="mt-1 text-xs text-[#334155] leading-relaxed">
+                  Your password for <span className="font-mono font-semibold text-[#0066FF]">{email}</span> has
                   been rotated and logged to the immutable security audit trail.
                 </p>
               </div>
               <button
                 type="button"
                 onClick={onClose}
-                className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-[#0A192F] px-4 py-2.5 text-xs font-semibold text-white hover:bg-[#13294B] cursor-pointer"
+                className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-[#0066FF] px-4 py-2.5 text-xs font-semibold text-white hover:bg-[#0052CC] cursor-pointer"
               >
-                <ShieldCheck className="w-4 h-4 text-[#00C2FF]" />
+                <ShieldCheck className="w-4 h-4 text-white" />
                 <span>Return to Sign In</span>
               </button>
             </div>

@@ -18,7 +18,7 @@ import type {
   StaffDepartmentRole,
   SystemUserRecord,
   TrajectoryPoint,
-} from '../src/types/xbms';
+} from '../src/types/xbms.ts';
 
 const ALLOWED_STAFF_DEPARTMENTS = new Set<StaffDepartmentRole>([
   'Billing Clerk',

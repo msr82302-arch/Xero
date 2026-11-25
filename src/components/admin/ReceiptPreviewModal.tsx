@@ -52,19 +52,19 @@ export function ReceiptPreviewModal({receipt, settings, onClose}: ReceiptPreview
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/65 backdrop-blur-sm p-3 sm:p-6"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/45 backdrop-blur-sm p-3 sm:p-6"
       role="dialog"
       aria-modal="true"
       aria-labelledby="receipt-preview-title"
     >
-      <div className="flex max-h-[92vh] w-full max-w-3xl flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl">
+      <div className="flex max-h-[92vh] w-full max-w-3xl flex-col overflow-hidden rounded-2xl glass-modal">
         {/* Modal Toolbar */}
-        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 bg-slate-50 px-5 py-3.5">
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 bg-white/95 px-5 py-3.5">
           <div>
             <div className="font-mono text-[11px] font-semibold uppercase tracking-wider text-[#0066FF]">
               Official A4 Receipt Document
             </div>
-            <h2 id="receipt-preview-title" className="text-sm sm:text-base font-extrabold text-[#0A192F]">
+            <h2 id="receipt-preview-title" className="text-sm sm:text-base font-extrabold text-[#0f172a]">
               {receipt.receiptNo} · {receipt.clientName}
             </h2>
           </div>
@@ -74,9 +74,9 @@ export function ReceiptPreviewModal({receipt, settings, onClose}: ReceiptPreview
               type="button"
               onClick={handleDownloadPdf}
               disabled={downloading}
-              className="inline-flex items-center gap-1.5 rounded-xl bg-[#0A192F] px-3.5 py-2 text-xs font-semibold text-white hover:bg-[#13294B] disabled:opacity-60 transition-colors whitespace-nowrap shrink-0 cursor-pointer"
+              className="inline-flex items-center gap-1.5 rounded-xl border border-slate-300 bg-white px-3.5 py-2 text-xs font-semibold text-[#334155] hover:bg-slate-50 disabled:opacity-60 transition-colors whitespace-nowrap shrink-0 cursor-pointer"
             >
-              <Download className="w-3.5 h-3.5" />
+              <Download className="w-3.5 h-3.5 text-[#0066FF]" />
               <span>{downloading ? 'Generating PDF...' : 'Download PDF'}</span>
             </button>
 
@@ -94,7 +94,7 @@ export function ReceiptPreviewModal({receipt, settings, onClose}: ReceiptPreview
               type="button"
               onClick={onClose}
               aria-label="Close Receipt Preview"
-              className="rounded-lg p-1.5 text-slate-500 hover:bg-slate-200/70 hover:text-[#0A192F] transition-colors cursor-pointer"
+              className="rounded-lg p-1.5 text-slate-500 hover:bg-slate-100 hover:text-[#0f172a] transition-colors cursor-pointer"
             >
               <X className="w-5 h-5" />
             </button>
@@ -102,8 +102,8 @@ export function ReceiptPreviewModal({receipt, settings, onClose}: ReceiptPreview
         </div>
 
         {/* Scrollable A4 Document Preview */}
-        <div className="flex-1 overflow-y-auto bg-slate-100 p-4 sm:p-6">
-          <div className="relative mx-auto max-w-[680px] overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+        <div className="flex-1 overflow-y-auto bg-slate-100/75 p-4 sm:p-6">
+          <div className="relative mx-auto max-w-[680px] overflow-hidden rounded-xl border border-slate-200 bg-white text-[#0A192F] shadow-xl">
             {/* CANCELLED Watermark Overlay */}
             {isCancelled && (
               <div className="pointer-events-none absolute inset-0 z-20 flex items-center justify-center">

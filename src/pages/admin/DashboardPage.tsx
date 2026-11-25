@@ -98,15 +98,15 @@ export function DashboardPage() {
     >
       <div className="space-y-6">
         {/* Top Executive Banner */}
-        <div className="rounded-2xl border border-slate-200 bg-white px-6 py-5 flex flex-wrap items-center justify-between gap-4">
+        <div className="rounded-2xl glass-surface px-6 py-5 flex flex-wrap items-center justify-between gap-4">
           <div>
             <div className="font-mono text-[11px] font-bold uppercase tracking-wider text-[#0066FF]">
               Executive Financial Overview
             </div>
-            <h1 className="mt-1 text-xl sm:text-2xl font-extrabold text-[#0A192F] tracking-tight">
+            <h1 className="mt-1 text-xl sm:text-2xl font-extrabold text-[#0f172a] tracking-tight">
               XeroTech Corporate Billing Dashboard
             </h1>
-            <p className="mt-0.5 text-xs text-slate-500">
+            <p className="mt-0.5 text-xs text-[#334155]">
               Real-time financial status, revenue collections, and active client balances in Bahrain Dinars (BHD).
             </p>
           </div>
@@ -114,7 +114,7 @@ export function DashboardPage() {
           <button
             type="button"
             onClick={() => setCreateOpen(true)}
-            className="inline-flex items-center gap-2 rounded-xl bg-[#0A192F] px-4 py-2.5 text-xs font-bold text-white hover:bg-[#13294B] transition-colors whitespace-nowrap shrink-0 cursor-pointer"
+            className="inline-flex items-center gap-2 rounded-xl bg-[#0066FF] px-4 py-2.5 text-xs font-bold text-white hover:bg-[#0052CC] shadow-lg shadow-blue-600/20 transition-colors whitespace-nowrap shrink-0 cursor-pointer"
           >
             <Plus className="w-4 h-4" />
             <span>Create Payment Receipt</span>
@@ -122,7 +122,7 @@ export function DashboardPage() {
         </div>
 
         {error && (
-          <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-xs font-medium text-red-700">
+          <div className="rounded-xl border border-red-200 bg-red-50/90 px-4 py-3 text-xs font-medium text-red-700">
             {error}
           </div>
         )}
@@ -132,7 +132,7 @@ export function DashboardPage() {
             {Array.from({length: 8}).map((_, idx) => (
               <div
                 key={idx}
-                className="h-28 rounded-2xl border border-slate-200 bg-white animate-pulse p-5"
+                className="h-28 rounded-2xl glass-surface animate-pulse p-5"
               />
             ))}
           </div>
@@ -141,48 +141,48 @@ export function DashboardPage() {
             <>
               {/* Primary 4 KPI Cards */}
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                <div className="rounded-2xl border border-slate-200 bg-white p-5">
-                  <div className="flex items-center justify-between text-xs font-medium text-slate-500">
+                <div className="rounded-2xl glass-surface p-5">
+                  <div className="flex items-center justify-between text-xs font-medium text-[#475569]">
                     <span>Total Invoiced</span>
                     <TrendingUp className="w-4 h-4 text-[#0066FF]" />
                   </div>
-                  <div className="mt-2 font-mono text-2xl font-extrabold text-[#0A192F] tabular-nums">
+                  <div className="mt-2 font-mono text-2xl font-extrabold text-[#0f172a] tabular-nums">
                     {formatBHD(summary.kpis.totalInvoicedBHD)}
                   </div>
-                  <div className="mt-1 text-[11px] text-slate-400">Active contracted value</div>
+                  <div className="mt-1 text-[11px] text-[#64748b]">Active contracted value</div>
                 </div>
 
-                <div className="rounded-2xl border border-emerald-200 bg-white p-5">
-                  <div className="flex items-center justify-between text-xs font-medium text-slate-500">
+                <div className="rounded-2xl glass-surface !border-emerald-200 !bg-emerald-50/75 p-5">
+                  <div className="flex items-center justify-between text-xs font-medium text-emerald-800">
                     <span>Total Collections</span>
                     <Wallet className="w-4 h-4 text-emerald-600" />
                   </div>
                   <div className="mt-2 font-mono text-2xl font-extrabold text-emerald-700 tabular-nums">
                     {formatBHD(summary.kpis.totalCollectionsBHD)}
                   </div>
-                  <div className="mt-1 text-[11px] text-slate-400">Verified received capital</div>
+                  <div className="mt-1 text-[11px] text-emerald-700/80">Verified received capital</div>
                 </div>
 
-                <div className="rounded-2xl border border-amber-300 bg-amber-50/35 p-5">
-                  <div className="flex items-center justify-between text-xs font-medium text-amber-900">
+                <div className="rounded-2xl glass-surface !border-amber-300 !bg-amber-50/80 p-5">
+                  <div className="flex items-center justify-between text-xs font-medium text-amber-800">
                     <span>Outstanding Receivables</span>
                     <Clock className="w-4 h-4 text-amber-600" />
                   </div>
-                  <div className="mt-2 font-mono text-2xl font-extrabold text-amber-700 tabular-nums">
+                  <div className="mt-2 font-mono text-2xl font-extrabold text-amber-800 tabular-nums">
                     {formatBHD(summary.kpis.outstandingReceivablesBHD)}
                   </div>
-                  <div className="mt-1 text-[11px] text-amber-700/80">Pending client balances</div>
+                  <div className="mt-1 text-[11px] text-amber-700">Pending client balances</div>
                 </div>
 
-                <div className="rounded-2xl border border-slate-200 bg-white p-5">
-                  <div className="flex items-center justify-between text-xs font-medium text-slate-500">
+                <div className="rounded-2xl glass-surface p-5">
+                  <div className="flex items-center justify-between text-xs font-medium text-[#475569]">
                     <span>Active Documents</span>
                     <FileText className="w-4 h-4 text-[#0066FF]" />
                   </div>
-                  <div className="mt-2 font-mono text-2xl font-extrabold text-[#0A192F] tabular-nums">
+                  <div className="mt-2 font-mono text-2xl font-extrabold text-[#0f172a] tabular-nums">
                     {summary.kpis.activeDocuments}
                   </div>
-                  <div className="mt-1 text-[11px] text-slate-400">
+                  <div className="mt-1 text-[11px] text-[#64748b]">
                     Sequential non-voided receipts
                   </div>
                 </div>
@@ -190,66 +190,66 @@ export function DashboardPage() {
 
               {/* Secondary Status & Velocity Strip */}
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-                <div className="rounded-2xl border border-slate-200 bg-white p-4">
-                  <div className="flex items-center justify-between text-xs text-slate-500">
+                <div className="rounded-2xl glass-surface p-4">
+                  <div className="flex items-center justify-between text-xs text-[#475569]">
                     <span>Fully Paid</span>
                     <CheckCircle2 className="w-4 h-4 text-emerald-600" />
                   </div>
                   <div className="mt-1.5 font-mono text-xl font-extrabold text-emerald-700 tabular-nums">
                     {summary.kpis.paidCount}
                   </div>
-                  <div className="text-[11px] text-slate-400">Zero remaining balance</div>
+                  <div className="text-[11px] text-[#64748b]">Zero remaining balance</div>
                 </div>
 
-                <div className="rounded-2xl border border-slate-200 bg-white p-4">
-                  <div className="flex items-center justify-between text-xs text-slate-500">
+                <div className="rounded-2xl glass-surface p-4">
+                  <div className="flex items-center justify-between text-xs text-[#475569]">
                     <span>Partially Paid</span>
-                    <Clock className="w-4 h-4 text-amber-500" />
+                    <Clock className="w-4 h-4 text-amber-600" />
                   </div>
-                  <div className="mt-1.5 font-mono text-xl font-extrabold text-amber-600 tabular-nums">
+                  <div className="mt-1.5 font-mono text-xl font-extrabold text-amber-700 tabular-nums">
                     {summary.kpis.partialCount}
                   </div>
-                  <div className="text-[11px] text-slate-400">Advance settled, balance active</div>
+                  <div className="text-[11px] text-[#64748b]">Advance settled, balance active</div>
                 </div>
 
-                <div className="rounded-2xl border border-slate-200 bg-white p-4">
-                  <div className="flex items-center justify-between text-xs text-slate-500">
+                <div className="rounded-2xl glass-surface p-4">
+                  <div className="flex items-center justify-between text-xs text-[#475569]">
                     <span>Unpaid Receipts</span>
-                    <Clock className="w-4 h-4 text-slate-400" />
+                    <Clock className="w-4 h-4 text-slate-500" />
                   </div>
-                  <div className="mt-1.5 font-mono text-xl font-extrabold text-[#0A192F] tabular-nums">
+                  <div className="mt-1.5 font-mono text-xl font-extrabold text-[#0f172a] tabular-nums">
                     {summary.kpis.unpaidCount}
                   </div>
-                  <div className="text-[11px] text-slate-400">Awaiting initial payment</div>
+                  <div className="text-[11px] text-[#64748b]">Awaiting initial payment</div>
                 </div>
 
-                <div className="rounded-2xl border border-slate-200 bg-white p-4">
-                  <div className="flex items-center justify-between text-xs text-slate-500">
+                <div className="rounded-2xl glass-surface !border-red-200 p-4">
+                  <div className="flex items-center justify-between text-xs text-[#475569]">
                     <span>Cancelled / Voided</span>
                     <XCircle className="w-4 h-4 text-red-600" />
                   </div>
-                  <div className="mt-1.5 font-mono text-xl font-extrabold text-red-600 tabular-nums">
+                  <div className="mt-1.5 font-mono text-xl font-extrabold text-red-700 tabular-nums">
                     {summary.kpis.cancelledCount}
                   </div>
-                  <div className="text-[11px] text-slate-400">Retained in audit ledger</div>
+                  <div className="text-[11px] text-[#64748b]">Retained in audit ledger</div>
                 </div>
               </div>
 
               {/* Charts Row: Dual-Bar Trajectory + Payment Status Distribution */}
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
                 {/* Trajectory Chart */}
-                <div className="lg:col-span-7 rounded-2xl border border-slate-200 bg-white p-6 flex flex-col justify-between">
+                <div className="lg:col-span-7 rounded-2xl glass-surface p-6 flex flex-col justify-between">
                   <div className="flex flex-wrap items-center justify-between gap-3">
                     <div>
-                      <h2 className="text-sm font-extrabold text-[#0A192F]">
+                      <h2 className="text-sm font-extrabold text-[#0f172a]">
                         Revenue &amp; Collections Trajectory
                       </h2>
-                      <p className="text-xs text-slate-500">
+                      <p className="text-xs text-[#64748b]">
                         Invoiced value vs actual collections received (BHD)
                       </p>
                     </div>
 
-                    <div className="inline-flex rounded-xl border border-slate-200 bg-slate-50 p-1 text-[11px] font-bold">
+                    <div className="inline-flex rounded-xl glass-panel-subtle p-1 text-[11px] font-bold">
                       {(['daily', 'weekly', 'monthly', 'yearly'] as const).map((tab) => (
                         <button
                           key={tab}
@@ -257,8 +257,8 @@ export function DashboardPage() {
                           onClick={() => setTrajectoryTab(tab)}
                           className={`rounded-lg px-2.5 py-1 uppercase transition-colors cursor-pointer ${
                             trajectoryTab === tab
-                              ? 'bg-white text-[#0066FF] shadow-xs border border-slate-200/80'
-                              : 'text-slate-500 hover:text-[#0A192F]'
+                              ? 'bg-[#0066FF] text-white shadow-xs'
+                              : 'text-[#475569] hover:text-[#0f172a]'
                           }`}
                         >
                           {tab}
@@ -268,7 +268,7 @@ export function DashboardPage() {
                   </div>
 
                   {/* Dual Bars Visualization */}
-                  <div className="mt-8 h-56 flex items-end justify-around gap-3 sm:gap-6 px-2 border-b border-slate-100 pb-3 relative">
+                  <div className="mt-8 h-56 flex items-end justify-around gap-3 sm:gap-6 px-2 border-b border-slate-200 pb-3 relative">
                     {trajectoryPoints.map((pt, idx) => {
                       const invPct = Math.max(4, Math.round((pt.invoicedBHD / maxChartBHD) * 100));
                       const colPct = Math.max(4, Math.round((pt.collectedBHD / maxChartBHD) * 100));
@@ -281,21 +281,21 @@ export function DashboardPage() {
                           className="relative flex-1 flex flex-col items-center h-full justify-end group"
                         >
                           {isHovered && (
-                            <div className="absolute -top-11 z-10 whitespace-nowrap rounded-lg bg-[#0A192F] px-2.5 py-1.5 text-[10px] font-mono text-white shadow-lg">
+                            <div className="absolute -top-11 z-10 whitespace-nowrap rounded-lg glass-modal px-2.5 py-1.5 text-[10px] font-mono text-[#0f172a] shadow-lg">
                               <div>Inv: {formatBHD(pt.invoicedBHD)}</div>
-                              <div className="text-[#00C2FF]">Col: {formatBHD(pt.collectedBHD)}</div>
+                              <div className="text-[#0066FF] font-bold">Col: {formatBHD(pt.collectedBHD)}</div>
                             </div>
                           )}
 
                           <div className="w-full max-w-[56px] h-full flex items-end justify-center gap-1.5">
                             <div
                               style={{height: `${invPct}%`}}
-                              className="w-4 sm:w-5 rounded-t-md bg-[#0A192F] transition-all duration-300 group-hover:opacity-90"
+                              className="w-4 sm:w-5 rounded-t-md bg-[#0f172a] transition-all duration-300 group-hover:opacity-85"
                               title={`Invoiced: ${formatBHD(pt.invoicedBHD)}`}
                             />
                             <div
                               style={{height: `${colPct}%`}}
-                              className="w-4 sm:w-5 rounded-t-md bg-[#0066FF] transition-all duration-300 group-hover:bg-[#0052CC]"
+                              className="w-4 sm:w-5 rounded-t-md bg-[#0066FF] transition-all duration-300 group-hover:bg-[#3385FF]"
                               title={`Collected: ${formatBHD(pt.collectedBHD)}`}
                             />
                           </div>
@@ -304,7 +304,7 @@ export function DashboardPage() {
                     })}
                   </div>
 
-                  <div className="mt-2 flex items-center justify-around text-xs font-semibold text-slate-500">
+                  <div className="mt-2 flex items-center justify-around text-xs font-semibold text-[#64748b]">
                     {trajectoryPoints.map((pt) => (
                       <span key={pt.label} className="font-mono text-[11px]">
                         {pt.label}
@@ -312,9 +312,9 @@ export function DashboardPage() {
                     ))}
                   </div>
 
-                  <div className="mt-5 flex items-center justify-center gap-6 text-xs text-slate-600">
+                  <div className="mt-5 flex items-center justify-center gap-6 text-xs text-[#334155] font-medium">
                     <span className="inline-flex items-center gap-2">
-                      <span className="h-2.5 w-2.5 rounded-full bg-[#0A192F]" />
+                      <span className="h-2.5 w-2.5 rounded-full bg-[#0f172a]" />
                       Total Invoiced (BHD)
                     </span>
                     <span className="inline-flex items-center gap-2">
@@ -325,12 +325,12 @@ export function DashboardPage() {
                 </div>
 
                 {/* Payment Status Distribution */}
-                <div className="lg:col-span-5 rounded-2xl border border-slate-200 bg-white p-6 flex flex-col justify-between space-y-5">
+                <div className="lg:col-span-5 rounded-2xl glass-surface p-6 flex flex-col justify-between space-y-5">
                   <div>
-                    <h2 className="text-sm font-extrabold text-[#0A192F]">
+                    <h2 className="text-sm font-extrabold text-[#0f172a]">
                       Payment Status Distribution
                     </h2>
-                    <p className="text-xs text-slate-500">
+                    <p className="text-xs text-[#64748b]">
                       Breakdown of issued receipt accounts
                     </p>
                   </div>
@@ -366,15 +366,15 @@ export function DashboardPage() {
                       return (
                         <div key={row.label} className="space-y-1.5">
                           <div className="flex items-center justify-between text-xs">
-                            <span className="inline-flex items-center gap-2 font-medium text-slate-700">
+                            <span className="inline-flex items-center gap-2 font-medium text-[#334155]">
                               <span className={`h-2 w-2 rounded-full ${row.dot}`} />
                               {row.label}
                             </span>
-                            <span className="font-mono font-semibold text-[#0A192F] tabular-nums">
+                            <span className="font-mono font-semibold text-[#0f172a] tabular-nums">
                               {row.count} receipts
                             </span>
                           </div>
-                          <div className="h-2 w-full overflow-hidden rounded-full bg-slate-100">
+                          <div className="h-2 w-full overflow-hidden rounded-full bg-slate-200/80">
                             <div
                               style={{width: `${pct}%`}}
                               className={`h-full rounded-full transition-all duration-300 ${row.bar}`}
@@ -385,9 +385,9 @@ export function DashboardPage() {
                     })}
                   </div>
 
-                  <div className="rounded-xl border border-slate-200 bg-slate-50 p-3.5 text-xs">
-                    <div className="font-bold text-[#0A192F]">Financial Integrity Guarantee</div>
-                    <p className="mt-1 text-[11px] text-slate-500 leading-relaxed">
+                  <div className="rounded-xl glass-panel-subtle p-3.5 text-xs">
+                    <div className="font-bold text-[#0f172a]">Financial Integrity Guarantee</div>
+                    <p className="mt-1 text-[11px] text-[#475569] leading-relaxed">
                       Receipt numbers are strictly sequential with 3-decimal BHD accuracy. Voided
                       transactions remain permanently archived in the audit log.
                     </p>
@@ -396,13 +396,13 @@ export function DashboardPage() {
               </div>
 
               {/* Recent Billing Activity Table */}
-              <div className="rounded-2xl border border-slate-200 bg-white overflow-hidden">
+              <div className="rounded-2xl glass-surface overflow-hidden">
                 <div className="border-b border-slate-200 px-6 py-4 flex flex-wrap items-center justify-between gap-2">
                   <div>
-                    <h2 className="text-sm font-extrabold text-[#0A192F]">
+                    <h2 className="text-sm font-extrabold text-[#0f172a]">
                       Recent Billing Activity
                     </h2>
-                    <p className="text-xs text-slate-500">
+                    <p className="text-xs text-[#64748b]">
                       Latest finalized transaction receipts ({filteredReceipts.length})
                     </p>
                   </div>
@@ -410,13 +410,13 @@ export function DashboardPage() {
 
                 {filteredReceipts.length === 0 ? (
                   <div className="p-10 text-center space-y-3">
-                    <p className="text-sm font-semibold text-slate-600">
+                    <p className="text-sm font-semibold text-[#334155]">
                       No billing activity matches your search query.
                     </p>
                     <button
                       type="button"
                       onClick={() => setSearchQuery('')}
-                      className="rounded-xl border border-slate-200 px-4 py-2 text-xs font-semibold text-[#0066FF] hover:bg-slate-50 cursor-pointer"
+                      className="rounded-xl border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-[#0066FF] hover:bg-slate-50 cursor-pointer"
                     >
                       Clear Search Filter
                     </button>
@@ -425,7 +425,7 @@ export function DashboardPage() {
                   <div className="overflow-x-auto">
                     <table className="w-full text-left border-collapse text-xs">
                       <thead>
-                        <tr className="border-b border-slate-200 bg-slate-50/70 text-slate-500 font-semibold">
+                        <tr className="border-b border-slate-200 bg-slate-50/80 text-[#475569] font-semibold">
                           <th className="py-3 px-4">Receipt Number</th>
                           <th className="py-3 px-4">Client Name</th>
                           <th className="py-3 px-4">Service</th>
@@ -437,37 +437,37 @@ export function DashboardPage() {
                           <th className="py-3 px-4 text-right">Actions</th>
                         </tr>
                       </thead>
-                      <tbody className="divide-y divide-slate-100">
+                      <tbody className="divide-y divide-slate-200">
                         {filteredReceipts.slice(0, 8).map((rec) => {
                           const isCancelled = rec.status === 'CANCELLED';
                           return (
                             <tr
                               key={rec.id}
                               className={`hover:bg-slate-50/80 transition-colors ${
-                                isCancelled ? 'opacity-65 bg-red-50/20' : ''
+                                isCancelled ? 'opacity-75 bg-red-50/75' : ''
                               }`}
                             >
                               <td
-                                className={`py-3 px-4 font-mono font-bold text-[#0066FF] whitespace-nowrap ${
-                                  isCancelled ? 'line-through text-red-600' : ''
+                                className={`py-3 px-4 font-mono font-bold whitespace-nowrap ${
+                                  isCancelled ? 'line-through text-red-700' : 'text-[#0066FF]'
                                 }`}
                               >
                                 {rec.receiptNo}
                               </td>
                               <td
-                                className={`py-3 px-4 font-semibold text-[#0A192F] ${
-                                  isCancelled ? 'line-through' : ''
+                                className={`py-3 px-4 font-semibold text-[#0f172a] ${
+                                  isCancelled ? 'line-through text-slate-500' : ''
                                 }`}
                               >
                                 {rec.clientName}
                               </td>
-                              <td className="py-3 px-4 text-slate-600 max-w-[200px] truncate">
+                              <td className="py-3 px-4 text-[#334155] max-w-[200px] truncate">
                                 {rec.serviceName}
                               </td>
-                              <td className="py-3 px-4 text-slate-500 whitespace-nowrap">
+                              <td className="py-3 px-4 text-[#64748b] whitespace-nowrap">
                                 {rec.dateDisplay}
                               </td>
-                              <td className="py-3 px-4 text-right font-mono font-semibold text-[#0A192F] tabular-nums">
+                              <td className="py-3 px-4 text-right font-mono font-semibold text-[#0f172a] tabular-nums">
                                 {formatBHDNumber(rec.totalBHD)}
                               </td>
                               <td className="py-3 px-4 text-right font-mono font-semibold text-emerald-700 tabular-nums">
@@ -480,12 +480,12 @@ export function DashboardPage() {
                                 <span
                                   className={`inline-block rounded-md px-2 py-0.5 font-mono text-[10px] font-bold ${
                                     rec.status === 'PAID'
-                                      ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
+                                      ? 'bg-emerald-50/90 text-emerald-700 border border-emerald-200'
                                       : rec.status === 'PARTIAL'
-                                        ? 'bg-amber-50 text-amber-700 border border-amber-200'
+                                        ? 'bg-amber-50/90 text-amber-800 border border-amber-300'
                                         : rec.status === 'CANCELLED'
-                                          ? 'bg-red-50 text-red-700 border border-red-200'
-                                          : 'bg-slate-100 text-slate-700 border border-slate-200'
+                                          ? 'bg-red-50/90 text-red-700 border border-red-200'
+                                          : 'bg-slate-100 text-[#334155] border border-slate-200'
                                   }`}
                                 >
                                   {rec.status}
@@ -507,7 +507,7 @@ export function DashboardPage() {
                                     onClick={() => void downloadReceiptPdf(rec)}
                                     title="Download PDF Receipt"
                                     aria-label={`Download PDF ${rec.receiptNo}`}
-                                    className="rounded-lg p-1.5 text-slate-500 hover:bg-slate-100 hover:text-[#0A192F] cursor-pointer"
+                                    className="rounded-lg p-1.5 text-slate-500 hover:bg-slate-100 hover:text-[#0f172a] cursor-pointer"
                                   >
                                     <Download className="w-4 h-4" />
                                   </button>
@@ -517,7 +517,7 @@ export function DashboardPage() {
                                     rel="noopener noreferrer"
                                     title="Dispatch via WhatsApp"
                                     aria-label={`WhatsApp ${rec.receiptNo}`}
-                                    className="rounded-lg p-1.5 text-slate-500 hover:bg-blue-50 hover:text-[#0066FF]"
+                                    className="rounded-lg p-1.5 text-slate-500 hover:bg-sky-50 hover:text-[#0066FF]"
                                   >
                                     <MessageSquare className="w-4 h-4" />
                                   </a>

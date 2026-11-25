@@ -35,7 +35,7 @@ export function Navbar({onOpenEstimator, onOpenPortal}: NavbarProps) {
   };
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-slate-200/80 bg-white/85 backdrop-blur-md">
+    <header className="sticky top-0 z-40 w-full border-b border-white/55 bg-white/55 backdrop-blur-md">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-8 px-4 sm:px-6 lg:px-8">
         {/* Zone 1: Clean single-line Brand Mark */}
         <a
@@ -45,10 +45,11 @@ export function Navbar({onOpenEstimator, onOpenPortal}: NavbarProps) {
           <img
             src="/assets/aistudio/logo_e1b61aee.png"
             alt="XeroTech Technologies Logo"
-            className="h-8 w-8 object-contain"
+            className="h-9 w-9 object-contain drop-shadow-sm shrink-0"
+            decoding="sync"
             referrerPolicy="no-referrer"
           />
-          <span className="text-lg font-extrabold tracking-tight text-[#0A192F]">
+          <span className="text-lg font-extrabold tracking-tight text-[#0f172a]">
             XeroTech<span className="text-[#0066FF]">.</span>
           </span>
         </a>
@@ -62,7 +63,7 @@ export function Navbar({onOpenEstimator, onOpenPortal}: NavbarProps) {
                   type="button"
                   onClick={() => setServicesOpen((prev) => !prev)}
                   aria-expanded={servicesOpen}
-                  className="inline-flex items-center gap-1.5 text-sm font-medium text-slate-600 hover:text-[#0A192F] transition-colors whitespace-nowrap shrink-0 cursor-pointer"
+                className="inline-flex items-center gap-1.5 text-sm font-medium text-[#1e293b] hover:text-[#0f172a] transition-colors whitespace-nowrap shrink-0 cursor-pointer"
                 >
                   <span>{item.label}</span>
                   <ChevronDown
@@ -73,8 +74,8 @@ export function Navbar({onOpenEstimator, onOpenPortal}: NavbarProps) {
                 </button>
 
                 {servicesOpen && (
-                  <div className="absolute left-0 top-full mt-3 w-[620px] rounded-2xl border border-slate-200/90 bg-white p-5 shadow-2xl shadow-slate-900/10 z-50">
-                    <div className="flex items-center justify-between pb-3 mb-3 border-b border-slate-100">
+                  <div className="absolute left-0 top-full mt-3 w-[620px] rounded-2xl glass-modal p-5 z-50">
+                    <div className="flex items-center justify-between pb-3 mb-3 border-b border-slate-200">
                       <span className="text-xs font-semibold uppercase tracking-wider text-slate-500">
                         12 Official Bahrain IT Capabilities
                       </span>
@@ -92,13 +93,13 @@ export function Navbar({onOpenEstimator, onOpenPortal}: NavbarProps) {
                           key={service.id}
                           type="button"
                           onClick={() => handleSelectServiceFromNav(service.id)}
-                          className="flex items-center justify-between rounded-lg px-3 py-2 text-left hover:bg-slate-50 transition-colors cursor-pointer group"
+                          className="flex items-center justify-between rounded-lg px-3 py-2 text-left hover:bg-sky-50/80 transition-colors cursor-pointer group"
                         >
                           <div className="min-w-0 pr-3">
-                            <div className="text-xs font-semibold text-[#0A192F] group-hover:text-[#0066FF] truncate">
+                            <div className="text-xs font-semibold text-[#0f172a] group-hover:text-[#0066FF] truncate">
                               {service.name}
                             </div>
-                            <div className="font-mono text-[11px] text-slate-400">
+                            <div className="font-mono text-[11px] text-slate-500">
                               {service.code}
                             </div>
                           </div>
@@ -115,7 +116,7 @@ export function Navbar({onOpenEstimator, onOpenPortal}: NavbarProps) {
               <a
                 key={item.label}
                 href={item.href}
-                className="text-sm font-medium text-slate-600 hover:text-[#0A192F] transition-colors whitespace-nowrap shrink-0"
+                className="text-sm font-medium text-[#1e293b] hover:text-[#0f172a] transition-colors whitespace-nowrap shrink-0"
               >
                 {item.label}
               </a>
@@ -128,14 +129,14 @@ export function Navbar({onOpenEstimator, onOpenPortal}: NavbarProps) {
           <button
             type="button"
             onClick={onOpenPortal}
-            className="hidden sm:inline-flex items-center rounded-lg border border-slate-200 bg-white px-3.5 py-2 text-xs font-semibold text-[#0A192F] hover:border-slate-300 hover:bg-slate-50 transition-colors whitespace-nowrap shrink-0 cursor-pointer"
+            className="hidden sm:inline-flex items-center rounded-lg border border-white/75 bg-white/65 px-3.5 py-2 text-xs font-semibold text-[#0f172a] hover:border-sky-400/60 hover:bg-white/85 hover:text-[#0369a1] transition-colors whitespace-nowrap shrink-0 cursor-pointer"
           >
             XBMS Portal
           </button>
           <button
             type="button"
             onClick={() => onOpenEstimator()}
-            className="inline-flex items-center justify-center rounded-lg bg-[#0066FF] px-4 py-2 text-xs sm:text-sm font-semibold text-white shadow-sm hover:bg-[#0052CC] transition-colors whitespace-nowrap shrink-0 cursor-pointer"
+            className="inline-flex items-center justify-center rounded-lg bg-[#0066FF] px-4 py-2 text-xs sm:text-sm font-semibold text-white shadow-sm shadow-blue-600/20 hover:bg-[#0052CC] transition-colors whitespace-nowrap shrink-0 cursor-pointer"
           >
             Project Estimator
           </button>
@@ -144,44 +145,80 @@ export function Navbar({onOpenEstimator, onOpenPortal}: NavbarProps) {
             type="button"
             onClick={() => setMobileMenuOpen((prev) => !prev)}
             aria-label={mobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
-            className="lg:hidden inline-flex items-center justify-center rounded-lg border border-slate-200 p-2 text-slate-700 hover:bg-slate-50 cursor-pointer"
+            className="lg:hidden min-h-[44px] min-w-[44px] inline-flex items-center justify-center rounded-lg border border-white/75 bg-white/75 p-2 text-[#0f172a] hover:bg-white cursor-pointer"
           >
             {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
         </div>
       </div>
 
-      {/* Compact Mobile Drawer */}
+      {/* Compact Frosted-Glass Mobile Drawer */}
       {mobileMenuOpen && (
-        <div className="lg:hidden border-t border-slate-200 bg-white px-4 py-4 space-y-3">
-          <div className="flex flex-col space-y-2">
-            {NAV_ITEMS.map((item) => (
-              <a
-                key={item.label}
-                href={item.href}
-                onClick={() => setMobileMenuOpen(false)}
-                className="rounded-lg px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
-              >
-                {item.label}
-              </a>
-            ))}
-          </div>
-          <div className="pt-3 border-t border-slate-100 flex flex-wrap gap-2">
+        <div className="lg:hidden border-t border-white/60 bg-white/88 backdrop-blur-xl px-4 py-4 space-y-2 shadow-lg">
+          <div className="flex flex-col space-y-1.5">
+            <button
+              type="button"
+              onClick={() => {
+                setMobileMenuOpen(false);
+                onOpenEstimator();
+              }}
+              className="w-full min-h-[44px] flex items-center justify-between rounded-xl bg-[#0066FF] px-4 py-2.5 text-sm font-semibold text-white shadow-sm cursor-pointer"
+            >
+              <span>Project Estimator</span>
+              <span className="font-mono text-[11px] opacity-90">BHD Matrix</span>
+            </button>
+
+            <a
+              href="#services"
+              onClick={() => setMobileMenuOpen(false)}
+              className="w-full min-h-[44px] flex items-center rounded-xl px-4 py-2.5 text-sm font-semibold text-[#0f172a] hover:bg-white/80"
+            >
+              Services
+            </a>
+
+            <a
+              href="#ai-studio"
+              onClick={() => setMobileMenuOpen(false)}
+              className="w-full min-h-[44px] flex items-center rounded-xl px-4 py-2.5 text-sm font-semibold text-[#0f172a] hover:bg-white/80"
+            >
+              AI Studio
+            </a>
+
+            <a
+              href="#case-studies"
+              onClick={() => setMobileMenuOpen(false)}
+              className="w-full min-h-[44px] flex items-center rounded-xl px-4 py-2.5 text-sm font-semibold text-[#0f172a] hover:bg-white/80"
+            >
+              Case Studies
+            </a>
+
+            <a
+              href="#contact"
+              onClick={() => setMobileMenuOpen(false)}
+              className="w-full min-h-[44px] flex items-center rounded-xl px-4 py-2.5 text-sm font-semibold text-[#0f172a] hover:bg-white/80"
+            >
+              Contact
+            </a>
+
             <button
               type="button"
               onClick={() => {
                 setMobileMenuOpen(false);
                 onOpenPortal();
               }}
-              className="flex-1 rounded-lg border border-slate-200 px-3 py-2 text-xs font-semibold text-[#0A192F] cursor-pointer"
+              className="w-full min-h-[44px] flex items-center justify-between rounded-xl border border-slate-200/80 bg-white/75 px-4 py-2.5 text-sm font-semibold text-[#0f172a] hover:bg-white cursor-pointer"
             >
-              XBMS Portal
+              <span>Staff/Admin Portal</span>
+              <span className="font-mono text-[11px] text-[#0066FF]">XBMS</span>
             </button>
+          </div>
+
+          <div className="pt-2 border-t border-slate-200/80">
             <a
               href={`https://wa.me/${COMPANY_INFO.whatsappDigits}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-1 text-center rounded-lg border border-blue-200 bg-blue-50 px-3 py-2 text-xs font-semibold text-[#0066FF]"
+              className="w-full min-h-[44px] flex items-center justify-center rounded-xl border border-sky-200 bg-sky-50/90 px-4 py-2.5 text-xs font-semibold text-[#0066FF]"
             >
               WhatsApp {COMPANY_INFO.whatsappDisplay}
             </a>

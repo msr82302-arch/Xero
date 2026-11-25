@@ -70,21 +70,21 @@ export function AdminLayout({
   };
 
   const renderSidebarContent = () => (
-    <div className="flex h-full flex-col bg-[#0A192F] text-white">
+    <div className="flex h-full flex-col bg-white/85 backdrop-blur-xl text-[#0f172a]">
       {/* Brand Header */}
-      <div className="flex items-center justify-between border-b border-white/10 px-4 py-4">
+      <div className="flex items-center justify-between border-b border-slate-200/80 px-4 py-4">
         <Link to="/admin/dashboard" className="flex items-center gap-2.5 min-w-0">
           <img
             src="/assets/aistudio/logo_e1b61aee.png"
             alt="XeroTech Emblem"
-            className="h-9 w-9 rounded-lg bg-white/10 p-1 object-contain shrink-0"
+            className="h-9 w-9 rounded-lg bg-slate-100 border border-slate-200 p-1 object-contain shrink-0"
             referrerPolicy="no-referrer"
           />
           <div className="min-w-0">
-            <div className="text-xs font-extrabold tracking-wide uppercase truncate">
+            <div className="text-xs font-extrabold tracking-wide uppercase truncate text-[#0f172a]">
               XeroTech Technologies
             </div>
-            <div className="font-mono text-[10px] text-[#00C2FF]">
+            <div className="font-mono text-[10px] font-bold text-[#0066FF]">
               CR NO. {COMPANY_INFO.crNumber}
             </div>
           </div>
@@ -94,7 +94,7 @@ export function AdminLayout({
           type="button"
           onClick={() => setMobileOpen(false)}
           aria-label="Close sidebar"
-          className="lg:hidden rounded-lg p-1.5 text-slate-300 hover:bg-white/10"
+          className="lg:hidden rounded-lg p-1.5 text-slate-500 hover:bg-slate-100 hover:text-[#0f172a]"
         >
           <X className="w-4 h-4" />
         </button>
@@ -113,7 +113,7 @@ export function AdminLayout({
                 `flex items-center gap-3 rounded-xl px-3.5 py-2.5 text-xs font-semibold transition-colors ${
                   isActive
                     ? 'bg-[#0066FF] text-white shadow-sm'
-                    : 'text-slate-300 hover:bg-white/8 hover:text-white'
+                    : 'text-[#334155] hover:bg-slate-100/80 hover:text-[#0f172a]'
                 }`
               }
             >
@@ -130,36 +130,36 @@ export function AdminLayout({
               setMobileOpen(false);
               onOpenNewReceipt();
             }}
-            className="mt-3 w-full flex items-center gap-3 rounded-xl border border-white/15 bg-white/5 px-3.5 py-2.5 text-xs font-semibold text-slate-200 hover:bg-white/12 hover:text-white transition-colors cursor-pointer"
+            className="mt-3 w-full flex items-center gap-3 rounded-xl border border-slate-300 bg-white/90 px-3.5 py-2.5 text-xs font-semibold text-[#0f172a] hover:bg-slate-50 transition-colors cursor-pointer"
           >
-            <Plus className="w-4 h-4 text-[#00C2FF] shrink-0" />
+            <Plus className="w-4 h-4 text-[#0066FF] shrink-0" />
             <span>Create Payment Receipt</span>
           </button>
         )}
 
-        <div className="pt-4 mt-4 border-t border-white/10">
+        <div className="pt-4 mt-4 border-t border-slate-200/80">
           <Link
             to="/"
-            className="flex items-center gap-3 rounded-xl px-3.5 py-2.5 text-xs font-medium text-slate-300 hover:bg-white/8 hover:text-white transition-colors"
+            className="flex items-center gap-3 rounded-xl px-3.5 py-2.5 text-xs font-medium text-[#334155] hover:bg-slate-100/80 hover:text-[#0f172a] transition-colors"
           >
-            <Globe className="w-4 h-4 shrink-0 text-slate-400" />
+            <Globe className="w-4 h-4 shrink-0 text-slate-500" />
             <span>Public Agency Portfolio</span>
           </Link>
         </div>
       </nav>
 
       {/* Administrator Footer */}
-      <div className="border-t border-white/10 p-3.5 space-y-2.5">
-        <div className="rounded-xl bg-white/5 border border-white/10 px-3 py-2.5">
+      <div className="border-t border-slate-200/80 p-3.5 space-y-2.5">
+        <div className="rounded-xl bg-slate-50/90 border border-slate-200 px-3 py-2.5">
           <div className="flex items-center justify-between gap-2">
-            <span className="text-xs font-bold text-white truncate">
+            <span className="text-xs font-bold text-[#0f172a] truncate">
               {user?.name || 'Principal Administrator'}
             </span>
             <span className="rounded bg-[#0066FF] px-1.5 py-0.5 font-mono text-[9px] font-bold uppercase tracking-wider text-white shrink-0">
               {user?.role || 'ADMINISTRATOR'}
             </span>
           </div>
-          <div className="mt-0.5 font-mono text-[10px] text-slate-400 truncate">
+          <div className="mt-0.5 font-mono text-[10px] text-[#64748b] truncate">
             {user?.email || 'admin@xerotechtechnologies.com'}
           </div>
         </div>
@@ -170,16 +170,16 @@ export function AdminLayout({
             setMobileOpen(false);
             setChangePwOpen(true);
           }}
-          className="w-full flex items-center justify-center gap-2 rounded-xl border border-white/15 bg-white/5 px-3 py-2 text-xs font-semibold text-slate-200 hover:bg-white/12 hover:text-white transition-colors cursor-pointer"
+          className="w-full flex items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white/90 px-3 py-2 text-xs font-semibold text-[#334155] hover:bg-slate-50 hover:text-[#0f172a] transition-colors cursor-pointer"
         >
-          <KeyRound className="w-3.5 h-3.5 text-[#00C2FF]" />
+          <KeyRound className="w-3.5 h-3.5 text-[#0066FF]" />
           <span>Security &amp; Password</span>
         </button>
 
         <button
           type="button"
           onClick={handleLogout}
-          className="w-full flex items-center justify-center gap-2 rounded-xl border border-white/15 bg-transparent px-3 py-2 text-xs font-semibold text-slate-200 hover:bg-white/10 hover:text-white transition-colors cursor-pointer"
+          className="w-full flex items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white/80 px-3 py-2 text-xs font-semibold text-[#334155] hover:bg-slate-100 hover:text-[#0f172a] transition-colors cursor-pointer"
         >
           <LogOut className="w-3.5 h-3.5" />
           <span>Secure Logout</span>
@@ -189,9 +189,9 @@ export function AdminLayout({
   );
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] text-[#0A192F] flex">
+    <div className="min-h-screen bg-transparent text-[#0f172a] flex">
       {/* Desktop Fixed Sidebar (240px) */}
-      <aside className="hidden lg:block w-[240px] shrink-0 border-r border-slate-200">
+      <aside className="hidden lg:block w-[240px] shrink-0 border-r border-slate-200/80">
         <div className="sticky top-0 h-screen">{renderSidebarContent()}</div>
       </aside>
 
@@ -199,10 +199,10 @@ export function AdminLayout({
       {mobileOpen && (
         <div className="fixed inset-0 z-50 lg:hidden flex">
           <div
-            className="fixed inset-0 bg-slate-950/50 backdrop-blur-xs"
+            className="fixed inset-0 bg-slate-900/45 backdrop-blur-xs"
             onClick={() => setMobileOpen(false)}
           />
-          <aside className="relative z-10 w-[260px] max-w-[80vw] h-full shadow-2xl">
+          <aside className="relative z-10 w-[260px] max-w-[80vw] h-full shadow-2xl border-r border-slate-200/80">
             {renderSidebarContent()}
           </aside>
         </div>
@@ -211,23 +211,23 @@ export function AdminLayout({
       {/* Main Content Area */}
       <div className="flex-1 min-w-0 flex flex-col">
         {/* Top Bar Contract: Breadcrumb on Left, Search + Max 1-2 Actions on Right */}
-        <header className="sticky top-0 z-30 border-b border-slate-200 bg-white/95 backdrop-blur-md">
+        <header className="sticky top-0 z-30 border-b border-slate-200/80 bg-white/82 backdrop-blur-xl">
           <div className="flex h-16 items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
             <div className="flex items-center gap-3 min-w-0">
               <button
                 type="button"
                 onClick={() => setMobileOpen(true)}
                 aria-label="Open navigation menu"
-                className="lg:hidden rounded-lg border border-slate-200 p-2 text-slate-700 hover:bg-slate-50 cursor-pointer"
+                className="lg:hidden rounded-lg border border-slate-300 bg-white/90 p-2 text-[#334155] hover:bg-slate-100 cursor-pointer"
               >
                 <Menu className="w-4 h-4" />
               </button>
 
               <div className="flex items-center gap-2 text-xs truncate">
-                <span className="hidden sm:inline font-medium text-slate-500">
+                <span className="hidden sm:inline font-medium text-[#64748b]">
                   XeroTech Technologies
                 </span>
-                <span className="hidden sm:inline text-slate-300">/</span>
+                <span className="hidden sm:inline text-slate-400">/</span>
                 <span className="font-bold text-[#0066FF] truncate">{title}</span>
               </div>
             </div>
@@ -241,7 +241,7 @@ export function AdminLayout({
                     value={searchQuery || ''}
                     onChange={(e) => onSearchChange(e.target.value)}
                     placeholder="Quick search receipts, clients..."
-                    className="w-56 lg:w-64 rounded-xl border border-slate-200 bg-slate-50/70 pl-8 pr-3 py-1.5 text-xs text-[#0A192F] focus:border-[#0066FF] focus:bg-white focus:outline-none"
+                    className="w-56 lg:w-64 rounded-xl border pl-8 pr-3 py-1.5 text-xs glass-input focus:outline-none"
                   />
                 </div>
               )}
@@ -250,7 +250,7 @@ export function AdminLayout({
                 <button
                   type="button"
                   onClick={onOpenNewReceipt}
-                  className="inline-flex items-center gap-1.5 rounded-xl bg-[#0A192F] px-3.5 py-2 text-xs font-semibold text-white hover:bg-[#13294B] transition-colors whitespace-nowrap shrink-0 cursor-pointer"
+                  className="inline-flex items-center gap-1.5 rounded-xl bg-[#0066FF] px-3.5 py-2 text-xs font-semibold text-white hover:bg-[#0052CC] shadow-lg shadow-blue-600/20 transition-colors whitespace-nowrap shrink-0 cursor-pointer"
                 >
                   <Plus className="w-3.5 h-3.5" />
                   <span>New Receipt</span>
@@ -261,18 +261,18 @@ export function AdminLayout({
                 <button
                   type="button"
                   onClick={() => setProfileMenuOpen((prev) => !prev)}
-                  className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-[#0A192F] hover:border-blue-300 transition-colors cursor-pointer whitespace-nowrap"
+                  className="inline-flex items-center gap-2 rounded-xl border border-slate-300 bg-white/90 px-3 py-2 text-xs font-semibold text-[#0f172a] hover:border-[#0066FF]/40 hover:bg-white transition-colors cursor-pointer whitespace-nowrap"
                 >
                   <KeyRound className="w-3.5 h-3.5 text-[#0066FF]" />
                   <span className="hidden sm:inline">Account</span>
-                  <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
+                  <ChevronDown className="w-3.5 h-3.5 text-slate-500" />
                 </button>
 
                 {profileMenuOpen && (
-                  <div className="absolute right-0 mt-2 w-60 rounded-2xl border border-slate-200 bg-white p-2 shadow-xl z-40">
-                    <div className="px-3 py-2 border-b border-slate-100">
-                      <div className="text-xs font-bold text-[#0A192F] truncate">{user?.name}</div>
-                      <div className="font-mono text-[10px] text-slate-500 truncate">
+                  <div className="absolute right-0 mt-2 w-60 rounded-2xl glass-modal p-2 z-40">
+                    <div className="px-3 py-2 border-b border-slate-200/80">
+                      <div className="text-xs font-bold text-[#0f172a] truncate">{user?.name}</div>
+                      <div className="font-mono text-[10px] text-[#64748b] truncate">
                         {user?.email}
                       </div>
                     </div>
@@ -282,7 +282,7 @@ export function AdminLayout({
                         setProfileMenuOpen(false);
                         setChangePwOpen(true);
                       }}
-                      className="mt-1 w-full flex items-center gap-2 rounded-xl px-3 py-2 text-left text-xs font-semibold text-[#0A192F] hover:bg-slate-50 cursor-pointer"
+                      className="mt-1 w-full flex items-center gap-2 rounded-xl px-3 py-2 text-left text-xs font-semibold text-[#334155] hover:bg-slate-100 hover:text-[#0f172a] cursor-pointer"
                     >
                       <KeyRound className="w-3.5 h-3.5 text-[#0066FF]" />
                       <span>Security &amp; Password</span>
@@ -290,7 +290,7 @@ export function AdminLayout({
                     <Link
                       to="/admin/users"
                       onClick={() => setProfileMenuOpen(false)}
-                      className="w-full flex items-center gap-2 rounded-xl px-3 py-2 text-left text-xs font-semibold text-[#0A192F] hover:bg-slate-50"
+                      className="w-full flex items-center gap-2 rounded-xl px-3 py-2 text-left text-xs font-semibold text-[#334155] hover:bg-slate-100 hover:text-[#0f172a]"
                     >
                       <UserCog className="w-3.5 h-3.5 text-[#0066FF]" />
                       <span>User Governance</span>
@@ -301,7 +301,7 @@ export function AdminLayout({
                         setProfileMenuOpen(false);
                         void handleLogout();
                       }}
-                      className="w-full flex items-center gap-2 rounded-xl px-3 py-2 text-left text-xs font-semibold text-red-600 hover:bg-red-50 cursor-pointer"
+                      className="w-full flex items-center gap-2 rounded-xl px-3 py-2 text-left text-xs font-semibold text-red-700 hover:bg-red-50 cursor-pointer"
                     >
                       <LogOut className="w-3.5 h-3.5" />
                       <span>Sign Out</span>

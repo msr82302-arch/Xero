@@ -136,15 +136,15 @@ export function QuotationsPage() {
     >
       <div className="space-y-6">
         {/* Header Card */}
-        <div className="rounded-2xl border border-slate-200 bg-white px-6 py-5 flex flex-wrap items-center justify-between gap-4">
+        <div className="rounded-2xl glass-surface px-6 py-5 flex flex-wrap items-center justify-between gap-4">
           <div>
             <div className="font-mono text-[11px] font-bold uppercase tracking-wider text-[#0066FF]">
               Commercial Governance
             </div>
-            <h1 className="mt-1 text-xl sm:text-2xl font-extrabold text-[#0A192F]">
+            <h1 className="mt-1 text-xl sm:text-2xl font-extrabold text-[#0f172a]">
               Quotation Approval Pipeline ({quotations.length})
             </h1>
-            <p className="mt-0.5 text-xs text-slate-500">
+            <p className="mt-0.5 text-xs text-[#334155]">
               Review staff drafts and incoming public estimator leads (XT-LEAD-2026-###). Approving
               allocates a gapless sequential XT-QOT-YYYY-MM-### quotation number.
             </p>
@@ -152,7 +152,7 @@ export function QuotationsPage() {
         </div>
 
         {/* Status Tabs */}
-        <div className="rounded-2xl border border-slate-200 bg-white px-4 py-3 flex flex-wrap items-center justify-between gap-3">
+        <div className="rounded-2xl glass-surface px-4 py-3 flex flex-wrap items-center justify-between gap-3">
           <div className="flex flex-wrap items-center gap-1.5">
             {(
               [
@@ -170,7 +170,7 @@ export function QuotationsPage() {
                 className={`rounded-xl px-3 py-1.5 text-xs font-semibold transition-colors cursor-pointer ${
                   statusTab === tab.key
                     ? 'bg-[#0066FF] text-white'
-                    : 'bg-slate-50 text-slate-600 hover:bg-slate-100'
+                    : 'bg-slate-100 text-[#334155] hover:bg-slate-200/80 hover:text-[#0f172a]'
                 }`}
               >
                 {tab.label}
@@ -183,12 +183,12 @@ export function QuotationsPage() {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Filter by XT-LEAD, XT-QOT, client..."
-            className="w-full sm:w-64 rounded-xl border border-slate-200 px-3 py-1.5 text-xs text-[#0A192F] focus:border-[#0066FF] focus:outline-none"
+            className="w-full sm:w-64 rounded-xl border px-3 py-1.5 text-xs glass-input focus:outline-none"
           />
         </div>
 
         {errorMsg && (
-          <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-xs font-medium text-red-700">
+          <div className="rounded-xl border border-red-200 bg-red-50/90 px-4 py-3 text-xs font-medium text-red-700">
             {errorMsg}
           </div>
         )}
@@ -199,15 +199,15 @@ export function QuotationsPage() {
             {Array.from({length: 3}).map((_, idx) => (
               <div
                 key={idx}
-                className="h-32 rounded-2xl border border-slate-200 bg-white animate-pulse"
+                className="h-32 rounded-2xl glass-surface animate-pulse"
               />
             ))}
           </div>
         ) : filtered.length === 0 ? (
-          <div className="rounded-2xl border border-slate-200 bg-white p-10 text-center space-y-2">
-            <FileCheck2 className="w-8 h-8 text-slate-300 mx-auto" />
-            <div className="text-sm font-bold text-[#0A192F]">No quotations match this filter</div>
-            <p className="text-xs text-slate-500">
+          <div className="rounded-2xl glass-surface p-10 text-center space-y-2">
+            <FileCheck2 className="w-8 h-8 text-slate-400 mx-auto" />
+            <div className="text-sm font-bold text-[#0f172a]">No quotations match this filter</div>
+            <p className="text-xs text-[#64748b]">
               Incoming leads from the public Project Estimator appear here automatically.
             </p>
           </div>
@@ -216,7 +216,7 @@ export function QuotationsPage() {
             {filtered.map((item) => (
               <div
                 key={item.id}
-                className="rounded-2xl border border-slate-200 bg-white p-5 transition-colors hover:border-slate-300"
+                className="rounded-2xl glass-surface p-5 transition-colors hover:border-[#0066FF]/40"
               >
                 <div className="flex flex-wrap items-start justify-between gap-4">
                   <div className="space-y-2 min-w-0 flex-1">
@@ -225,52 +225,52 @@ export function QuotationsPage() {
                         {item.quotationNo || item.referenceCode}
                       </span>
                       {item.quotationNo && (
-                        <span className="font-mono text-[11px] text-slate-400">
+                        <span className="font-mono text-[11px] text-[#64748b]">
                           Lead: {item.referenceCode}
                         </span>
                       )}
                       <span
                         className={`rounded-md px-2 py-0.5 font-mono text-[10px] font-bold ${
                           item.status === 'APPROVED'
-                            ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
+                            ? 'bg-emerald-50/90 text-emerald-700 border border-emerald-200'
                             : item.status === 'REJECTED'
-                              ? 'bg-red-50 text-red-700 border border-red-200'
+                              ? 'bg-red-50/90 text-red-700 border border-red-200'
                               : item.status === 'PENDING_APPROVAL'
-                                ? 'bg-amber-50 text-amber-700 border border-amber-200'
-                                : 'bg-slate-100 text-slate-700 border border-slate-200'
+                                ? 'bg-amber-50/90 text-amber-800 border border-amber-300'
+                                : 'bg-slate-100 text-[#334155] border border-slate-200'
                         }`}
                       >
                         {item.status.replace('_', ' ')}
                       </span>
-                      <span className="rounded-md border border-slate-200 bg-slate-50 px-2 py-0.5 font-mono text-[10px] text-slate-500">
+                      <span className="rounded-md border border-slate-200 bg-slate-100 px-2 py-0.5 font-mono text-[10px] text-[#334155]">
                         {item.source === 'PUBLIC_ESTIMATOR' ? 'Public Lead' : 'Staff Draft'}
                       </span>
                     </div>
 
                     <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1">
-                      <h2 className="text-base font-extrabold text-[#0A192F]">{item.clientName}</h2>
-                      <span className="text-xs text-slate-600">
+                      <h2 className="text-base font-extrabold text-[#0f172a]">{item.clientName}</h2>
+                      <span className="text-xs text-[#334155]">
                         Contact: {item.contactPerson} ·{' '}
                         <span className="font-mono">{item.clientPhone}</span>
                       </span>
                       {item.clientEmail && (
-                        <span className="text-xs text-slate-500">{item.clientEmail}</span>
+                        <span className="text-xs text-[#64748b]">{item.clientEmail}</span>
                       )}
                     </div>
 
-                    <div className="text-xs text-slate-600">
-                      <span className="font-semibold text-[#0A192F]">Scope:</span>{' '}
+                    <div className="text-xs text-[#334155]">
+                      <span className="font-semibold text-[#0f172a]">Scope:</span>{' '}
                       {item.serviceNames.join(' · ')}
                     </div>
 
                     {item.notes && (
-                      <p className="text-xs text-slate-500 bg-slate-50 rounded-xl px-3 py-2 border border-slate-100">
+                      <p className="text-xs text-[#334155] glass-panel-subtle rounded-xl px-3 py-2">
                         {item.notes}
                       </p>
                     )}
 
                     {item.status === 'REJECTED' && item.rejectionReason && (
-                      <div className="rounded-xl border border-red-200 bg-red-50 px-3 py-2 text-xs text-red-700">
+                      <div className="rounded-xl border border-red-200 bg-red-50/90 px-3 py-2 text-xs text-red-700">
                         <strong>Rejection Feedback:</strong> {item.rejectionReason}
                       </div>
                     )}
@@ -279,13 +279,13 @@ export function QuotationsPage() {
                   {/* Right Valuation & Actions */}
                   <div className="flex flex-col items-end justify-between gap-3 shrink-0">
                     <div className="text-right">
-                      <div className="font-mono text-[10px] uppercase tracking-wider text-slate-400">
+                      <div className="font-mono text-[10px] uppercase tracking-wider text-[#64748b]">
                         Quotation Value
                       </div>
-                      <div className="font-mono text-xl font-extrabold text-[#0A192F] tabular-nums">
+                      <div className="font-mono text-xl font-extrabold text-[#0f172a] tabular-nums">
                         {formatBHD(item.estimatedTotalBHD)}
                       </div>
-                      <div className="font-mono text-[11px] text-[#0066FF] tabular-nums">
+                      <div className="font-mono text-[11px] font-semibold text-[#0066FF] tabular-nums">
                         50% Kickoff: {formatBHD(item.advanceMilestoneBHD)}
                       </div>
                     </div>
@@ -312,7 +312,7 @@ export function QuotationsPage() {
                                 setRejectReason('');
                                 setRejectError('');
                               }}
-                              className="inline-flex items-center gap-1.5 rounded-xl border border-red-200 bg-white px-3.5 py-2 text-xs font-semibold text-red-600 hover:bg-red-50 disabled:opacity-50 transition-colors cursor-pointer whitespace-nowrap shrink-0"
+                              className="inline-flex items-center gap-1.5 rounded-xl border border-red-200 bg-red-50 px-3.5 py-2 text-xs font-semibold text-red-700 hover:bg-red-100 disabled:opacity-50 transition-colors cursor-pointer whitespace-nowrap shrink-0"
                             >
                               <XCircle className="w-3.5 h-3.5" />
                               <span>Reject</span>
@@ -325,7 +325,7 @@ export function QuotationsPage() {
                         <button
                           type="button"
                           onClick={() => handleConvertToReceipt(item)}
-                          className="inline-flex items-center gap-1.5 rounded-xl bg-[#0A192F] px-3.5 py-2 text-xs font-semibold text-white hover:bg-[#13294B] transition-colors cursor-pointer whitespace-nowrap shrink-0"
+                          className="inline-flex items-center gap-1.5 rounded-xl bg-[#0066FF] px-3.5 py-2 text-xs font-semibold text-white hover:bg-[#0052CC] shadow-lg shadow-blue-600/20 transition-colors cursor-pointer whitespace-nowrap shrink-0"
                         >
                           <FilePlus2 className="w-3.5 h-3.5" />
                           <span>Issue Receipt</span>
@@ -343,42 +343,42 @@ export function QuotationsPage() {
       {/* Reject Quotation Modal */}
       {rejectTarget && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/60 backdrop-blur-sm p-4"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/45 backdrop-blur-sm p-4"
           role="dialog"
           aria-modal="true"
           aria-labelledby="reject-qot-title"
         >
-          <div className="w-full max-w-md rounded-2xl border border-slate-200 bg-white shadow-2xl overflow-hidden">
-            <div className="flex items-center justify-between border-b border-slate-100 px-5 py-4">
-              <h3 id="reject-qot-title" className="text-sm font-extrabold text-[#0A192F]">
+          <div className="w-full max-w-md rounded-2xl glass-modal overflow-hidden">
+            <div className="flex items-center justify-between border-b border-slate-200 px-5 py-4">
+              <h3 id="reject-qot-title" className="text-sm font-extrabold text-[#0f172a]">
                 Reject Quotation {rejectTarget.referenceCode}
               </h3>
               <button
                 type="button"
                 onClick={() => setRejectTarget(null)}
-                className="rounded-lg p-1 text-slate-400 hover:text-[#0A192F] cursor-pointer"
+                className="rounded-lg p-1 text-slate-500 hover:bg-slate-100 hover:text-[#0f172a] cursor-pointer"
               >
                 <X className="w-4 h-4" />
               </button>
             </div>
             <form onSubmit={handleRejectSubmit} className="p-5 space-y-4">
-              <p className="text-xs text-slate-600">
+              <p className="text-xs text-[#334155]">
                 Provide mandatory commercial rejection feedback (minimum 5 characters) for{' '}
-                <strong className="text-[#0A192F]">{rejectTarget.clientName}</strong>.
+                <strong className="text-[#0f172a]">{rejectTarget.clientName}</strong>.
               </p>
 
               {rejectError && (
-                <div className="rounded-xl border border-red-200 bg-red-50 px-3 py-2 text-xs text-red-700">
+                <div className="rounded-xl border border-red-200 bg-red-50/90 px-3 py-2 text-xs text-red-700">
                   {rejectError}
                 </div>
               )}
 
               <div>
                 <div className="flex items-center justify-between mb-1">
-                  <label htmlFor="reject-reason" className="text-xs font-semibold text-[#0A192F]">
+                  <label htmlFor="reject-reason" className="text-xs font-semibold text-[#0f172a]">
                     Rejection Feedback *
                   </label>
-                  <span className="font-mono text-[11px] text-slate-500">
+                  <span className="font-mono text-[11px] text-[#64748b]">
                     {rejectReason.trim().length}/5 min chars
                   </span>
                 </div>
@@ -389,7 +389,7 @@ export function QuotationsPage() {
                   value={rejectReason}
                   onChange={(e) => setRejectReason(e.target.value)}
                   placeholder="e.g. Discount below margin policy or scope clarification required."
-                  className="w-full rounded-xl border border-slate-200 px-3 py-2 text-xs sm:text-sm text-[#0A192F] focus:border-red-500 focus:outline-none"
+                  className="w-full rounded-xl border px-3 py-2 text-xs sm:text-sm glass-input focus:border-red-400 focus:outline-none"
                 />
               </div>
 
@@ -397,7 +397,7 @@ export function QuotationsPage() {
                 <button
                   type="button"
                   onClick={() => setRejectTarget(null)}
-                  className="rounded-xl border border-slate-200 px-4 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-50 cursor-pointer"
+                  className="rounded-xl border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-[#334155] hover:bg-slate-50 cursor-pointer"
                 >
                   Cancel
                 </button>

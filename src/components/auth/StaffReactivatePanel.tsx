@@ -91,13 +91,13 @@ export function StaffReactivatePanel({
   if (reactivatedEmail) {
     return (
       <div className="mt-4 space-y-4 transition-all duration-200">
-        <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-4 text-xs text-emerald-900 space-y-2">
+        <div className="rounded-2xl border border-emerald-200 bg-emerald-50/90 p-4 text-xs text-emerald-800 space-y-2">
           <div className="flex items-center gap-2 font-bold text-emerald-800">
-            <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+            <CheckCircle2 className="w-4 h-4 text-emerald-700 shrink-0" />
             <span>Terminal Credentials Provisioned</span>
           </div>
           <p className="leading-relaxed text-emerald-800">
-            Staff account <span className="font-mono font-semibold">{reactivatedEmail}</span> has
+            Staff account <span className="font-mono font-semibold text-[#0f172a]">{reactivatedEmail}</span> has
             been re-initialized ({reason}) and all previous terminal sessions were revoked.
           </p>
         </div>
@@ -123,7 +123,7 @@ export function StaffReactivatePanel({
 
   return (
     <div className="mt-4 space-y-4 transition-all duration-200">
-      <div className="flex items-start gap-2.5 rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-xs text-slate-700">
+      <div className="flex items-start gap-2.5 rounded-xl glass-panel-subtle px-3.5 py-2.5 text-xs text-[#334155]">
         <RefreshCw className="w-4 h-4 text-[#0066FF] shrink-0 mt-0.5" />
         <span>
           Restore locked, expired, or wiped Staff Billing Terminal credentials using a valid
@@ -132,7 +132,7 @@ export function StaffReactivatePanel({
       </div>
 
       {errorMsg && (
-        <div className="rounded-xl border border-red-200 bg-red-50 px-3.5 py-2.5 text-xs font-medium text-red-700">
+        <div className="rounded-xl border border-red-200 bg-red-50/90 px-3.5 py-2.5 text-xs font-medium text-red-700">
           {errorMsg}
         </div>
       )}
@@ -141,7 +141,7 @@ export function StaffReactivatePanel({
         <div>
           <label
             htmlFor="reactivate-identifier"
-            className="block text-xs font-semibold text-[#0A192F] mb-1"
+            className="block text-xs font-semibold text-[#0f172a] mb-1"
           >
             Existing Staff Email or Staff ID *
           </label>
@@ -152,7 +152,7 @@ export function StaffReactivatePanel({
             value={identifier}
             onChange={(e) => setIdentifier(e.target.value)}
             placeholder="staff@xerotechtechnologies.com or XT-STF-001"
-            className="w-full rounded-xl border border-slate-200 px-3.5 py-2 text-xs sm:text-sm text-[#0A192F] focus:border-[#0066FF] focus:outline-none"
+            className="w-full rounded-xl border glass-input px-3.5 py-2 text-xs sm:text-sm focus:outline-none"
           />
         </div>
 
@@ -160,7 +160,7 @@ export function StaffReactivatePanel({
           <div>
             <label
               htmlFor="reactivate-reason"
-              className="block text-xs font-semibold text-[#0A192F] mb-1"
+              className="block text-xs font-semibold text-[#0f172a] mb-1"
             >
               Reason for Re-creation *
             </label>
@@ -168,7 +168,7 @@ export function StaffReactivatePanel({
               id="reactivate-reason"
               value={reason}
               onChange={(e) => setReason(e.target.value as ReactivationReason)}
-              className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-[#0A192F] focus:border-[#0066FF] focus:outline-none"
+              className="w-full rounded-xl border glass-input px-3 py-2 text-xs font-semibold focus:outline-none"
             >
               {REACTIVATION_REASONS.map((opt) => (
                 <option key={opt} value={opt}>
@@ -181,7 +181,7 @@ export function StaffReactivatePanel({
           <div>
             <label
               htmlFor="reactivate-pin"
-              className="block text-xs font-semibold text-[#0A192F] mb-1"
+              className="block text-xs font-semibold text-[#0f172a] mb-1"
             >
               Admin Override Token / PIN *
             </label>
@@ -192,7 +192,7 @@ export function StaffReactivatePanel({
               value={overridePin}
               onChange={(e) => setOverridePin(e.target.value)}
               placeholder="OVR-XXXXXX or OTP"
-              className="w-full rounded-xl border border-slate-200 px-3 py-2 font-mono text-xs text-[#0A192F] focus:border-[#0066FF] focus:outline-none"
+              className="w-full rounded-xl border glass-input px-3 py-2 font-mono text-xs focus:outline-none"
             />
           </div>
         </div>
@@ -201,7 +201,7 @@ export function StaffReactivatePanel({
           <div className="flex items-center justify-between mb-1">
             <label
               htmlFor="reactivate-passcode"
-              className="block text-xs font-semibold text-[#0A192F]"
+              className="block text-xs font-semibold text-[#0f172a]"
             >
               New Staff Passcode *
             </label>
@@ -215,7 +215,7 @@ export function StaffReactivatePanel({
             </button>
           </div>
           <div className="relative">
-            <KeyRound className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+            <KeyRound className="w-4 h-4 text-[#64748b] absolute left-3 top-1/2 -translate-y-1/2" />
             <input
               id="reactivate-passcode"
               type={showPasscode ? 'text' : 'password'}
@@ -224,7 +224,7 @@ export function StaffReactivatePanel({
               value={newPasscode}
               onChange={(e) => setNewPasscode(e.target.value)}
               placeholder="Min 8 chars (A-Z, 0-9, symbol)"
-              className="w-full rounded-xl border border-slate-200 pl-9 pr-3 py-2 text-xs sm:text-sm text-[#0A192F] focus:border-[#0066FF] focus:outline-none"
+              className="w-full rounded-xl border glass-input pl-9 pr-3 py-2 text-xs sm:text-sm focus:outline-none"
             />
           </div>
           <PasswordStrengthMeter password={newPasscode} />
@@ -244,7 +244,7 @@ export function StaffReactivatePanel({
         <button
           type="button"
           onClick={() => onBackToLogin()}
-          className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 hover:text-[#0066FF] transition-colors cursor-pointer"
+          className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#334155] hover:text-[#0066FF] transition-colors cursor-pointer"
         >
           <ArrowLeft className="w-3.5 h-3.5" />
           <span>Back to Terminal Login</span>

@@ -1,5 +1,5 @@
 import express, {type NextFunction, type Request, type Response} from 'express';
-import {services as officialServices} from '../src/data/services';
+import {services as officialServices} from '../src/data/services.ts';
 import type {
   AuthUser,
   BoqLineItem,
@@ -7,9 +7,9 @@ import type {
   PaymentTerms,
   ReactivationReason,
   StaffDepartmentRole,
-} from '../src/types/xbms';
-import {generateReceiptPdfBuffer} from './xbmsPdf';
-import {xbmsStore} from './xbmsStore';
+} from '../src/types/xbms.ts';
+import {generateReceiptPdfBuffer} from './xbmsPdf.ts';
+import {xbmsStore} from './xbmsStore.ts';
 
 const ALLOWED_CHANNELS = new Set<PaymentChannel>([
   'BenefitPay',

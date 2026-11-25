@@ -137,19 +137,19 @@ export function EstimatorModal({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/60 backdrop-blur-sm p-4"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/45 backdrop-blur-md p-4"
       role="dialog"
       aria-modal="true"
       aria-labelledby="estimator-modal-title"
     >
-      <div className="relative flex max-h-[90vh] w-full max-w-3xl flex-col overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-2xl">
+      <div className="relative flex max-h-[90vh] w-full max-w-3xl flex-col overflow-hidden rounded-3xl glass-modal">
         {/* Modal Header */}
-        <div className="flex items-center justify-between border-b border-slate-200 px-6 py-4 bg-slate-50/70">
+        <div className="flex items-center justify-between border-b border-slate-200 px-6 py-4 bg-white/85">
           <div>
             <div className="font-mono text-[11px] font-semibold uppercase tracking-wider text-[#0066FF]">
               Step {step} of 3 · Bahrain BHD Estimator
             </div>
-            <h2 id="estimator-modal-title" className="text-lg font-extrabold text-[#0A192F]">
+            <h2 id="estimator-modal-title" className="text-lg font-extrabold text-[#0f172a]">
               {step === 1 && 'Select Project Scope & Capabilities'}
               {step === 2 && 'Client & Organization Details'}
               {step === 3 && 'Estimate Summary & Dispatch Ready'}
@@ -160,7 +160,7 @@ export function EstimatorModal({
             type="button"
             onClick={handleResetAndClose}
             aria-label="Close Project Estimator"
-            className="rounded-lg p-2 text-slate-500 hover:bg-slate-200/60 hover:text-[#0A192F] transition-colors cursor-pointer"
+            className="min-h-[44px] min-w-[44px] inline-flex items-center justify-center rounded-lg p-2 text-[#64748b] hover:bg-slate-100 hover:text-[#0f172a] transition-colors cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
@@ -169,7 +169,7 @@ export function EstimatorModal({
         {/* Modal Body */}
         <div className="flex-1 overflow-y-auto p-6">
           {formError && (
-            <div className="mb-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-xs font-medium text-red-700">
+            <div className="mb-4 rounded-xl border border-red-200 bg-red-50/90 px-4 py-3 text-xs font-medium text-red-700">
               {formError}
             </div>
           )}
@@ -177,13 +177,13 @@ export function EstimatorModal({
           {/* STEP 1: Multi-select Services Checklist */}
           {step === 1 && (
             <div className="space-y-4">
-              <div className="flex items-center justify-between text-xs text-slate-500">
+              <div className="flex items-center justify-between text-xs text-[#334155]">
                 <span>Choose one or more capabilities from our 12 official Bahrain service lines.</span>
                 {selectedServices.length > 0 && (
                   <button
                     type="button"
                     onClick={onClearServices}
-                    className="font-semibold text-slate-600 hover:text-[#0066FF] cursor-pointer"
+                    className="font-semibold text-[#334155] hover:text-[#0066FF] cursor-pointer"
                   >
                     Clear All
                   </button>
@@ -203,8 +203,8 @@ export function EstimatorModal({
                       }}
                       className={`flex items-start justify-between gap-3 rounded-xl border p-3.5 text-left transition-all cursor-pointer ${
                         checked
-                          ? 'border-[#0066FF] bg-blue-50/60 ring-1 ring-[#0066FF]/20'
-                          : 'border-slate-200 bg-white hover:border-slate-300'
+                          ? 'border-[#0066FF] bg-sky-50/90 ring-1 ring-[#0066FF]/30'
+                          : 'border-slate-200 bg-white/80 hover:border-[#0066FF]/45'
                       }`}
                     >
                       <div className="flex items-start gap-3 min-w-0">
@@ -218,10 +218,10 @@ export function EstimatorModal({
                           {checked && <Check className="w-3.5 h-3.5" />}
                         </span>
                         <div className="min-w-0">
-                          <div className="text-xs font-bold text-[#0A192F] truncate">
+                          <div className="text-xs font-bold text-[#0f172a] truncate">
                             {service.name}
                           </div>
-                          <div className="mt-0.5 font-mono text-[11px] text-slate-400">
+                          <div className="mt-0.5 font-mono text-[11px] text-[#64748b]">
                             {service.code} · {service.timeline}
                           </div>
                         </div>
@@ -240,11 +240,11 @@ export function EstimatorModal({
           {/* STEP 2: Client Form */}
           {step === 2 && (
             <div className="space-y-4">
-              <div className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 flex flex-wrap items-center justify-between gap-2">
-                <span className="text-xs font-semibold text-slate-600">
+              <div className="rounded-xl glass-panel-subtle px-4 py-3 flex flex-wrap items-center justify-between gap-2">
+                <span className="text-xs font-semibold text-[#334155]">
                   {selectedServices.length} Service Line(s) Selected
                 </span>
-                <span className="font-mono text-sm font-extrabold text-[#0A192F] tabular-nums">
+                <span className="font-mono text-sm font-extrabold text-[#0066FF] tabular-nums">
                   Estimated Benchmark: {formatBHD(totalBHD)}
                 </span>
               </div>
@@ -253,7 +253,7 @@ export function EstimatorModal({
                 <div>
                   <label
                     htmlFor="est-company"
-                    className="block text-xs font-semibold text-[#0A192F] mb-1.5"
+                    className="block text-xs font-semibold text-[#0f172a] mb-1.5"
                   >
                     Company / Organization Name
                   </label>
@@ -263,14 +263,14 @@ export function EstimatorModal({
                     value={formData.companyName}
                     onChange={(e) => setFormData({...formData, companyName: e.target.value})}
                     placeholder="e.g. Easy Travels SPC"
-                    className="w-full rounded-xl border border-slate-200 px-3.5 py-2.5 text-sm text-[#0A192F] focus:border-[#0066FF] focus:outline-none"
+                    className="w-full rounded-xl border glass-input px-3.5 py-2.5 text-base sm:text-sm focus:outline-none"
                   />
                 </div>
 
                 <div>
                   <label
                     htmlFor="est-contact"
-                    className="block text-xs font-semibold text-[#0A192F] mb-1.5"
+                    className="block text-xs font-semibold text-[#0f172a] mb-1.5"
                   >
                     Contact Person *
                   </label>
@@ -281,14 +281,14 @@ export function EstimatorModal({
                     value={formData.contactPerson}
                     onChange={(e) => setFormData({...formData, contactPerson: e.target.value})}
                     placeholder="Full Name"
-                    className="w-full rounded-xl border border-slate-200 px-3.5 py-2.5 text-sm text-[#0A192F] focus:border-[#0066FF] focus:outline-none"
+                    className="w-full rounded-xl border glass-input px-3.5 py-2.5 text-base sm:text-sm focus:outline-none"
                   />
                 </div>
 
                 <div>
                   <label
                     htmlFor="est-phone"
-                    className="block text-xs font-semibold text-[#0A192F] mb-1.5"
+                    className="block text-xs font-semibold text-[#0f172a] mb-1.5"
                   >
                     Bahrain Phone / WhatsApp *
                   </label>
@@ -299,14 +299,14 @@ export function EstimatorModal({
                     value={formData.phone}
                     onChange={(e) => setFormData({...formData, phone: e.target.value})}
                     placeholder="+973 33XX XXXX"
-                    className="w-full rounded-xl border border-slate-200 px-3.5 py-2.5 font-mono text-sm text-[#0A192F] focus:border-[#0066FF] focus:outline-none"
+                    className="w-full rounded-xl border glass-input px-3.5 py-2.5 font-mono text-base sm:text-sm focus:outline-none"
                   />
                 </div>
 
                 <div>
                   <label
                     htmlFor="est-email"
-                    className="block text-xs font-semibold text-[#0A192F] mb-1.5"
+                    className="block text-xs font-semibold text-[#0f172a] mb-1.5"
                   >
                     Email Address
                   </label>
@@ -316,7 +316,7 @@ export function EstimatorModal({
                     value={formData.email}
                     onChange={(e) => setFormData({...formData, email: e.target.value})}
                     placeholder="name@company.bh"
-                    className="w-full rounded-xl border border-slate-200 px-3.5 py-2.5 text-sm text-[#0A192F] focus:border-[#0066FF] focus:outline-none"
+                    className="w-full rounded-xl border glass-input px-3.5 py-2.5 text-base sm:text-sm focus:outline-none"
                   />
                 </div>
               </div>
@@ -324,7 +324,7 @@ export function EstimatorModal({
               <div>
                 <label
                   htmlFor="est-notes"
-                  className="block text-xs font-semibold text-[#0A192F] mb-1.5"
+                  className="block text-xs font-semibold text-[#0f172a] mb-1.5"
                 >
                   Project Requirements / Timeline Notes
                 </label>
@@ -334,7 +334,7 @@ export function EstimatorModal({
                   value={formData.notes}
                   onChange={(e) => setFormData({...formData, notes: e.target.value})}
                   placeholder="Describe integrations (BenefitPay, AFS, ERP), target launch date, or branch count..."
-                  className="w-full rounded-xl border border-slate-200 px-3.5 py-2.5 text-sm text-[#0A192F] focus:border-[#0066FF] focus:outline-none"
+                  className="w-full rounded-xl border glass-input px-3.5 py-2.5 text-base sm:text-sm focus:outline-none"
                 />
               </div>
             </div>
@@ -343,18 +343,18 @@ export function EstimatorModal({
           {/* STEP 3: Confirmation & WhatsApp Dispatch */}
           {step === 3 && (
             <div className="space-y-5">
-              <div className="rounded-2xl border border-blue-200 bg-blue-50/70 p-5">
+              <div className="rounded-2xl border border-sky-200 bg-sky-50/90 p-5">
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <div>
                     <div className="font-mono text-xs uppercase tracking-wider text-[#0066FF]">
                       Generated Lead Reference
                     </div>
-                    <div className="mt-1 font-mono text-xl font-extrabold text-[#0A192F] tabular-nums">
+                    <div className="mt-1 font-mono text-xl font-extrabold text-[#0f172a] tabular-nums">
                       {leadRef}
                     </div>
                   </div>
                   <div className="text-right">
-                    <div className="font-mono text-xs uppercase tracking-wider text-slate-500">
+                    <div className="font-mono text-xs uppercase tracking-wider text-[#475569]">
                       Estimated Benchmark
                     </div>
                     <div className="mt-1 font-mono text-xl font-extrabold text-[#0066FF] tabular-nums">
@@ -364,27 +364,27 @@ export function EstimatorModal({
                 </div>
               </div>
 
-              <div className="rounded-2xl border border-slate-200 overflow-hidden">
-                <div className="bg-slate-50 px-4 py-2.5 border-b border-slate-200 font-mono text-xs font-semibold text-slate-600">
+              <div className="rounded-2xl glass-panel-subtle overflow-hidden">
+                <div className="bg-slate-50/90 px-4 py-2.5 border-b border-slate-200 font-mono text-xs font-semibold text-[#0f172a]">
                   Itemized Scope ({selectedServices.length})
                 </div>
-                <div className="divide-y divide-slate-100">
+                <div className="divide-y divide-slate-200">
                   {selectedServices.map((service) => (
                     <div
                       key={service.id}
                       className="flex items-center justify-between px-4 py-2.5 text-xs"
                     >
-                      <span className="font-semibold text-[#0A192F]">
-                        <span className="font-mono text-slate-400 mr-2">{service.code}</span>
+                      <span className="font-semibold text-[#0f172a]">
+                        <span className="font-mono text-[#64748b] mr-2">{service.code}</span>
                         {service.name}
                       </span>
-                      <span className="font-mono font-bold text-[#0A192F] tabular-nums">
+                      <span className="font-mono font-bold text-[#0f172a] tabular-nums">
                         {service.benchmarkPriceBHD} BHD
                       </span>
                     </div>
                   ))}
-                  <div className="flex items-center justify-between bg-slate-50/70 px-4 py-3 text-xs">
-                    <span className="font-semibold text-slate-600">
+                  <div className="flex items-center justify-between bg-slate-50/80 px-4 py-3 text-xs">
+                    <span className="font-semibold text-[#334155]">
                       Standard 50% Advance Kickoff Milestone
                     </span>
                     <span className="font-mono font-bold text-[#0066FF] tabular-nums">
@@ -394,7 +394,7 @@ export function EstimatorModal({
                 </div>
               </div>
 
-              <p className="text-xs text-slate-500 leading-relaxed">
+              <p className="text-xs text-[#475569] leading-relaxed">
                 Click below to send this pre-compiled engineering scope directly to XeroTech
                 Technologies WhatsApp ({COMPANY_INFO.whatsappDisplay}) for formal CR{' '}
                 {COMPANY_INFO.crNumber} quotation issuance.
@@ -404,22 +404,22 @@ export function EstimatorModal({
         </div>
 
         {/* Modal Footer */}
-        <div className="flex flex-wrap items-center justify-between gap-4 border-t border-slate-200 bg-slate-50 px-6 py-4">
+        <div className="flex flex-wrap items-center justify-between gap-4 border-t border-slate-200 bg-white/85 px-6 py-4">
           <div>
-            <div className="font-mono text-[11px] uppercase tracking-wider text-slate-500">
+            <div className="font-mono text-[11px] uppercase tracking-wider text-[#64748b]">
               Live Estimate Total
             </div>
-            <div className="font-mono text-lg font-extrabold text-[#0A192F] tabular-nums">
+            <div className="font-mono text-lg font-extrabold text-[#0f172a] tabular-nums">
               {formatBHD(totalBHD)}
             </div>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center gap-2.5">
             {step === 1 && (
               <button
                 type="button"
                 onClick={handleNextToDetails}
-                className="inline-flex items-center gap-2 rounded-xl bg-[#0066FF] px-5 py-2.5 text-sm font-semibold text-white hover:bg-[#0052CC] transition-colors cursor-pointer"
+                className="min-h-[44px] inline-flex items-center gap-2 rounded-xl bg-[#0066FF] px-5 py-2.5 text-sm font-semibold text-white hover:bg-[#0052CC] transition-colors cursor-pointer"
               >
                 <span>Next: Contact Details</span>
                 <ArrowRight className="w-4 h-4" />
@@ -434,7 +434,7 @@ export function EstimatorModal({
                     setFormError('');
                     setStep(1);
                   }}
-                  className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-100 transition-colors cursor-pointer"
+                  className="min-h-[44px] inline-flex items-center gap-1.5 rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-[#334155] hover:bg-slate-50 transition-colors cursor-pointer"
                 >
                   <ArrowLeft className="w-4 h-4" />
                   <span>Back</span>
@@ -442,7 +442,7 @@ export function EstimatorModal({
                 <button
                   type="button"
                   onClick={handleConfirmEstimate}
-                  className="inline-flex items-center gap-2 rounded-xl bg-[#0066FF] px-5 py-2.5 text-sm font-semibold text-white hover:bg-[#0052CC] transition-colors cursor-pointer"
+                  className="min-h-[44px] inline-flex items-center gap-2 rounded-xl bg-[#0066FF] px-5 py-2.5 text-sm font-semibold text-white hover:bg-[#0052CC] transition-colors cursor-pointer"
                 >
                   <span>Generate Scope Reference</span>
                   <ArrowRight className="w-4 h-4" />
@@ -455,7 +455,7 @@ export function EstimatorModal({
                 <button
                   type="button"
                   onClick={() => setStep(2)}
-                  className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-100 transition-colors cursor-pointer"
+                  className="min-h-[44px] inline-flex items-center gap-1.5 rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-[#334155] hover:bg-slate-50 transition-colors cursor-pointer"
                 >
                   <ArrowLeft className="w-4 h-4" />
                   <span>Edit Details</span>
@@ -464,7 +464,7 @@ export function EstimatorModal({
                   href={whatsappUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-xl bg-[#0066FF] px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-[#0052CC] transition-colors"
+                  className="min-h-[44px] inline-flex items-center gap-2 rounded-xl bg-[#0066FF] px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-[#0052CC] transition-colors"
                 >
                   <MessageSquare className="w-4 h-4" />
                   <span>Submit via WhatsApp ({COMPANY_INFO.whatsappDisplay})</span>

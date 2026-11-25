@@ -1,7 +1,7 @@
 import fs from 'fs';
 import {createRequire} from 'module';
 import path from 'path';
-import type {CompanySettings, ReceiptRecord} from '../src/types/xbms';
+import type {CompanySettings, ReceiptRecord} from '../src/types/xbms.ts';
 
 const require = createRequire(import.meta.url);
 const PDFDocument = require('pdfkit') as new (opts?: Record<string, unknown>) => {

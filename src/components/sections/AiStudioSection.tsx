@@ -335,23 +335,23 @@ export function AiStudioSection() {
   };
 
   return (
-    <section id="ai-studio" className="py-16 lg:py-24 bg-white border-b border-slate-200/80">
+    <section id="ai-studio" className="py-16 lg:py-24 bg-transparent border-b border-slate-200/60">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
+        <div className="rounded-2xl glass-surface p-6 sm:p-7 flex flex-col lg:flex-row lg:items-end justify-between gap-6">
           <div className="max-w-2xl">
             <p className="font-mono text-xs font-semibold uppercase tracking-[0.14em] text-[#0066FF]">
               Interactive Gemini Engineering Lab · Server-Side AI Proxy
             </p>
-            <h2 className="mt-2.5 text-3xl sm:text-4xl font-extrabold tracking-tight text-[#0A192F]">
+            <h2 className="mt-2.5 text-3xl sm:text-4xl font-extrabold tracking-tight text-[#0f172a]">
               XeroTech Generative &amp; Advisory Studio
             </h2>
-            <p className="mt-3 text-base text-slate-600 leading-relaxed">
+            <p className="mt-3 text-base text-[#1e293b] leading-relaxed">
               Generate or edit architectural renders with{' '}
-              <span className="font-mono text-xs font-semibold text-[#0A192F]">
+              <span className="font-mono text-xs font-semibold text-[#0369a1]">
                 gemini-nano-banana-2.1
               </span>
               , animate photos into 16:9 or 9:16 videos via{' '}
-              <span className="font-mono text-xs font-semibold text-[#0A192F]">
+              <span className="font-mono text-xs font-semibold text-[#0369a1]">
                 gemini-omni-1.2-flash
               </span>{' '}
               Interactions API, and consult our multi-turn Gemini 4 engineering advisor.
@@ -362,7 +362,7 @@ export function AiStudioSection() {
           <div
             role="tablist"
             aria-label="XeroTech AI Studio modes"
-            className="inline-flex flex-wrap gap-2 rounded-2xl border border-slate-200 bg-slate-50 p-1.5 self-start"
+            className="inline-flex flex-wrap gap-2 rounded-2xl border border-white/65 bg-white/55 backdrop-blur-md p-1.5 self-start"
           >
             <button
               type="button"
@@ -371,8 +371,8 @@ export function AiStudioSection() {
               onClick={() => setActiveTab('image')}
               className={`inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-xs sm:text-sm font-semibold transition-all whitespace-nowrap cursor-pointer ${
                 activeTab === 'image'
-                  ? 'bg-[#0A192F] text-white shadow-sm'
-                  : 'text-slate-600 hover:text-[#0A192F]'
+                  ? 'bg-[#0066FF] text-white shadow-sm shadow-blue-600/30'
+                  : 'text-[#1e293b] hover:text-[#0f172a] hover:bg-white/70'
               }`}
             >
               <Wand2 className="w-4 h-4" />
@@ -386,8 +386,8 @@ export function AiStudioSection() {
               onClick={() => setActiveTab('video')}
               className={`inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-xs sm:text-sm font-semibold transition-all whitespace-nowrap cursor-pointer ${
                 activeTab === 'video'
-                  ? 'bg-[#0A192F] text-white shadow-sm'
-                  : 'text-slate-600 hover:text-[#0A192F]'
+                  ? 'bg-[#0066FF] text-white shadow-sm shadow-blue-600/30'
+                  : 'text-[#334155] hover:text-[#0f172a] hover:bg-white/70'
               }`}
             >
               <Film className="w-4 h-4" />
@@ -401,8 +401,8 @@ export function AiStudioSection() {
               onClick={() => setActiveTab('chat')}
               className={`inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-xs sm:text-sm font-semibold transition-all whitespace-nowrap cursor-pointer ${
                 activeTab === 'chat'
-                  ? 'bg-[#0A192F] text-white shadow-sm'
-                  : 'text-slate-600 hover:text-[#0A192F]'
+                  ? 'bg-[#0066FF] text-white shadow-sm shadow-blue-600/30'
+                  : 'text-[#334155] hover:text-[#0f172a] hover:bg-white/70'
               }`}
             >
               <Bot className="w-4 h-4" />
@@ -413,7 +413,7 @@ export function AiStudioSection() {
 
         {/* =================== TAB 1: IMAGE CREATE & EDIT =================== */}
         {activeTab === 'image' && (
-          <div className="mt-8 grid grid-cols-1 lg:grid-cols-12 gap-8 rounded-3xl border border-slate-200/90 bg-slate-50/70 p-6 sm:p-8">
+          <div className="mt-8 grid grid-cols-1 lg:grid-cols-12 gap-8 rounded-3xl glass-surface p-6 sm:p-8">
             <div className="lg:col-span-5 space-y-5">
               <div className="flex items-center justify-between">
                 <span className="font-mono text-xs font-bold text-[#0066FF]">
@@ -431,7 +431,7 @@ export function AiStudioSection() {
               <div>
                 <label
                   htmlFor="img-prompt"
-                  className="block text-xs font-semibold text-[#0A192F] mb-1.5"
+                  className="block text-xs font-semibold text-[#0f172a] mb-1.5"
                 >
                   Prompt (Create from scratch or describe edits to uploaded photo)
                 </label>
@@ -441,7 +441,7 @@ export function AiStudioSection() {
                   value={imagePrompt}
                   onChange={(e) => setImagePrompt(e.target.value)}
                   placeholder="Describe the image you want to create or edit..."
-                  className="w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-sm text-[#0A192F] focus:border-[#0066FF] focus:outline-none"
+                  className="w-full rounded-xl border glass-input px-3.5 py-2.5 text-base sm:text-sm focus:outline-none"
                 />
               </div>
 
@@ -449,7 +449,7 @@ export function AiStudioSection() {
                 <div>
                   <label
                     htmlFor="img-aspect"
-                    className="block text-xs font-semibold text-[#0A192F] mb-1.5"
+                    className="block text-xs font-semibold text-[#0f172a] mb-1.5"
                   >
                     Aspect Ratio
                   </label>
@@ -459,7 +459,7 @@ export function AiStudioSection() {
                     onChange={(e) =>
                       setImageAspect(e.target.value as typeof imageAspect)
                     }
-                    className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-[#0A192F] focus:border-[#0066FF] focus:outline-none"
+                    className="w-full rounded-xl border glass-input px-3 py-2 text-base sm:text-sm focus:outline-none"
                   >
                     <option value="16:9">16:9 (Ultra-Wide)</option>
                     <option value="1:1">1:1 (Square)</option>
@@ -472,7 +472,7 @@ export function AiStudioSection() {
                 <div>
                   <label
                     htmlFor="img-size"
-                    className="block text-xs font-semibold text-[#0A192F] mb-1.5"
+                    className="block text-xs font-semibold text-[#0f172a] mb-1.5"
                   >
                     Resolution
                   </label>
@@ -480,7 +480,7 @@ export function AiStudioSection() {
                     id="img-size"
                     value={imageSize}
                     onChange={(e) => setImageSize(e.target.value as '1K' | '2K')}
-                    className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-[#0A192F] focus:border-[#0066FF] focus:outline-none"
+                    className="w-full rounded-xl border glass-input px-3 py-2 text-base sm:text-sm focus:outline-none"
                   >
                     <option value="1K">1K Standard</option>
                     <option value="2K">2K High-Res</option>
@@ -491,21 +491,21 @@ export function AiStudioSection() {
               {/* Optional Source Image for Editing */}
               <div>
                 <div className="flex items-center justify-between mb-1.5">
-                  <span className="text-xs font-semibold text-[#0A192F]">
+                  <span className="text-xs font-semibold text-[#0f172a]">
                     Optional Reference Image (For Image Editing)
                   </span>
                   {sourceImageForEdit && (
                     <button
                       type="button"
                       onClick={() => setSourceImageForEdit(null)}
-                      className="text-xs font-semibold text-red-600 hover:underline cursor-pointer"
+                      className="text-xs font-semibold text-red-700 hover:underline cursor-pointer"
                     >
                       Remove
                     </button>
                   )}
                 </div>
 
-                <label className="flex items-center gap-3 rounded-xl border border-dashed border-slate-300 bg-white px-4 py-3 text-xs text-slate-600 hover:border-[#0066FF] cursor-pointer transition-colors">
+                <label className="flex items-center gap-3 rounded-xl border border-dashed border-slate-300 bg-white/80 px-4 py-3 text-xs text-[#334155] hover:border-[#0066FF] cursor-pointer transition-colors">
                   <ImagePlus className="w-4 h-4 text-[#0066FF] shrink-0" />
                   <span className="truncate">
                     {sourceImageForEdit
@@ -522,7 +522,7 @@ export function AiStudioSection() {
               </div>
 
               {imageError && (
-                <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-xs text-red-700 leading-relaxed">
+                <div className="rounded-xl border border-red-200 bg-red-50/90 px-4 py-3 text-xs text-red-700 leading-relaxed">
                   {imageError}
                 </div>
               )}
@@ -531,7 +531,7 @@ export function AiStudioSection() {
                 type="button"
                 disabled={imageLoading}
                 onClick={handleGenerateOrEditImage}
-                className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-[#0066FF] px-5 py-3.5 text-sm font-semibold text-white shadow-sm hover:bg-[#0052CC] disabled:opacity-60 transition-colors cursor-pointer"
+                className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-[#0066FF] px-5 py-3.5 text-sm font-semibold text-white shadow-lg shadow-blue-600/25 hover:bg-[#0052CC] disabled:opacity-60 transition-colors cursor-pointer"
               >
                 {imageLoading ? (
                   <>
@@ -548,9 +548,9 @@ export function AiStudioSection() {
             </div>
 
             {/* Image Output Viewport */}
-            <div className="lg:col-span-7 flex flex-col rounded-2xl border border-slate-200 bg-white overflow-hidden">
-              <div className="flex items-center justify-between px-5 py-3 border-b border-slate-100 bg-slate-50/70">
-                <span className="font-mono text-xs font-semibold text-slate-600">
+            <div className="lg:col-span-7 flex flex-col rounded-2xl glass-panel-subtle overflow-hidden">
+              <div className="flex items-center justify-between px-5 py-3 border-b border-white/55 bg-white/55">
+                <span className="font-mono text-xs font-semibold text-[#1e293b]">
                   Render Canvas · {imageAspect} ({imageSize})
                 </span>
                 {generatedImageUrl && (
@@ -558,7 +558,7 @@ export function AiStudioSection() {
                     <button
                       type="button"
                       onClick={handleSendGeneratedImageToVideo}
-                      className="inline-flex items-center gap-1 text-xs font-semibold text-[#0066FF] hover:underline cursor-pointer"
+                      className="inline-flex items-center gap-1 text-xs font-semibold text-[#0369a1] hover:underline cursor-pointer"
                     >
                       <Film className="w-3.5 h-3.5" />
                       <span>Animate into Video</span>
@@ -566,7 +566,7 @@ export function AiStudioSection() {
                     <a
                       href={generatedImageUrl}
                       download="xerotech-render.png"
-                      className="inline-flex items-center gap-1 text-xs font-semibold text-[#0A192F] hover:text-[#0066FF]"
+                      className="inline-flex items-center gap-1 text-xs font-semibold text-[#0f172a] hover:text-[#0369a1]"
                     >
                       <Download className="w-3.5 h-3.5" />
                       <span>Download</span>
@@ -575,20 +575,20 @@ export function AiStudioSection() {
                 )}
               </div>
 
-              <div className="flex-1 min-h-[340px] flex items-center justify-center p-4 bg-slate-950/[0.02]">
+              <div className="flex-1 min-h-[340px] flex items-center justify-center p-4 bg-white/30">
                 {generatedImageUrl ? (
                   <img
                     src={generatedImageUrl}
                     alt="Generated architectural or corporate render"
-                    className="max-h-[440px] w-auto rounded-xl object-contain shadow-md"
+                    className="max-h-[440px] w-auto rounded-xl object-contain shadow-lg"
                   />
                 ) : (
                   <div className="text-center max-w-sm p-6">
-                    <Sparkles className="w-8 h-8 text-[#0066FF] mx-auto opacity-75" />
-                    <p className="mt-3 text-sm font-semibold text-[#0A192F]">
+                    <Sparkles className="w-8 h-8 text-[#0066FF] mx-auto opacity-85" />
+                    <p className="mt-3 text-sm font-semibold text-[#0f172a]">
                       Ready for Architectural or Brand Image Synthesis
                     </p>
-                    <p className="mt-1.5 text-xs text-slate-500 leading-relaxed">
+                    <p className="mt-1.5 text-xs text-[#64748b] leading-relaxed">
                       Click Generate Image using the pre-loaded Manama skyline prompt or upload an
                       existing image to apply natural-language edits.
                     </p>
@@ -596,7 +596,7 @@ export function AiStudioSection() {
                 )}
               </div>
               {imageNotes && (
-                <div className="border-t border-slate-100 px-5 py-3 text-xs text-slate-600 bg-slate-50">
+                <div className="border-t border-slate-200 px-5 py-3 text-xs text-[#334155] bg-white/80">
                   {imageNotes}
                 </div>
               )}
@@ -606,7 +606,7 @@ export function AiStudioSection() {
 
         {/* =================== TAB 2: ANIMATE IMAGES INTO VIDEO =================== */}
         {activeTab === 'video' && (
-          <div className="mt-8 grid grid-cols-1 lg:grid-cols-12 gap-8 rounded-3xl border border-slate-200/90 bg-slate-50/70 p-6 sm:p-8">
+          <div className="mt-8 grid grid-cols-1 lg:grid-cols-12 gap-8 rounded-3xl glass-surface p-6 sm:p-8">
             <div className="lg:col-span-5 space-y-5">
               <div className="flex items-center justify-between">
                 <span className="font-mono text-xs font-bold text-[#0066FF]">
@@ -615,10 +615,10 @@ export function AiStudioSection() {
               </div>
 
               <div>
-                <span className="block text-xs font-semibold text-[#0A192F] mb-1.5">
+                <span className="block text-xs font-semibold text-[#0f172a] mb-1.5">
                   1. Upload Starting Photo *
                 </span>
-                <label className="flex flex-col items-center justify-center gap-2 rounded-2xl border border-dashed border-slate-300 bg-white p-5 text-center hover:border-[#0066FF] cursor-pointer transition-colors">
+                <label className="flex flex-col items-center justify-center gap-2 rounded-2xl border border-dashed border-slate-300 bg-white/80 p-5 text-center hover:border-[#0066FF] cursor-pointer transition-colors">
                   {videoSourceImage ? (
                     <img
                       src={videoSourceImage.previewUrl}
@@ -628,7 +628,7 @@ export function AiStudioSection() {
                   ) : (
                     <Upload className="w-6 h-6 text-[#0066FF]" />
                   )}
-                  <span className="text-xs font-semibold text-[#0A192F]">
+                  <span className="text-xs font-semibold text-[#0f172a]">
                     {videoSourceImage
                       ? `Loaded: ${videoSourceImage.fileName} (Click to replace)`
                       : 'Choose PNG, JPEG, or WebP Photo'}
@@ -645,7 +645,7 @@ export function AiStudioSection() {
               <div>
                 <label
                   htmlFor="vid-prompt"
-                  className="block text-xs font-semibold text-[#0A192F] mb-1.5"
+                  className="block text-xs font-semibold text-[#0f172a] mb-1.5"
                 >
                   2. Motion &amp; Camera Direction
                 </label>
@@ -655,12 +655,12 @@ export function AiStudioSection() {
                   value={videoPrompt}
                   onChange={(e) => setVideoPrompt(e.target.value)}
                   placeholder="Describe camera pan, lighting shifts, and animated motion..."
-                  className="w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-sm text-[#0A192F] focus:border-[#0066FF] focus:outline-none"
+                  className="w-full rounded-xl border glass-input px-3.5 py-2.5 text-base sm:text-sm focus:outline-none"
                 />
               </div>
 
               <div>
-                <span className="block text-xs font-semibold text-[#0A192F] mb-1.5">
+                <span className="block text-xs font-semibold text-[#0f172a] mb-1.5">
                   3. Video Aspect Ratio
                 </span>
                 <div className="grid grid-cols-2 gap-3">
@@ -671,8 +671,8 @@ export function AiStudioSection() {
                       onClick={() => setVideoAspectRatio(ratio)}
                       className={`rounded-xl border px-4 py-2.5 text-xs font-semibold transition-all cursor-pointer ${
                         videoAspectRatio === ratio
-                          ? 'border-[#0066FF] bg-blue-50 text-[#0066FF]'
-                          : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300'
+                          ? 'border-[#0066FF] bg-sky-50 text-[#0066FF]'
+                          : 'border-slate-300 bg-white/80 text-[#334155] hover:border-[#0066FF]/50'
                       }`}
                     >
                       {ratio === '16:9' ? '16:9 Landscape' : '9:16 Portrait'}
@@ -682,7 +682,7 @@ export function AiStudioSection() {
               </div>
 
               {videoError && (
-                <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-xs text-red-700 leading-relaxed">
+                <div className="rounded-xl border border-red-200 bg-red-50/90 px-4 py-3 text-xs text-red-700 leading-relaxed">
                   {videoError}
                 </div>
               )}
@@ -691,7 +691,7 @@ export function AiStudioSection() {
                 type="button"
                 disabled={videoLoading}
                 onClick={handleGenerateVideo}
-                className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-[#0066FF] px-5 py-3.5 text-sm font-semibold text-white shadow-sm hover:bg-[#0052CC] disabled:opacity-60 transition-colors cursor-pointer"
+                className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-[#0066FF] px-5 py-3.5 text-sm font-semibold text-white shadow-lg shadow-blue-600/25 hover:bg-[#0052CC] disabled:opacity-60 transition-colors cursor-pointer"
               >
                 {videoLoading ? (
                   <>
@@ -708,16 +708,16 @@ export function AiStudioSection() {
             </div>
 
             {/* Video Player Output */}
-            <div className="lg:col-span-7 flex flex-col rounded-2xl border border-slate-200 bg-white overflow-hidden">
-              <div className="flex items-center justify-between px-5 py-3 border-b border-slate-100 bg-slate-50/70">
-                <span className="font-mono text-xs font-semibold text-slate-600">
+            <div className="lg:col-span-7 flex flex-col rounded-2xl glass-panel-subtle overflow-hidden">
+              <div className="flex items-center justify-between px-5 py-3 border-b border-white/55 bg-white/55">
+                <span className="font-mono text-xs font-semibold text-[#1e293b]">
                   Omni Flash Output · {videoAspectRatio}
                 </span>
                 {generatedVideoUrl && (
                   <a
                     href={generatedVideoUrl}
                     download={`xerotech-animation-${videoAspectRatio.replace(':', 'x')}.mp4`}
-                    className="inline-flex items-center gap-1 text-xs font-semibold text-[#0066FF] hover:underline"
+                    className="inline-flex items-center gap-1 text-xs font-semibold text-[#0369a1] hover:underline"
                   >
                     <Download className="w-3.5 h-3.5" />
                     <span>Download MP4</span>
@@ -725,7 +725,7 @@ export function AiStudioSection() {
                 )}
               </div>
 
-              <div className="flex-1 min-h-[340px] flex items-center justify-center p-4 bg-slate-950/[0.02]">
+              <div className="flex-1 min-h-[340px] flex items-center justify-center p-4 bg-white/30">
                 {generatedVideoUrl ? (
                   <video
                     src={generatedVideoUrl}
@@ -737,11 +737,11 @@ export function AiStudioSection() {
                   />
                 ) : (
                   <div className="text-center max-w-sm p-6">
-                    <Film className="w-8 h-8 text-[#0066FF] mx-auto opacity-75" />
-                    <p className="mt-3 text-sm font-semibold text-[#0A192F]">
+                    <Film className="w-8 h-8 text-[#0066FF] mx-auto opacity-85" />
+                    <p className="mt-3 text-sm font-semibold text-[#0f172a]">
                       Image-to-Video Motion Studio
                     </p>
-                    <p className="mt-1.5 text-xs text-slate-500 leading-relaxed">
+                    <p className="mt-1.5 text-xs text-[#64748b] leading-relaxed">
                       Upload any photo or import a generated render, choose 16:9 or 9:16, and
                       animate it with gemini-omni-1.2-flash.
                     </p>
@@ -754,11 +754,11 @@ export function AiStudioSection() {
 
         {/* =================== TAB 3: MULTI-TURN GEMINI CHATBOT =================== */}
         {activeTab === 'chat' && (
-          <div className="mt-8 grid grid-cols-1 lg:grid-cols-12 gap-6 rounded-3xl border border-slate-200/90 bg-slate-50/70 p-6 sm:p-8">
+          <div className="mt-8 grid grid-cols-1 lg:grid-cols-12 gap-6 rounded-3xl glass-surface p-6 sm:p-8">
             {/* Left Configuration Panel: Role & Model Tier */}
             <div className="lg:col-span-4 space-y-5">
               <div>
-                <span className="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-2">
+                <span className="block text-xs font-semibold uppercase tracking-wider text-[#64748b] mb-2">
                   Chatbot Persona Role
                 </span>
                 <div className="grid grid-cols-2 gap-2">
@@ -769,8 +769,8 @@ export function AiStudioSection() {
                       onClick={() => handleRoleChange(role.id)}
                       className={`rounded-xl border px-3 py-2 text-left text-xs font-semibold transition-colors cursor-pointer ${
                         selectedRoleId === role.id
-                          ? 'border-[#0066FF] bg-blue-50 text-[#0066FF]'
-                          : 'border-slate-200 bg-white text-slate-700 hover:border-slate-300'
+                          ? 'border-[#0066FF] bg-sky-50 text-[#0066FF]'
+                          : 'border-slate-300 bg-white/80 text-[#334155] hover:border-[#0066FF]/50'
                       }`}
                     >
                       {role.label}
@@ -782,7 +782,7 @@ export function AiStudioSection() {
               <div>
                 <label
                   htmlFor="chat-sys-instruction"
-                  className="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1.5"
+                  className="block text-xs font-semibold uppercase tracking-wider text-[#64748b] mb-1.5"
                 >
                   Active System Instruction
                 </label>
@@ -791,12 +791,12 @@ export function AiStudioSection() {
                   rows={4}
                   value={systemInstruction}
                   onChange={(e) => setSystemInstruction(e.target.value)}
-                  className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs text-[#0A192F] leading-relaxed focus:border-[#0066FF] focus:outline-none"
+                  className="w-full rounded-xl border glass-input px-3 py-2 text-base sm:text-xs leading-relaxed focus:outline-none"
                 />
               </div>
 
               <div>
-                <span className="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-2">
+                <span className="block text-xs font-semibold uppercase tracking-wider text-[#64748b] mb-2">
                   Gemini Model Tier
                 </span>
                 <div className="space-y-2">
@@ -805,21 +805,21 @@ export function AiStudioSection() {
                       key={m.id}
                       type="button"
                       onClick={() => setChatModel(m.id)}
-                      className={`w-full rounded-xl border px-3.5 py-2.5 text-left transition-all cursor-pointer ${
+                      className={`w-full rounded-xl border px-3.5 py-2.5 text-left glass-interactive cursor-pointer ${
                         chatModel === m.id
-                          ? 'border-[#0066FF] bg-blue-50/70 ring-1 ring-[#0066FF]/20'
-                          : 'border-slate-200 bg-white hover:border-slate-300'
+                          ? 'border-sky-500/60 bg-white/75 ring-1 ring-sky-500/30'
+                          : 'border-white/60 bg-white/55'
                       }`}
                     >
                       <div className="flex items-center justify-between gap-2">
-                        <span className="font-mono text-xs font-bold text-[#0A192F]">
+                        <span className="font-mono text-xs font-bold text-[#0f172a]">
                           {m.label}
                         </span>
-                        <span className="font-mono text-[11px] font-semibold text-[#0066FF]">
+                        <span className="font-mono text-[11px] font-semibold text-[#0369a1]">
                           {m.badge}
                         </span>
                       </div>
-                      <p className="mt-1 text-[11px] text-slate-500 leading-snug">
+                      <p className="mt-1 text-[11px] text-[#1e293b] leading-snug">
                         {m.description}
                       </p>
                     </button>
@@ -829,11 +829,11 @@ export function AiStudioSection() {
             </div>
 
             {/* Right Multi-Turn Scrollable Conversation Thread */}
-            <div className="lg:col-span-8 flex flex-col h-[560px] rounded-2xl border border-slate-200 bg-white overflow-hidden">
-              <div className="flex items-center justify-between px-5 py-3 border-b border-slate-100 bg-slate-50/70">
+            <div className="lg:col-span-8 flex flex-col h-[560px] rounded-2xl glass-panel-subtle overflow-hidden">
+              <div className="flex items-center justify-between px-5 py-3 border-b border-white/55 bg-white/55">
                 <div className="flex items-center gap-2">
-                  <Bot className="w-4 h-4 text-[#0066FF]" />
-                  <span className="font-mono text-xs font-bold text-[#0A192F]">
+                  <Bot className="w-4 h-4 text-[#0369a1]" />
+                  <span className="font-mono text-xs font-bold text-[#0f172a]">
                     {chatModel}
                   </span>
                 </div>
@@ -842,7 +842,7 @@ export function AiStudioSection() {
                   onClick={() =>
                     setMessages((prev) => prev.slice(0, 1))
                   }
-                  className="inline-flex items-center gap-1 text-xs font-semibold text-slate-500 hover:text-red-600 cursor-pointer"
+                  className="inline-flex items-center gap-1 text-xs font-semibold text-[#475569] hover:text-red-700 cursor-pointer"
                 >
                   <Trash2 className="w-3.5 h-3.5" />
                   <span>Clear Thread</span>
@@ -851,7 +851,7 @@ export function AiStudioSection() {
 
               <div
                 ref={chatScrollRef}
-                className="flex-1 overflow-y-auto p-5 space-y-4 bg-slate-50/30"
+                className="flex-1 overflow-y-auto p-5 space-y-4 bg-white/30"
               >
                 {messages.map((msg) => {
                   const isUser = msg.role === 'user';
@@ -863,13 +863,13 @@ export function AiStudioSection() {
                       <div
                         className={`max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed whitespace-pre-wrap ${
                           isUser
-                            ? 'bg-[#0066FF] text-white'
-                            : 'border border-slate-200 bg-white text-[#0A192F] shadow-sm'
+                            ? 'bg-[#0066FF] text-white shadow-md shadow-blue-600/20'
+                            : 'bg-white border border-slate-200 text-[#0f172a] shadow-sm'
                         }`}
                       >
                         {msg.text}
                       </div>
-                      <span className="mt-1 font-mono text-[10px] text-slate-400 px-1">
+                      <span className="mt-1 font-mono text-[10px] text-[#64748b] px-1">
                         {isUser ? 'You' : msg.modelUsed || 'Gemini'} · {msg.timestamp}
                       </span>
                     </div>
@@ -877,7 +877,7 @@ export function AiStudioSection() {
                 })}
 
                 {chatLoading && (
-                  <div className="flex items-center gap-2 text-xs font-mono text-slate-500">
+                  <div className="flex items-center gap-2 text-xs font-mono text-[#334155]">
                     <Loader2 className="w-4 h-4 animate-spin text-[#0066FF]" />
                     <span>{chatModel} is reasoning...</span>
                   </div>
@@ -895,19 +895,19 @@ export function AiStudioSection() {
                   e.preventDefault();
                   void handleSendChat();
                 }}
-                className="flex items-center gap-2.5 border-t border-slate-200 bg-white p-3.5"
+                className="flex items-center gap-2.5 border-t border-slate-200 bg-white/85 p-3.5"
               >
                 <input
                   type="text"
                   value={chatInput}
                   onChange={(e) => setChatInput(e.target.value)}
                   placeholder="Ask about architecture, BHD estimates, AI workflows, or code..."
-                  className="flex-1 rounded-xl border border-slate-200 px-4 py-2.5 text-sm text-[#0A192F] focus:border-[#0066FF] focus:outline-none"
+                  className="flex-1 rounded-xl border glass-input px-4 py-2.5 text-base sm:text-sm focus:outline-none"
                 />
                 <button
                   type="submit"
                   disabled={chatLoading || !chatInput.trim()}
-                  className="inline-flex items-center gap-1.5 rounded-xl bg-[#0066FF] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[#0052CC] disabled:opacity-50 transition-colors cursor-pointer"
+                  className="min-h-[44px] inline-flex items-center gap-1.5 rounded-xl bg-[#0066FF] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[#0052CC] disabled:opacity-50 transition-colors cursor-pointer"
                 >
                   <Send className="w-4 h-4" />
                   <span>Send</span>

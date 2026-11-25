@@ -149,18 +149,18 @@ export function UserManagementTable({
 
   return (
     <>
-      <div className="rounded-2xl border border-slate-200 bg-white overflow-hidden">
-        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 bg-slate-50/70 px-6 py-4">
+      <div className="rounded-2xl glass-surface overflow-hidden">
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 bg-slate-50/80 px-6 py-4">
           <div>
-            <h2 className="text-sm font-extrabold text-[#0A192F]">
+            <h2 className="text-sm font-extrabold text-[#0f172a]">
               Registered System Accounts ({users.length})
             </h2>
-            <p className="text-xs text-slate-500">
+            <p className="text-xs text-[#334155]">
               Strict Two-Role Governance · Password updates and forced resets are logged to the
               immutable audit trail.
             </p>
           </div>
-          <span className="rounded-lg border border-slate-200 bg-white px-2.5 py-1 font-mono text-[10px] font-bold uppercase tracking-wider text-[#0A192F]">
+          <span className="rounded-lg border border-sky-200 bg-sky-50 px-2.5 py-1 font-mono text-[10px] font-bold uppercase tracking-wider text-[#0066FF]">
             ADMINISTRATOR · STAFF ONLY
           </span>
         </div>
@@ -168,14 +168,14 @@ export function UserManagementTable({
         {loading ? (
           <div className="p-6 space-y-3">
             {Array.from({length: 3}).map((_, idx) => (
-              <div key={idx} className="h-12 rounded-xl bg-slate-100 animate-pulse" />
+              <div key={idx} className="h-12 rounded-xl bg-slate-200/70 animate-pulse" />
             ))}
           </div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse text-xs">
               <thead>
-                <tr className="border-b border-slate-200 bg-white text-slate-500 font-semibold">
+                <tr className="border-b border-slate-200 bg-slate-50/80 text-[#475569] font-semibold">
                   <th className="py-3.5 px-6">Account Name</th>
                   <th className="py-3.5 px-4">Login Email</th>
                   <th className="py-3.5 px-4">Role</th>
@@ -184,7 +184,7 @@ export function UserManagementTable({
                   <th className="py-3.5 px-6 text-right">Security Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100">
+              <tbody className="divide-y divide-slate-200">
                 {users.map((item) => {
                   const isSelf = currentUser?.id === item.id;
                   const isLocked = item.status === 'LOCKED';
@@ -192,25 +192,25 @@ export function UserManagementTable({
                     <tr key={item.id} className="hover:bg-slate-50/80 transition-colors">
                       <td className="py-3.5 px-6">
                         <div className="flex items-center gap-2">
-                          <span className="font-bold text-[#0A192F]">{item.name}</span>
+                          <span className="font-bold text-[#0f172a]">{item.name}</span>
                           {item.staffId && (
-                            <span className="rounded bg-slate-100 border border-slate-200 px-1.5 py-0.5 font-mono text-[9px] font-bold text-[#0A192F]">
+                            <span className="rounded bg-slate-100 border border-slate-200 px-1.5 py-0.5 font-mono text-[9px] font-bold text-[#334155]">
                               {item.staffId}
                             </span>
                           )}
                           {isSelf && (
-                            <span className="rounded bg-blue-50 border border-blue-200 px-1.5 py-0.5 font-mono text-[9px] font-bold text-[#0066FF]">
+                            <span className="rounded bg-sky-50 border border-sky-200 px-1.5 py-0.5 font-mono text-[9px] font-bold text-[#0066FF]">
                               YOU
                             </span>
                           )}
                         </div>
-                        <div className="text-[11px] text-slate-500">
+                        <div className="text-[11px] text-[#64748b]">
                           {item.departmentRole ? `${item.departmentRole} · ` : ''}
                           {item.title}
                         </div>
                       </td>
 
-                      <td className="py-3.5 px-4 font-mono text-[11px] text-[#0A192F] whitespace-nowrap">
+                      <td className="py-3.5 px-4 font-mono text-[11px] text-[#334155] whitespace-nowrap">
                         {item.email}
                       </td>
 
@@ -218,8 +218,8 @@ export function UserManagementTable({
                         <span
                           className={`inline-flex items-center gap-1 rounded-md border px-2 py-0.5 font-mono text-[10px] font-bold ${
                             item.role === 'ADMINISTRATOR'
-                              ? 'border-blue-200 bg-blue-50 text-[#0066FF]'
-                              : 'border-slate-200 bg-slate-100 text-[#0A192F]'
+                              ? 'border-sky-200 bg-sky-50 text-[#0066FF]'
+                              : 'border-slate-200 bg-slate-100 text-[#334155]'
                           }`}
                         >
                           <ShieldCheck className="w-3 h-3" />
@@ -241,7 +241,7 @@ export function UserManagementTable({
                           {item.requirePasswordChange && (
                             <span
                               title="Must change password on next sign-in"
-                              className="rounded-md border border-amber-200 bg-amber-50 px-1.5 py-0.5 font-mono text-[9px] font-bold text-amber-700"
+                              className="rounded-md border border-amber-300 bg-amber-50 px-1.5 py-0.5 font-mono text-[9px] font-bold text-amber-800"
                             >
                               PW CHANGE REQ
                             </span>
@@ -249,7 +249,7 @@ export function UserManagementTable({
                         </div>
                       </td>
 
-                      <td className="py-3.5 px-4 font-mono text-[11px] text-slate-500 tabular-nums whitespace-nowrap">
+                      <td className="py-3.5 px-4 font-mono text-[11px] text-[#64748b] tabular-nums whitespace-nowrap">
                         {formatBahrainShortDate(item.lastPasswordChangeAt)}
                       </td>
 
@@ -258,7 +258,7 @@ export function UserManagementTable({
                           <button
                             type="button"
                             onClick={() => openResetModal(item)}
-                            className="inline-flex items-center gap-1.5 rounded-lg border border-blue-200 bg-blue-50 px-2.5 py-1.5 text-[11px] font-semibold text-[#0066FF] hover:bg-blue-100 transition-colors cursor-pointer"
+                            className="inline-flex items-center gap-1.5 rounded-lg border border-sky-200 bg-sky-50 px-2.5 py-1.5 text-[11px] font-semibold text-[#0066FF] hover:bg-[#0066FF] hover:text-white transition-colors cursor-pointer"
                           >
                             <KeyRound className="w-3.5 h-3.5" />
                             <span>Reset Password</span>
@@ -273,7 +273,7 @@ export function UserManagementTable({
                               className={`inline-flex items-center gap-1 rounded-lg border px-2.5 py-1.5 text-[11px] font-semibold transition-colors cursor-pointer disabled:opacity-50 ${
                                 isLocked
                                   ? 'border-emerald-200 bg-emerald-50 text-emerald-700 hover:bg-emerald-100'
-                                  : 'border-slate-200 bg-white text-slate-600 hover:bg-red-50 hover:text-red-700 hover:border-red-200'
+                                  : 'border-slate-300 bg-white text-[#334155] hover:bg-red-50 hover:text-red-700 hover:border-red-200'
                               }`}
                             >
                               {isLocked ? (
@@ -303,20 +303,20 @@ export function UserManagementTable({
       {/* Admin Master Password Reset Modal */}
       {resetTarget && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/65 backdrop-blur-sm p-4"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/45 backdrop-blur-sm p-4"
           role="dialog"
           aria-modal="true"
           aria-labelledby="admin-reset-modal-title"
         >
-          <div className="w-full max-w-md overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-2xl">
-            <div className="flex items-center justify-between border-b border-slate-200 bg-[#0A192F] px-6 py-4 text-white">
+          <div className="w-full max-w-md overflow-hidden rounded-3xl glass-modal">
+            <div className="flex items-center justify-between border-b border-slate-200 bg-white/95 px-6 py-4 text-[#0f172a]">
               <div className="flex items-center gap-2.5">
-                <KeyRound className="w-4 h-4 text-[#00C2FF]" />
+                <KeyRound className="w-4 h-4 text-[#0066FF]" />
                 <div>
-                  <div className="font-mono text-[10px] uppercase tracking-wider text-[#00C2FF]">
+                  <div className="font-mono text-[10px] font-bold uppercase tracking-wider text-[#0066FF]">
                     Administrator Override · {resetTarget.role}
                   </div>
-                  <h3 id="admin-reset-modal-title" className="text-sm font-extrabold">
+                  <h3 id="admin-reset-modal-title" className="text-sm font-extrabold text-[#0f172a]">
                     Reset Password for {resetTarget.name}
                   </h3>
                 </div>
@@ -324,23 +324,23 @@ export function UserManagementTable({
               <button
                 type="button"
                 onClick={() => setResetTarget(null)}
-                className="rounded-lg p-1.5 text-slate-300 hover:bg-white/10 hover:text-white cursor-pointer"
+                className="rounded-lg p-1.5 text-slate-500 hover:bg-slate-100 hover:text-[#0f172a] cursor-pointer"
               >
                 <X className="w-4 h-4" />
               </button>
             </div>
 
             <form onSubmit={handleResetSubmit} className="p-6 space-y-4">
-              <div className="rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-xs">
-                <div className="font-mono text-[11px] font-semibold text-[#0A192F]">
+              <div className="rounded-xl glass-panel-subtle px-3.5 py-2.5 text-xs">
+                <div className="font-mono text-[11px] font-semibold text-[#0f172a]">
                   {resetTarget.email}
                 </div>
-                <div className="text-[11px] text-slate-500 mt-0.5">
+                <div className="text-[11px] text-[#64748b] mt-0.5">
                   Executing an override revokes all existing browser sessions for this account.
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-2 rounded-xl border border-slate-200 bg-slate-50 p-1">
+              <div className="grid grid-cols-2 gap-2 rounded-xl glass-panel-subtle p-1">
                 <button
                   type="button"
                   onClick={() => {
@@ -350,8 +350,8 @@ export function UserManagementTable({
                   }}
                   className={`rounded-lg py-1.5 text-xs font-semibold transition-colors cursor-pointer ${
                     resetMode === 'temp_password'
-                      ? 'bg-[#0A192F] text-white'
-                      : 'text-slate-600 hover:text-[#0A192F]'
+                      ? 'bg-[#0066FF] text-white'
+                      : 'text-[#475569] hover:text-[#0f172a]'
                   }`}
                 >
                   Set Temporary Password
@@ -365,8 +365,8 @@ export function UserManagementTable({
                   }}
                   className={`rounded-lg py-1.5 text-xs font-semibold transition-colors cursor-pointer ${
                     resetMode === 'otp'
-                      ? 'bg-[#0A192F] text-white'
-                      : 'text-slate-600 hover:text-[#0A192F]'
+                      ? 'bg-[#0066FF] text-white'
+                      : 'text-[#475569] hover:text-[#0f172a]'
                   }`}
                 >
                   Dispatch Reset OTP
@@ -374,13 +374,13 @@ export function UserManagementTable({
               </div>
 
               {feedbackError && (
-                <div className="rounded-xl border border-red-200 bg-red-50 px-3.5 py-2.5 text-xs font-medium text-red-700">
+                <div className="rounded-xl border border-red-200 bg-red-50/90 px-3.5 py-2.5 text-xs font-medium text-red-700">
                   {feedbackError}
                 </div>
               )}
 
               {feedbackSuccess && (
-                <div className="flex items-start gap-2 rounded-xl border border-emerald-200 bg-emerald-50 px-3.5 py-2.5 text-xs font-medium text-emerald-800">
+                <div className="flex items-start gap-2 rounded-xl border border-emerald-200 bg-emerald-50/90 px-3.5 py-2.5 text-xs font-medium text-emerald-800">
                   <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
                   <span>{feedbackSuccess}</span>
                 </div>
@@ -392,7 +392,7 @@ export function UserManagementTable({
                     <div className="flex items-center justify-between mb-1.5">
                       <label
                         htmlFor="admin-temp-pw"
-                        className="text-xs font-semibold text-[#0A192F]"
+                        className="text-xs font-semibold text-[#0f172a]"
                       >
                         Temporary Password
                       </label>
@@ -416,34 +416,34 @@ export function UserManagementTable({
                       value={temporaryPassword}
                       onChange={(e) => setTemporaryPassword(e.target.value)}
                       placeholder="Minimum 8 chars (A-Z, 0-9, symbol)"
-                      className="w-full rounded-xl border border-slate-200 px-3.5 py-2.5 text-sm text-[#0A192F] focus:border-[#0066FF] focus:outline-none"
+                      className="w-full rounded-xl border px-3.5 py-2.5 text-sm glass-input focus:outline-none"
                     />
                     <PasswordStrengthMeter password={temporaryPassword} />
                   </div>
 
-                  <label className="flex items-start gap-2.5 rounded-xl border border-slate-200 bg-slate-50/70 p-3 text-xs cursor-pointer">
+                  <label className="flex items-start gap-2.5 rounded-xl glass-panel-subtle p-3 text-xs cursor-pointer">
                     <input
                       type="checkbox"
                       checked={forceChangeOnNextLogin}
                       onChange={(e) => setForceChangeOnNextLogin(e.target.checked)}
-                      className="mt-0.5 rounded border-slate-300 text-[#0066FF] focus:ring-[#0066FF]"
+                      className="mt-0.5 rounded border-slate-300 bg-white text-[#0066FF] focus:ring-[#0066FF]"
                     />
-                    <span className="text-slate-700 leading-snug">
-                      <strong className="text-[#0A192F]">
+                    <span className="text-[#334155] leading-snug">
+                      <strong className="text-[#0f172a]">
                         Force password change on next login
                       </strong>
-                      <span className="block text-[11px] text-slate-500">
+                      <span className="block text-[11px] text-[#64748b]">
                         User must choose a private password immediately after signing in.
                       </span>
                     </span>
                   </label>
                 </>
               ) : (
-                <div className="flex items-start gap-2.5 rounded-xl border border-blue-200 bg-blue-50/70 p-3.5 text-xs text-[#0A192F]">
+                <div className="flex items-start gap-2.5 rounded-xl border border-sky-200 bg-sky-50/90 p-3.5 text-xs text-[#334155]">
                   <Mail className="w-4 h-4 text-[#0066FF] shrink-0 mt-0.5" />
                   <span>
                     Generates a time-limited 6-digit OTP (15 minutes) for{' '}
-                    <span className="font-mono font-semibold">{resetTarget.email}</span> so the
+                    <span className="font-mono font-semibold text-[#0f172a]">{resetTarget.email}</span> so the
                     user can recover access independently via the Forgot Password flow.
                   </span>
                 </div>
@@ -453,7 +453,7 @@ export function UserManagementTable({
                 <button
                   type="button"
                   onClick={() => setResetTarget(null)}
-                  className="rounded-xl border border-slate-200 px-4 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-50 cursor-pointer"
+                  className="rounded-xl border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-[#334155] hover:bg-slate-50 cursor-pointer"
                 >
                   Close
                 </button>

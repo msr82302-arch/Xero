@@ -118,24 +118,24 @@ export function ChangePasswordForm({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/65 backdrop-blur-sm p-4"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/45 backdrop-blur-md p-4"
       role="dialog"
       aria-modal="true"
       aria-labelledby="change-password-title"
     >
-      <div className="w-full max-w-md overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-2xl">
+      <div className="w-full max-w-md overflow-hidden rounded-3xl glass-modal">
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-slate-200 bg-[#0A192F] px-6 py-4 text-white">
+        <div className="flex items-center justify-between border-b border-slate-200 bg-white/85 px-6 py-4 text-[#0f172a]">
           <div className="flex items-center gap-2.5">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#0066FF]/20 text-[#00C2FF]">
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-sky-50 border border-sky-200 text-[#0066FF]">
               <Lock className="w-4 h-4" />
             </div>
             <div>
-              <div className="font-mono text-[10px] uppercase tracking-wider text-[#00C2FF]">
+              <div className="font-mono text-[10px] uppercase tracking-wider text-[#0066FF]">
                 {mandatoryReset ? 'Mandatory Security Action' : 'Profile Security'} ·{' '}
                 {user?.role || 'XBMS'}
               </div>
-              <h2 id="change-password-title" className="text-sm font-extrabold">
+              <h2 id="change-password-title" className="text-sm font-extrabold text-[#0f172a]">
                 {mandatoryReset ? 'Update Temporary Password' : 'Change Account Password'}
               </h2>
             </div>
@@ -146,7 +146,7 @@ export function ChangePasswordForm({
               type="button"
               onClick={onClose}
               aria-label="Close change password modal"
-              className="rounded-lg p-1.5 text-slate-300 hover:bg-white/10 hover:text-white cursor-pointer"
+              className="rounded-lg p-1.5 text-[#64748b] hover:bg-slate-100 hover:text-[#0f172a] cursor-pointer"
             >
               <X className="w-4 h-4" />
             </button>
@@ -155,8 +155,8 @@ export function ChangePasswordForm({
 
         <form onSubmit={handleSubmit} className="p-6 space-y-4">
           {mandatoryReset && (
-            <div className="flex items-start gap-2.5 rounded-xl border border-amber-200 bg-amber-50 px-3.5 py-2.5 text-xs text-amber-900">
-              <ShieldAlert className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+            <div className="flex items-start gap-2.5 rounded-xl border border-amber-300 bg-amber-50/90 px-3.5 py-2.5 text-xs text-amber-800">
+              <ShieldAlert className="w-4 h-4 text-amber-700 shrink-0 mt-0.5" />
               <span>
                 An administrator requires you to replace your temporary password before accessing
                 the XBMS workspace.
@@ -164,20 +164,20 @@ export function ChangePasswordForm({
             </div>
           )}
 
-          <div className="rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-xs">
-            <div className="font-bold text-[#0A192F]">{user?.name}</div>
-            <div className="font-mono text-[11px] text-slate-500">{user?.email}</div>
+          <div className="rounded-xl glass-panel-subtle px-3.5 py-2.5 text-xs">
+            <div className="font-bold text-[#0f172a]">{user?.name}</div>
+            <div className="font-mono text-[11px] text-[#64748b]">{user?.email}</div>
           </div>
 
           {errorMsg && (
-            <div className="rounded-xl border border-red-200 bg-red-50 px-3.5 py-2.5 text-xs font-medium text-red-700">
+            <div className="rounded-xl border border-red-200 bg-red-50/90 px-3.5 py-2.5 text-xs font-medium text-red-700">
               {errorMsg}
             </div>
           )}
 
           {successMsg && (
-            <div className="flex items-start gap-2 rounded-xl border border-emerald-200 bg-emerald-50 px-3.5 py-2.5 text-xs font-medium text-emerald-800">
-              <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+            <div className="flex items-start gap-2 rounded-xl border border-emerald-200 bg-emerald-50/90 px-3.5 py-2.5 text-xs font-medium text-emerald-700">
+              <CheckCircle2 className="w-4 h-4 text-emerald-700 shrink-0 mt-0.5" />
               <span>{successMsg}</span>
             </div>
           )}
@@ -186,7 +186,7 @@ export function ChangePasswordForm({
             <div className="flex items-center justify-between mb-1.5">
               <label
                 htmlFor="current-password"
-                className="text-xs font-semibold text-[#0A192F]"
+                className="text-xs font-semibold text-[#0f172a]"
               >
                 Current Password
               </label>
@@ -200,7 +200,7 @@ export function ChangePasswordForm({
               </button>
             </div>
             <div className="relative">
-              <KeyRound className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+              <KeyRound className="w-4 h-4 text-[#64748b] absolute left-3.5 top-1/2 -translate-y-1/2" />
               <input
                 id="current-password"
                 type={showPasswords ? 'text' : 'password'}
@@ -209,13 +209,13 @@ export function ChangePasswordForm({
                 value={currentPassword}
                 onChange={(e) => setCurrentPassword(e.target.value)}
                 placeholder="Enter current password"
-                className="w-full rounded-xl border border-slate-200 pl-10 pr-3.5 py-2.5 text-sm text-[#0A192F] focus:border-[#0066FF] focus:outline-none"
+                className="w-full rounded-xl border glass-input pl-10 pr-3.5 py-2.5 text-sm focus:outline-none"
               />
             </div>
           </div>
 
           <div>
-            <label htmlFor="new-password" className="block text-xs font-semibold text-[#0A192F] mb-1.5">
+            <label htmlFor="new-password" className="block text-xs font-semibold text-[#0f172a] mb-1.5">
               New Password
             </label>
             <input
@@ -226,7 +226,7 @@ export function ChangePasswordForm({
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
               placeholder="Minimum 8 chars (A-Z, 0-9, symbol)"
-              className="w-full rounded-xl border border-slate-200 px-3.5 py-2.5 text-sm text-[#0A192F] focus:border-[#0066FF] focus:outline-none"
+              className="w-full rounded-xl border glass-input px-3.5 py-2.5 text-sm focus:outline-none"
             />
             <PasswordStrengthMeter password={newPassword} />
           </div>
@@ -234,7 +234,7 @@ export function ChangePasswordForm({
           <div>
             <label
               htmlFor="confirm-new-password"
-              className="block text-xs font-semibold text-[#0A192F] mb-1.5"
+              className="block text-xs font-semibold text-[#0f172a] mb-1.5"
             >
               Confirm New Password
             </label>
@@ -246,22 +246,22 @@ export function ChangePasswordForm({
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               placeholder="Re-enter new password"
-              className="w-full rounded-xl border border-slate-200 px-3.5 py-2.5 text-sm text-[#0A192F] focus:border-[#0066FF] focus:outline-none"
+              className="w-full rounded-xl border glass-input px-3.5 py-2.5 text-sm focus:outline-none"
             />
           </div>
 
-          <label className="flex items-start gap-2.5 rounded-xl border border-slate-200 bg-slate-50/70 p-3 text-xs cursor-pointer">
+          <label className="flex items-start gap-2.5 rounded-xl glass-panel-subtle p-3 text-xs cursor-pointer">
             <input
               type="checkbox"
               checked={signOutOtherSessions}
               onChange={(e) => setSignOutOtherSessions(e.target.checked)}
-              className="mt-0.5 rounded border-slate-300 text-[#0066FF] focus:ring-[#0066FF]"
+              className="mt-0.5 rounded border-slate-300 bg-white text-[#0066FF] focus:ring-[#0066FF]"
             />
-            <span className="text-slate-700 leading-snug">
-              <strong className="text-[#0A192F]">
+            <span className="text-[#334155] leading-snug">
+              <strong className="text-[#0f172a]">
                 Sign out of all other active browser sessions
               </strong>
-              <span className="block text-[11px] text-slate-500">
+              <span className="block text-[11px] text-[#64748b]">
                 Recommended. Immediately invalidates tokens on any other devices.
               </span>
             </span>
@@ -272,7 +272,7 @@ export function ChangePasswordForm({
               <button
                 type="button"
                 onClick={() => void logout()}
-                className="rounded-xl border border-slate-200 px-4 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-50 cursor-pointer"
+                className="rounded-xl border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-[#334155] hover:bg-slate-50 cursor-pointer"
               >
                 Sign Out
               </button>
@@ -281,7 +281,7 @@ export function ChangePasswordForm({
                 <button
                   type="button"
                   onClick={onClose}
-                  className="rounded-xl border border-slate-200 px-4 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-50 cursor-pointer"
+                  className="rounded-xl border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-[#334155] hover:bg-slate-50 cursor-pointer"
                 >
                   {successMsg ? 'Done' : 'Cancel'}
                 </button>

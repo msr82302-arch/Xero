@@ -31,22 +31,22 @@ export function DraftQuotationsModal({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/65 backdrop-blur-sm p-4"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/45 backdrop-blur-sm p-4"
       role="dialog"
       aria-modal="true"
       aria-labelledby="draft-quotations-title"
     >
-      <div className="flex max-h-[88vh] w-full max-w-4xl flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl">
-        <div className="flex items-center justify-between border-b border-slate-200 bg-[#0A192F] px-6 py-4 text-white">
+      <div className="flex max-h-[88vh] w-full max-w-4xl flex-col overflow-hidden rounded-2xl glass-modal">
+        <div className="flex items-center justify-between border-b border-slate-200 bg-white/95 px-6 py-4 text-[#0f172a]">
           <div className="flex items-center gap-3">
-            <div className="rounded-lg bg-white/10 p-2">
-              <FileCheck2 className="w-5 h-5 text-[#00C2FF]" />
+            <div className="rounded-lg bg-sky-50 border border-sky-200 p-2">
+              <FileCheck2 className="w-5 h-5 text-[#0066FF]" />
             </div>
             <div>
-              <div className="font-mono text-[10px] font-bold uppercase tracking-wider text-[#00C2FF]">
+              <div className="font-mono text-[10px] font-bold uppercase tracking-wider text-[#0066FF]">
                 Staff Operational Queue
               </div>
-              <h2 id="draft-quotations-title" className="text-base font-extrabold">
+              <h2 id="draft-quotations-title" className="text-base font-extrabold text-[#0f172a]">
                 Draft Quotations &amp; Approval Status ({quotations.length})
               </h2>
             </div>
@@ -56,27 +56,27 @@ export function DraftQuotationsModal({
             type="button"
             onClick={onClose}
             aria-label="Close Draft Quotations Queue"
-            className="rounded-lg p-1.5 text-slate-300 hover:bg-white/10 hover:text-white cursor-pointer"
+            className="rounded-lg p-1.5 text-slate-500 hover:bg-slate-100 hover:text-[#0f172a] cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
-        <div className="flex-1 overflow-y-auto p-5 bg-[#F8FAFC] space-y-3">
+        <div className="flex-1 overflow-y-auto p-5 bg-slate-100/75 space-y-3">
           {loading ? (
             <div className="space-y-3">
               {Array.from({length: 3}).map((_, idx) => (
                 <div
                   key={idx}
-                  className="h-24 rounded-xl border border-slate-200 bg-white animate-pulse"
+                  className="h-24 rounded-xl glass-surface animate-pulse"
                 />
               ))}
             </div>
           ) : quotations.length === 0 ? (
-            <div className="rounded-2xl border border-slate-200 bg-white p-10 text-center space-y-2">
-              <FileCheck2 className="w-8 h-8 text-slate-300 mx-auto" />
-              <div className="text-sm font-bold text-[#0A192F]">No submitted quotations yet</div>
-              <p className="text-xs text-slate-500">
+            <div className="rounded-2xl glass-surface p-10 text-center space-y-2">
+              <FileCheck2 className="w-8 h-8 text-slate-400 mx-auto" />
+              <div className="text-sm font-bold text-[#0f172a]">No submitted quotations yet</div>
+              <p className="text-xs text-[#64748b]">
                 Use &ldquo;Submit Draft Quote for Approval&rdquo; in the billing terminal to queue a
                 proposal for executive review.
               </p>
@@ -88,7 +88,7 @@ export function DraftQuotationsModal({
               return (
                 <div
                   key={qot.id}
-                  className="rounded-xl border border-slate-200 bg-white p-4 flex flex-wrap items-center justify-between gap-4"
+                  className="rounded-xl glass-surface p-4 flex flex-wrap items-center justify-between gap-4"
                 >
                   <div className="space-y-1.5 min-w-0 flex-1">
                     <div className="flex flex-wrap items-center gap-2">
@@ -96,7 +96,7 @@ export function DraftQuotationsModal({
                         {qot.quotationNo || qot.referenceCode}
                       </span>
                       {qot.quotationNo && (
-                        <span className="font-mono text-[11px] text-slate-400">
+                        <span className="font-mono text-[11px] text-[#64748b]">
                           Ref: {qot.referenceCode}
                         </span>
                       )}
@@ -107,8 +107,8 @@ export function DraftQuotationsModal({
                             : isRejected
                               ? 'border-red-200 bg-red-50 text-red-700'
                               : qot.status === 'PENDING_APPROVAL'
-                                ? 'border-amber-200 bg-amber-50 text-amber-700'
-                                : 'border-slate-200 bg-slate-100 text-slate-700'
+                                ? 'border-amber-300 bg-amber-50 text-amber-800'
+                                : 'border-slate-200 bg-slate-100 text-[#334155]'
                         }`}
                       >
                         {isApproved ? (
@@ -122,14 +122,14 @@ export function DraftQuotationsModal({
                       </span>
                     </div>
 
-                    <div className="text-sm font-bold text-[#0A192F]">
+                    <div className="text-sm font-bold text-[#0f172a]">
                       {qot.clientName}{' '}
-                      <span className="font-mono text-xs font-normal text-slate-500">
+                      <span className="font-mono text-xs font-normal text-[#64748b]">
                         · {qot.clientPhone}
                       </span>
                     </div>
 
-                    <div className="text-xs text-slate-600 truncate">
+                    <div className="text-xs text-[#334155] truncate">
                       {qot.serviceNames.join(' · ')}
                     </div>
 
@@ -142,10 +142,10 @@ export function DraftQuotationsModal({
 
                   <div className="flex flex-col items-end gap-2 shrink-0">
                     <div className="text-right">
-                      <div className="font-mono text-base font-extrabold text-[#0A192F] tabular-nums">
+                      <div className="font-mono text-base font-extrabold text-[#0f172a] tabular-nums">
                         {formatBHD(qot.estimatedTotalBHD)}
                       </div>
-                      <div className="font-mono text-[10px] text-slate-500 tabular-nums">
+                      <div className="font-mono text-[10px] text-[#64748b] tabular-nums">
                         Advance Milestone: {formatBHD(qot.advanceMilestoneBHD)}
                       </div>
                     </div>

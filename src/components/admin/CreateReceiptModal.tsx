@@ -155,19 +155,19 @@ export function CreateReceiptModal({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/65 backdrop-blur-sm p-3 sm:p-5"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/45 backdrop-blur-sm p-3 sm:p-5"
       role="dialog"
       aria-modal="true"
       aria-labelledby="create-receipt-title"
     >
-      <div className="flex max-h-[94vh] w-full max-w-6xl flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl">
+      <div className="flex max-h-[94vh] w-full max-w-6xl flex-col overflow-hidden rounded-2xl glass-modal">
         {/* Top Header */}
-        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 bg-slate-50 px-5 py-3.5">
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 bg-white/95 px-5 py-3.5">
           <div>
             <div className="font-mono text-[11px] font-bold uppercase tracking-wider text-[#0066FF]">
               Billing Core Module · Next Sequence {nextSequenceNo}
             </div>
-            <h2 id="create-receipt-title" className="text-base sm:text-lg font-extrabold text-[#0A192F]">
+            <h2 id="create-receipt-title" className="text-base sm:text-lg font-extrabold text-[#0f172a]">
               Create Official Payment Receipt
             </h2>
           </div>
@@ -178,18 +178,18 @@ export function CreateReceiptModal({
               onClick={() => setStampOn((prev) => !prev)}
               className={`rounded-lg border px-3 py-1.5 text-xs font-semibold transition-colors cursor-pointer whitespace-nowrap shrink-0 ${
                 stampOn
-                  ? 'border-blue-200 bg-blue-50 text-[#0066FF]'
-                  : 'border-slate-200 bg-white text-slate-600'
+                  ? 'border-sky-200 bg-sky-50 text-[#0066FF]'
+                  : 'border-slate-300 bg-white text-[#475569]'
               }`}
             >
               Stamp: {stampOn ? 'ON' : 'OFF'}
             </button>
-            <div className="hidden md:inline-flex rounded-lg border border-slate-200 bg-white p-0.5 text-xs">
+            <div className="hidden md:inline-flex rounded-lg glass-panel-subtle p-0.5 text-xs">
               <button
                 type="button"
                 onClick={() => setViewMode('split')}
                 className={`rounded-md px-2.5 py-1 font-semibold cursor-pointer ${
-                  viewMode === 'split' ? 'bg-[#0A192F] text-white' : 'text-slate-600'
+                  viewMode === 'split' ? 'bg-[#0066FF] text-white' : 'text-[#475569] hover:text-[#0f172a]'
                 }`}
               >
                 Split View
@@ -198,7 +198,7 @@ export function CreateReceiptModal({
                 type="button"
                 onClick={() => setViewMode('form')}
                 className={`rounded-md px-2.5 py-1 font-semibold cursor-pointer ${
-                  viewMode === 'form' ? 'bg-[#0A192F] text-white' : 'text-slate-600'
+                  viewMode === 'form' ? 'bg-[#0066FF] text-white' : 'text-[#475569] hover:text-[#0f172a]'
                 }`}
               >
                 Form Only
@@ -208,7 +208,7 @@ export function CreateReceiptModal({
               type="button"
               onClick={onClose}
               aria-label="Close Create Receipt"
-              className="rounded-lg p-1.5 text-slate-500 hover:bg-slate-200/70 hover:text-[#0A192F] cursor-pointer"
+              className="rounded-lg p-1.5 text-slate-500 hover:bg-slate-100 hover:text-[#0f172a] cursor-pointer"
             >
               <X className="w-5 h-5" />
             </button>
@@ -216,7 +216,7 @@ export function CreateReceiptModal({
         </div>
 
         {/* Body */}
-        <div className="flex-1 overflow-y-auto p-5 bg-[#F8FAFC]">
+        <div className="flex-1 overflow-y-auto p-5 bg-slate-100/75">
           <div
             className={`grid gap-6 ${
               viewMode === 'split' ? 'grid-cols-1 lg:grid-cols-12' : 'grid-cols-1 max-w-2xl mx-auto'
@@ -227,21 +227,21 @@ export function CreateReceiptModal({
               onSubmit={handleSubmit}
               className={`${
                 viewMode === 'split' ? 'lg:col-span-5' : ''
-              } rounded-2xl border border-slate-200 bg-white p-5 space-y-5`}
+              } rounded-2xl glass-surface p-5 space-y-5`}
             >
               {errorMsg && (
-                <div className="rounded-xl border border-red-200 bg-red-50 px-3.5 py-2.5 text-xs font-medium text-red-700">
+                <div className="rounded-xl border border-red-200 bg-red-50/90 px-3.5 py-2.5 text-xs font-medium text-red-700">
                   {errorMsg}
                 </div>
               )}
 
               {/* 1. Client Information */}
               <div className="space-y-3">
-                <div className="font-mono text-[11px] font-bold uppercase tracking-wider text-slate-500">
+                <div className="font-mono text-[11px] font-bold uppercase tracking-wider text-[#0066FF]">
                   1. Client Information
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold text-[#0A192F] mb-1">
+                  <label className="block text-xs font-semibold text-[#0f172a] mb-1">
                     Client Name *
                   </label>
                   <input
@@ -250,12 +250,12 @@ export function CreateReceiptModal({
                     value={clientName}
                     onChange={(e) => setClientName(e.target.value)}
                     placeholder="Enter client name or company"
-                    className="w-full rounded-xl border border-slate-200 px-3 py-2 text-xs sm:text-sm text-[#0A192F] focus:border-[#0066FF] focus:outline-none"
+                    className="w-full rounded-xl border px-3 py-2 text-xs sm:text-sm glass-input focus:outline-none"
                   />
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-xs font-semibold text-[#0A192F] mb-1">
+                    <label className="block text-xs font-semibold text-[#0f172a] mb-1">
                       Contact / WhatsApp *
                     </label>
                     <input
@@ -264,11 +264,11 @@ export function CreateReceiptModal({
                       value={clientPhone}
                       onChange={(e) => setClientPhone(e.target.value)}
                       placeholder="+973 3XXXXXXX"
-                      className="w-full rounded-xl border border-slate-200 px-3 py-2 font-mono text-xs sm:text-sm text-[#0A192F] focus:border-[#0066FF] focus:outline-none"
+                      className="w-full rounded-xl border px-3 py-2 font-mono text-xs sm:text-sm glass-input focus:outline-none"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-[#0A192F] mb-1">
+                    <label className="block text-xs font-semibold text-[#0f172a] mb-1">
                       Email Address (Optional)
                     </label>
                     <input
@@ -276,25 +276,25 @@ export function CreateReceiptModal({
                       value={clientEmail}
                       onChange={(e) => setClientEmail(e.target.value)}
                       placeholder="client@domain.bh"
-                      className="w-full rounded-xl border border-slate-200 px-3 py-2 text-xs sm:text-sm text-[#0A192F] focus:border-[#0066FF] focus:outline-none"
+                      className="w-full rounded-xl border px-3 py-2 text-xs sm:text-sm glass-input focus:outline-none"
                     />
                   </div>
                 </div>
               </div>
 
               {/* 2. Service & Project Description */}
-              <div className="space-y-3 border-t border-slate-100 pt-4">
-                <div className="font-mono text-[11px] font-bold uppercase tracking-wider text-slate-500">
+              <div className="space-y-3 border-t border-slate-200 pt-4">
+                <div className="font-mono text-[11px] font-bold uppercase tracking-wider text-[#0066FF]">
                   2. Service &amp; Project Description
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold text-[#0A192F] mb-1">
+                  <label className="block text-xs font-semibold text-[#0f172a] mb-1">
                     Official Service Category *
                   </label>
                   <select
                     value={serviceName}
                     onChange={(e) => setServiceName(e.target.value)}
-                    className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs sm:text-sm text-[#0A192F] focus:border-[#0066FF] focus:outline-none"
+                    className="w-full rounded-xl border px-3 py-2 text-xs sm:text-sm glass-input focus:outline-none"
                   >
                     {services.map((s) => (
                       <option key={s.id} value={s.name}>
@@ -304,7 +304,7 @@ export function CreateReceiptModal({
                   </select>
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold text-[#0A192F] mb-1">
+                  <label className="block text-xs font-semibold text-[#0f172a] mb-1">
                     Project Title / Deliverables
                   </label>
                   <input
@@ -312,25 +312,25 @@ export function CreateReceiptModal({
                     value={projectTitle}
                     onChange={(e) => setProjectTitle(e.target.value)}
                     placeholder="e.g. Corporate Portal Deployment Phase 1"
-                    className="w-full rounded-xl border border-slate-200 px-3 py-2 text-xs sm:text-sm text-[#0A192F] focus:border-[#0066FF] focus:outline-none"
+                    className="w-full rounded-xl border px-3 py-2 text-xs sm:text-sm glass-input focus:outline-none"
                   />
                 </div>
               </div>
 
               {/* 3. Payment Details */}
-              <div className="space-y-3 border-t border-slate-100 pt-4">
-                <div className="font-mono text-[11px] font-bold uppercase tracking-wider text-slate-500">
+              <div className="space-y-3 border-t border-slate-200 pt-4">
+                <div className="font-mono text-[11px] font-bold uppercase tracking-wider text-[#0066FF]">
                   3. Payment Details
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-xs font-semibold text-[#0A192F] mb-1">
+                    <label className="block text-xs font-semibold text-[#0f172a] mb-1">
                       Payment Channel
                     </label>
                     <select
                       value={paymentMethod}
                       onChange={(e) => setPaymentMethod(e.target.value as PaymentChannel)}
-                      className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs sm:text-sm text-[#0A192F] focus:border-[#0066FF] focus:outline-none"
+                      className="w-full rounded-xl border px-3 py-2 text-xs sm:text-sm glass-input focus:outline-none"
                     >
                       <option value="BenefitPay">BenefitPay (Bahrain)</option>
                       <option value="Bank Transfer">Bank Transfer</option>
@@ -339,13 +339,13 @@ export function CreateReceiptModal({
                     </select>
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-[#0A192F] mb-1">
+                    <label className="block text-xs font-semibold text-[#0f172a] mb-1">
                       Payment Terms
                     </label>
                     <select
                       value={paymentTerms}
                       onChange={(e) => handleTermsChange(e.target.value as PaymentTerms)}
-                      className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs sm:text-sm text-[#0A192F] focus:border-[#0066FF] focus:outline-none"
+                      className="w-full rounded-xl border px-3 py-2 text-xs sm:text-sm glass-input focus:outline-none"
                     >
                       <option value="Partial Payment (50%)">Partial Payment (50%)</option>
                       <option value="Full Payment">Full Payment</option>
@@ -357,13 +357,13 @@ export function CreateReceiptModal({
               </div>
 
               {/* 4. Financial Breakdown */}
-              <div className="space-y-3 border-t border-slate-100 pt-4">
-                <div className="font-mono text-[11px] font-bold uppercase tracking-wider text-slate-500">
+              <div className="space-y-3 border-t border-slate-200 pt-4">
+                <div className="font-mono text-[11px] font-bold uppercase tracking-wider text-[#0066FF]">
                   4. Financial Breakdown (BHD 3 Decimals)
                 </div>
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-xs font-semibold text-[#0A192F] mb-1">
+                    <label className="block text-xs font-semibold text-[#0f172a] mb-1">
                       Total Project Cost (BHD) *
                     </label>
                     <input
@@ -374,11 +374,11 @@ export function CreateReceiptModal({
                       value={totalStr}
                       onChange={(e) => setTotalStr(e.target.value)}
                       onBlur={() => setTotalStr(numericTotal.toFixed(3))}
-                      className="w-full rounded-xl border border-slate-200 px-3 py-2 font-mono text-sm font-bold text-[#0A192F] tabular-nums focus:border-[#0066FF] focus:outline-none"
+                      className="w-full rounded-xl border px-3 py-2 font-mono text-sm font-bold tabular-nums glass-input focus:outline-none"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-[#0A192F] mb-1">
+                    <label className="block text-xs font-semibold text-[#0f172a] mb-1">
                       Remaining Balance (BHD) *
                     </label>
                     <input
@@ -389,27 +389,27 @@ export function CreateReceiptModal({
                       value={balanceStr}
                       onChange={(e) => setBalanceStr(e.target.value)}
                       onBlur={() => setBalanceStr(numericBalance.toFixed(3))}
-                      className="w-full rounded-xl border border-slate-200 px-3 py-2 font-mono text-sm font-bold text-[#0A192F] tabular-nums focus:border-[#0066FF] focus:outline-none"
+                      className="w-full rounded-xl border px-3 py-2 font-mono text-sm font-bold tabular-nums glass-input focus:outline-none"
                     />
                   </div>
                 </div>
 
-                <div className="rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 space-y-1.5 text-xs">
+                <div className="rounded-xl glass-panel-subtle px-3.5 py-2.5 space-y-1.5 text-xs">
                   <div className="flex items-center justify-between">
-                    <span className="text-slate-600">Calculated Advance Received:</span>
+                    <span className="text-[#475569]">Calculated Advance Received:</span>
                     <span className="font-mono font-bold text-emerald-700 tabular-nums">
                       {formatBHD(calculatedPaid)}
                     </span>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-slate-600">Automated Status:</span>
+                    <span className="text-[#475569]">Automated Status:</span>
                     <span
-                      className={`rounded-md px-2 py-0.5 font-mono text-[10px] font-bold ${
+                      className={`rounded-md border px-2 py-0.5 font-mono text-[10px] font-bold ${
                         derivedStatus === 'PAID'
-                          ? 'bg-emerald-100 text-emerald-700'
+                          ? 'border-emerald-200 bg-emerald-50 text-emerald-700'
                           : derivedStatus === 'PARTIAL'
-                            ? 'bg-amber-100 text-amber-700'
-                            : 'bg-red-100 text-red-700'
+                            ? 'border-amber-300 bg-amber-50 text-amber-800'
+                            : 'border-red-200 bg-red-50 text-red-700'
                       }`}
                     >
                       {derivedStatus}
@@ -418,7 +418,7 @@ export function CreateReceiptModal({
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-[#0A192F] mb-1">
+                  <label className="block text-xs font-semibold text-[#0f172a] mb-1">
                     Internal Transaction Notes (Optional)
                   </label>
                   <textarea
@@ -426,7 +426,7 @@ export function CreateReceiptModal({
                     value={notes}
                     onChange={(e) => setNotes(e.target.value)}
                     placeholder="e.g. Paid via BenefitPay reference #123456"
-                    className="w-full rounded-xl border border-slate-200 px-3 py-2 text-xs text-[#0A192F] focus:border-[#0066FF] focus:outline-none"
+                    className="w-full rounded-xl border px-3 py-2 text-xs glass-input focus:outline-none"
                   />
                 </div>
               </div>
@@ -434,9 +434,9 @@ export function CreateReceiptModal({
               <button
                 type="submit"
                 disabled={submitting}
-                className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-[#0A192F] px-4 py-3 text-xs sm:text-sm font-bold text-white hover:bg-[#13294B] disabled:opacity-60 transition-colors cursor-pointer"
+                className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-[#0066FF] px-4 py-3 text-xs sm:text-sm font-bold text-white hover:bg-[#0052CC] shadow-lg shadow-blue-600/20 disabled:opacity-60 transition-colors cursor-pointer"
               >
-                <Sparkles className="w-4 h-4 text-[#00C2FF]" />
+                <Sparkles className="w-4 h-4 text-white" />
                 <span>{submitting ? 'Issuing Official Receipt...' : 'ISSUE & FINALIZE RECEIPT NOW'}</span>
               </button>
             </form>
@@ -444,12 +444,12 @@ export function CreateReceiptModal({
             {/* Right Live A4 Preview */}
             {viewMode === 'split' && (
               <div className="lg:col-span-7 space-y-2.5">
-                <div className="flex items-center justify-between px-1 text-[11px] font-mono text-slate-500">
+                <div className="flex items-center justify-between px-1 text-[11px] font-mono text-[#475569]">
                   <span>Live A4 Receipt Render (Bahrain Local Time)</span>
                   <span>Next Sequence: {nextSequenceNo}</span>
                 </div>
 
-                <div className="rounded-xl border border-slate-200 bg-white overflow-hidden shadow-sm">
+                <div className="rounded-xl border border-slate-200 bg-white text-[#0A192F] overflow-hidden shadow-xl">
                   <div className="bg-[#0A192F] px-5 py-4 text-white flex items-center justify-between gap-3">
                     <div className="flex items-center gap-2.5">
                       <img

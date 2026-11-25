@@ -12,6 +12,7 @@ interface AuthContextValue {
   loading: boolean;
   setupRequired: boolean;
   staffSetupRequired: boolean;
+  backendOffline: boolean;
   login: (email: string, passcode: string) => Promise<void>;
   setupAdmin: (email: string, name: string, passcode: string) => Promise<void>;
   loginStaff: (email: string, passcode: string) => Promise<void>;
@@ -29,19 +30,28 @@ export function AuthProvider({children}: {children: ReactNode}) {
   const [loading, setLoading] = useState(true);
   const [setupRequired, setSetupRequired] = useState(false);
   const [staffSetupRequired, setStaffSetupRequired] = useState(false);
+  const [backendOffline, setBackendOffline] = useState(false);
 
   const refreshStatus = useCallback(async () => {
     setLoading(true);
     try {
       await ensureCsrfToken();
       const {data} = await apiClient.get<{
-        setupRequired: boolean;
-        staffSetupRequired: boolean;
+        setupRequired?: boolean;
+        staffSetupRequired?: boolean;
       }>('/auth/status/');
-      setSetupRequired(Boolean(data.setupRequired));
-      setStaffSetupRequired(Boolean(data.staffSetupRequired));
+      if (
+        typeof data?.setupRequired !== 'boolean' ||
+        typeof data?.staffSetupRequired !== 'boolean'
+      ) {
+        setBackendOffline(true);
+      } else {
+        setBackendOffline(false);
+        setSetupRequired(data.setupRequired);
+        setStaffSetupRequired(data.staffSetupRequired);
+      }
     } catch {
-      // Keep current status
+      setBackendOffline(true);
     } finally {
       setLoading(false);
     }
@@ -66,6 +76,7 @@ export function AuthProvider({children}: {children: ReactNode}) {
       name,
       passcode,
     });
+    setBackendOffline(false);
     setAuthToken(data.token);
     setUser(data.user);
     setSetupRequired(false);
@@ -77,6 +88,7 @@ export function AuthProvider({children}: {children: ReactNode}) {
       email,
       passcode,
     });
+    setBackendOffline(false);
     setAuthToken(data.token);
     setUser(data.user);
     setSetupRequired(false);
@@ -89,6 +101,7 @@ export function AuthProvider({children}: {children: ReactNode}) {
       name,
       passcode,
     });
+    setBackendOffline(false);
     setAuthToken(data.token);
     setUser(data.user);
     setStaffSetupRequired(false);
@@ -100,6 +113,7 @@ export function AuthProvider({children}: {children: ReactNode}) {
       email,
       passcode,
     });
+    setBackendOffline(false);
     setAuthToken(data.token);
     setUser(data.user);
     setStaffSetupRequired(false);
@@ -111,6 +125,7 @@ export function AuthProvider({children}: {children: ReactNode}) {
       email,
       passcode,
     });
+    setBackendOffline(false);
     setAuthToken(data.token);
     setUser(data.user);
     return data.user;
@@ -131,11 +146,17 @@ export function AuthProvider({children}: {children: ReactNode}) {
       setUser(null);
       try {
         const {data} = await apiClient.get<{
-          setupRequired: boolean;
-          staffSetupRequired: boolean;
+          setupRequired?: boolean;
+          staffSetupRequired?: boolean;
         }>('/auth/status/');
-        setSetupRequired(Boolean(data.setupRequired));
-        setStaffSetupRequired(Boolean(data.staffSetupRequired));
+        if (
+          typeof data?.setupRequired === 'boolean' &&
+          typeof data?.staffSetupRequired === 'boolean'
+        ) {
+          setBackendOffline(false);
+          setSetupRequired(data.setupRequired);
+          setStaffSetupRequired(data.staffSetupRequired);
+        }
       } catch {
         // Keep current status
       }
@@ -149,6 +170,7 @@ export function AuthProvider({children}: {children: ReactNode}) {
         loading,
         setupRequired,
         staffSetupRequired,
+        backendOffline,
         login,
         setupAdmin,
         loginStaff,

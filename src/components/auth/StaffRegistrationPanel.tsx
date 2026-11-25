@@ -116,9 +116,9 @@ export function StaffRegistrationPanel({onBackToLogin}: StaffRegistrationPanelPr
   if (confirmation) {
     return (
       <div className="mt-4 space-y-4 transition-all duration-200">
-        <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-4 text-xs text-emerald-900 space-y-2">
+        <div className="rounded-2xl border border-emerald-200 bg-emerald-50/90 p-4 text-xs text-emerald-800 space-y-2">
           <div className="flex items-center gap-2 font-bold text-emerald-800">
-            <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+            <CheckCircle2 className="w-4 h-4 text-emerald-700 shrink-0" />
             <span>
               {confirmation.outcome === 'PROVISIONED'
                 ? 'Terminal Credentials Provisioned'
@@ -151,13 +151,13 @@ export function StaffRegistrationPanel({onBackToLogin}: StaffRegistrationPanelPr
 
   return (
     <div className="mt-4 space-y-4 transition-all duration-200">
-      <div className="flex items-start gap-2.5 rounded-xl border border-blue-200 bg-blue-50/70 px-3.5 py-2.5 text-xs text-[#0A192F]">
+      <div className="flex items-start gap-2.5 rounded-xl border border-sky-200 bg-sky-50/90 px-3.5 py-2.5 text-xs text-[#334155]">
         <ShieldAlert className="w-4 h-4 text-[#0066FF] shrink-0 mt-0.5" />
         <span>New staff accounts require valid authorization code or supervisor approval.</span>
       </div>
 
       {errorMsg && (
-        <div className="rounded-xl border border-red-200 bg-red-50 px-3.5 py-2.5 text-xs font-medium text-red-700">
+        <div className="rounded-xl border border-red-200 bg-red-50/90 px-3.5 py-2.5 text-xs font-medium text-red-700">
           {errorMsg}
         </div>
       )}
@@ -167,7 +167,7 @@ export function StaffRegistrationPanel({onBackToLogin}: StaffRegistrationPanelPr
           <div>
             <label
               htmlFor="reg-full-name"
-              className="block text-xs font-semibold text-[#0A192F] mb-1"
+              className="block text-xs font-semibold text-[#0f172a] mb-1"
             >
               Full Name *
             </label>
@@ -178,14 +178,14 @@ export function StaffRegistrationPanel({onBackToLogin}: StaffRegistrationPanelPr
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
               placeholder="Sara Al-Mannai"
-              className="w-full rounded-xl border border-slate-200 px-3 py-2 text-xs sm:text-sm text-[#0A192F] focus:border-[#0066FF] focus:outline-none"
+              className="w-full rounded-xl border glass-input px-3 py-2 text-xs sm:text-sm focus:outline-none"
             />
           </div>
 
           <div>
             <label
               htmlFor="reg-staff-id"
-              className="block text-xs font-semibold text-[#0A192F] mb-1"
+              className="block text-xs font-semibold text-[#0f172a] mb-1"
             >
               Staff ID *
             </label>
@@ -196,7 +196,7 @@ export function StaffRegistrationPanel({onBackToLogin}: StaffRegistrationPanelPr
               value={staffId}
               onChange={(e) => setStaffId(e.target.value.toUpperCase())}
               placeholder="XT-STF-004"
-              className="w-full rounded-xl border border-slate-200 px-3 py-2 font-mono text-xs sm:text-sm uppercase text-[#0A192F] focus:border-[#0066FF] focus:outline-none"
+              className="w-full rounded-xl border glass-input px-3 py-2 font-mono text-xs sm:text-sm uppercase focus:outline-none"
             />
           </div>
         </div>
@@ -204,7 +204,7 @@ export function StaffRegistrationPanel({onBackToLogin}: StaffRegistrationPanelPr
         <div>
           <label
             htmlFor="reg-work-email"
-            className="block text-xs font-semibold text-[#0A192F] mb-1"
+            className="block text-xs font-semibold text-[#0f172a] mb-1"
           >
             Work Email (@xerotechtechnologies.com) *
           </label>
@@ -215,14 +215,12 @@ export function StaffRegistrationPanel({onBackToLogin}: StaffRegistrationPanelPr
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="operator@xerotechtechnologies.com"
-            className={`w-full rounded-xl border px-3.5 py-2 text-xs sm:text-sm text-[#0A192F] focus:outline-none ${
-              isValidCorpEmail
-                ? 'border-slate-200 focus:border-[#0066FF]'
-                : 'border-red-300 bg-red-50/40 focus:border-red-500'
+            className={`w-full rounded-xl border glass-input px-3.5 py-2 text-xs sm:text-sm focus:outline-none ${
+              isValidCorpEmail ? '' : '!border-red-400'
             }`}
           />
           {!isValidCorpEmail && (
-            <p className="mt-1 text-[11px] font-medium text-red-600">
+            <p className="mt-1 text-[11px] font-medium text-red-700">
               Corporate domain required: @xerotechtechnologies.com
             </p>
           )}
@@ -232,7 +230,7 @@ export function StaffRegistrationPanel({onBackToLogin}: StaffRegistrationPanelPr
           <div>
             <label
               htmlFor="reg-dept-role"
-              className="block text-xs font-semibold text-[#0A192F] mb-1"
+              className="block text-xs font-semibold text-[#0f172a] mb-1"
             >
               Department / Terminal Role *
             </label>
@@ -240,7 +238,7 @@ export function StaffRegistrationPanel({onBackToLogin}: StaffRegistrationPanelPr
               id="reg-dept-role"
               value={departmentRole}
               onChange={(e) => setDepartmentRole(e.target.value as StaffDepartmentRole)}
-              className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-[#0A192F] focus:border-[#0066FF] focus:outline-none"
+              className="w-full rounded-xl border glass-input px-3 py-2 text-xs font-semibold focus:outline-none"
             >
               {DEPARTMENT_ROLES.map((roleOpt) => (
                 <option key={roleOpt} value={roleOpt}>
@@ -253,7 +251,7 @@ export function StaffRegistrationPanel({onBackToLogin}: StaffRegistrationPanelPr
           <div>
             <label
               htmlFor="reg-invite-code"
-              className="block text-xs font-semibold text-[#0A192F] mb-1"
+              className="block text-xs font-semibold text-[#0f172a] mb-1"
             >
               Authorization / Invite Code
             </label>
@@ -264,21 +262,21 @@ export function StaffRegistrationPanel({onBackToLogin}: StaffRegistrationPanelPr
               value={authorizationCode}
               onChange={(e) => setAuthorizationCode(e.target.value)}
               placeholder={requestSupervisorApproval ? 'Pending approval' : 'XT-INV-XXXXXX'}
-              className="w-full rounded-xl border border-slate-200 px-3 py-2 font-mono text-xs text-[#0A192F] disabled:bg-slate-100 disabled:text-slate-400 focus:border-[#0066FF] focus:outline-none"
+              className="w-full rounded-xl border glass-input px-3 py-2 font-mono text-xs disabled:opacity-45 focus:outline-none"
             />
           </div>
         </div>
 
-        <label className="flex items-center gap-2 rounded-xl border border-slate-200 bg-slate-50/70 px-3 py-2 text-[11px] text-slate-700 cursor-pointer">
+        <label className="flex items-center gap-2 rounded-xl glass-panel-subtle px-3 py-2 text-[11px] text-[#334155] cursor-pointer">
           <input
             type="checkbox"
             checked={requestSupervisorApproval}
             onChange={(e) => setRequestSupervisorApproval(e.target.checked)}
-            className="rounded border-slate-300 text-[#0066FF] focus:ring-[#0066FF]"
+            className="rounded border-slate-300 bg-white text-[#0066FF] focus:ring-[#0066FF]"
           />
           <span>
             No invite code yet — submit onboarding request for{' '}
-            <strong className="text-[#0A192F]">Administrator Approval</strong>
+            <strong className="text-[#0f172a]">Administrator Approval</strong>
           </span>
         </label>
 
@@ -286,7 +284,7 @@ export function StaffRegistrationPanel({onBackToLogin}: StaffRegistrationPanelPr
           <div className="flex items-center justify-between mb-1">
             <label
               htmlFor="reg-passcode"
-              className="block text-xs font-semibold text-[#0A192F]"
+              className="block text-xs font-semibold text-[#0f172a]"
             >
               Create Staff Passcode *
             </label>
@@ -300,7 +298,7 @@ export function StaffRegistrationPanel({onBackToLogin}: StaffRegistrationPanelPr
             </button>
           </div>
           <div className="relative">
-            <KeyRound className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+            <KeyRound className="w-4 h-4 text-[#64748b] absolute left-3 top-1/2 -translate-y-1/2" />
             <input
               id="reg-passcode"
               type={showPasscode ? 'text' : 'password'}
@@ -309,7 +307,7 @@ export function StaffRegistrationPanel({onBackToLogin}: StaffRegistrationPanelPr
               value={passcode}
               onChange={(e) => setPasscode(e.target.value)}
               placeholder="Min 8 chars (A-Z, 0-9, symbol)"
-              className="w-full rounded-xl border border-slate-200 pl-9 pr-3 py-2 text-xs sm:text-sm text-[#0A192F] focus:border-[#0066FF] focus:outline-none"
+              className="w-full rounded-xl border glass-input pl-9 pr-3 py-2 text-xs sm:text-sm focus:outline-none"
             />
           </div>
           <PasswordStrengthMeter password={passcode} />
@@ -318,7 +316,7 @@ export function StaffRegistrationPanel({onBackToLogin}: StaffRegistrationPanelPr
         <div>
           <label
             htmlFor="reg-confirm-passcode"
-            className="block text-xs font-semibold text-[#0A192F] mb-1"
+            className="block text-xs font-semibold text-[#0f172a] mb-1"
           >
             Confirm Passcode *
           </label>
@@ -330,14 +328,12 @@ export function StaffRegistrationPanel({onBackToLogin}: StaffRegistrationPanelPr
             value={confirmPasscode}
             onChange={(e) => setConfirmPasscode(e.target.value)}
             placeholder="Re-enter staff passcode"
-            className={`w-full rounded-xl border px-3.5 py-2 text-xs sm:text-sm text-[#0A192F] focus:outline-none ${
-              passcodesMatch
-                ? 'border-slate-200 focus:border-[#0066FF]'
-                : 'border-red-300 bg-red-50/40 focus:border-red-500'
+            className={`w-full rounded-xl border glass-input px-3.5 py-2 text-xs sm:text-sm focus:outline-none ${
+              passcodesMatch ? '' : '!border-red-400'
             }`}
           />
           {!passcodesMatch && (
-            <p className="mt-1 text-[11px] font-medium text-red-600">Passcodes do not match.</p>
+            <p className="mt-1 text-[11px] font-medium text-red-700">Passcodes do not match.</p>
           )}
         </div>
 
@@ -355,7 +351,7 @@ export function StaffRegistrationPanel({onBackToLogin}: StaffRegistrationPanelPr
         <button
           type="button"
           onClick={() => onBackToLogin()}
-          className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 hover:text-[#0066FF] transition-colors cursor-pointer"
+          className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#334155] hover:text-[#0066FF] transition-colors cursor-pointer"
         >
           <ArrowLeft className="w-3.5 h-3.5" />
           <span>Back to Terminal Login</span>
